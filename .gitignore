@@ -1,0 +1,7 @@
+# Visual Studio Code Workspace
+.vscode
+
+# Dart Files
+.pub/
+pubspec.lock
+.packages

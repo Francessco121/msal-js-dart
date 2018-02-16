@@ -1,0 +1,15 @@
+name: dart_msal
+description: "A Dart wrapper for 'Microsoft Authentication Library for JavaScript (MSAL.js)'"
+version: 0.1.0
+
+authors:
+- Ethan Lafrenais <ethan.lafrenais@milestonetg.com>
+- Jason Penniman <jason.penniman@milestonetg.com>
+
+publish_to: none
+
+environment:
+  sdk: ">=1.23.0 <2.0.0"
+
+dependencies:
+  meta: ^1.1.2
