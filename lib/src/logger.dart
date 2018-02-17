@@ -35,26 +35,6 @@ class Logger {
       _convertLoggerOptionsToJs(options)
     ]);
   }
-
-  void executeCallback(LogLevel level, String message, bool containsPii) {
-    _handle.callMethod('executeCallback', [level, message, containsPii]);
-  }
-
-  void verbose(String message) => _handle.callMethod('verbose', [message]);
-
-  void verbosePii(String message) => _handle.callMethod('verbosePii', [message]);
-
-  void info(String message) => _handle.callMethod('info', [message]);
-
-  void infoPii(String message) => _handle.callMethod('infoPii', [message]);
-
-  void warning(String message) => _handle.callMethod('warning', [message]);
-
-  void warningPii(String message) => _handle.callMethod('warningPii', [message]);
-
-  void error(String message) => _handle.callMethod('error', [message]);
-
-  void errorPii(String message) => _handle.callMethod('errorPii', [message]);
 }
 
 js.JsObject _convertLoggerOptionsToJs(LoggerOptions options) {

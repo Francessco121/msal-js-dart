@@ -15,9 +15,6 @@ class User {
   String get userIdentifier => _handle['userIdentifier'];
   set userIdentifier(String value) => _handle['userIdentifier'] = value;
 
-  dynamic get idToken => _handle['idToken'];
-  set idToken(dynamic value) => _handle['idToken'] = value;
-
   /// Gets the Dart wrapper of the underlying User JavaScript object.
   js.JsObject get jsHandle => _handle;
 

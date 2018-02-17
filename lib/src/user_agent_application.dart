@@ -34,17 +34,10 @@ class UserAgentApplicationOptions {
   /// Defaults to [CacheLocation.sessionStorage].
   final CacheLocation cacheLocation;
 
-  /// The time in milliseconds which MSAL will wait for iframes to load before timing out.
-  /// 
-  /// Defaults to 6000.
-  final num loadFrameTimeout;
-
   /// An MSAL logger to be used by the application.
   /// 
   /// Defaults to [null].
   final Logger logger;
-
-  final bool navigateToLoginRequestUrl;
 
   /// Used to redirect the user to this location after logout.
   ///
@@ -65,9 +58,7 @@ class UserAgentApplicationOptions {
 
   UserAgentApplicationOptions({
     this.cacheLocation,
-    this.loadFrameTimeout,
     this.logger,
-    this.navigateToLoginRequestUrl,
     this.postLogoutRedirectUri,
     this.redirectUri,
     this.validateAuthority
@@ -79,11 +70,6 @@ class UserAgentApplication {
   String get clientId => _handle['clientId'];
   /// Sets the Azure Active Directory client ID to be used by this application.
   set clientId(String value) => _handle['clientId'] = value;
-
-  /// Gets the time in milliseconds after which MSAL will timeout trying to load an iframe.
-  num get loadFrameTimeout => _handle['loadFrameTimeout'];
-  /// Sets the time in milliseconds which MSAL will wait for iframes to load before timing out.
-  set loadFrameTimeout(num value) => _handle['loadFrameTimeout'] = value;
 
   /// Gets whether authority validation is enabled.
   bool get validateAuthority => _handle['validateAuthority'];
@@ -268,14 +254,6 @@ class UserAgentApplication {
     return new User.fromJsObject(_handle.callMethod('getUser'));
   }
 
-  /// Checks if the redirect response is received from the STS. In case of redirect, 
-  /// the url fragment has either `id_token`, `access_token`, or error.
-  /// 
-  /// [hash] - Hash passed from redirect page.
-  bool isCallback(String hash) {
-    return _handle.callMethod('isCallback', [hash]);
-  }
-
   /// Initiates the login process by opening a popup window.
   /// 
   /// [scopes] - Permissions you want included in the access token. Not all scopes are guaranteed to be included 
@@ -343,14 +321,8 @@ js.JsObject _convertOptionsToJs(UserAgentApplicationOptions options) {
       }
     }
 
-    if (options.loadFrameTimeout != null) 
-      map['loadFrameTimeout'] = options.loadFrameTimeout;
-
     if (options.logger != null) 
       map['logger'] = options.logger.jsHandle;
-
-    if (options.navigateToLoginRequestUrl != null) 
-      map['navigateToLoginRequestUrl'] = options.navigateToLoginRequestUrl;
 
     if (options.postLogoutRedirectUri != null) 
       map['postLogoutRedirectUri'] = options.postLogoutRedirectUri;
