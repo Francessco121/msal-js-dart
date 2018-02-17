@@ -11,50 +11,44 @@ enum LogLevel {
   verbose
 }
 
-class LoggerOptions {
-  final String correlationId;
-  final LogLevel level;
-  final bool piiLoggingEnabled;
-
-  LoggerOptions({this.correlationId, this.level, this.piiLoggingEnabled});
-}
-
 class Logger {
   /// Gets the Dart wrapper of the underlying Logger JavaScript object.
   js.JsObject get jsHandle => _handle;
   
   js.JsObject _handle;
 
-  Logger(LoggerCallback localCallback, [LoggerOptions options]) {
+  Logger(LoggerCallback localCallback, {
+    String correlationId,
+    LogLevel level,
+    bool piiLoggingEnabled
+  }) {
     if (localCallback == null) throw new ArgumentError.notNull('localCallback');
 
+    // Add optional arguments to a map to be used as the logger's 'options' argument.
+    //
+    // Note: Don't include arguments in the map if they are null so that the JavaScript
+    //       constructor will know to default them.
+
+    final options = <String, Object>{};
+
+    if (correlationId != null) {
+      options['correlationId'] = correlationId;
+    }
+
+    if (level != null) {
+      options['level'] = level.index;
+    }
+    
+    if (piiLoggingEnabled != null) {
+      options['piiLoggingEnabled'] = piiLoggingEnabled;
+    }
+
+    // Create the underlying JavaScript object
     final js.JsObject loggerConstructor = msalHandle['Logger'];
 
     _handle = new js.JsObject(loggerConstructor, [
       js.allowInterop(localCallback),
-      _convertLoggerOptionsToJs(options)
+      new js.JsObject.jsify(options)
     ]);
-  }
-}
-
-js.JsObject _convertLoggerOptionsToJs(LoggerOptions options) {
-  if (options == null) {
-    return new js.JsObject.jsify({});
-  } else {
-    final map = <String, dynamic>{};
-
-    // Note: Don't include properties in the map if they are null so that the JavaScript
-    //       constructor will know to default them.
-
-    if (options.correlationId != null) 
-      map['correlationId'] = options.correlationId;
-
-    if (options.level != null) 
-      map['level'] = options.level.index;
-
-    if (options.piiLoggingEnabled != null) 
-      map['piiLoggingEnabled'] = options.piiLoggingEnabled;
-
-    return new js.JsObject.jsify(map);
   }
 }

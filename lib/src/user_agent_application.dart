@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:js' as js;
 
-import 'package:meta/meta.dart';
-
 import 'errors.dart';
 import 'exceptions.dart';
 import 'logger.dart';
@@ -25,44 +23,6 @@ typedef void TokenReceivedCallback(String errorDescription, String token, String
 enum CacheLocation {
   localStorage,
   sessionStorage
-}
-
-/// Additional options used when creating a [UserAgentApplication].
-class UserAgentApplicationOptions {
-  /// The browser cache location to be used by the application.
-  /// 
-  /// Defaults to [CacheLocation.sessionStorage].
-  final CacheLocation cacheLocation;
-
-  /// An MSAL logger to be used by the application.
-  /// 
-  /// Defaults to [null].
-  final Logger logger;
-
-  /// Used to redirect the user to this location after logout.
-  ///
-  /// Defaults to `window.location.href`.
-  final String postLogoutRedirectUri;
-
-  /// The redirect URI of the application, this should be same as the value in the application registration portal.
-  /// 
-  /// Defaults to `window.location.href`.
-  final String redirectUri;
-
-  /// Whether authority validation is enabled.
-  /// 
-  /// When set to [true] (default), MSAL will compare the application's authority against well-known URL 
-  /// templates representing well-formed authorities. It is useful when the authority is obtained at 
-  /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
-  final bool validateAuthority;
-
-  UserAgentApplicationOptions({
-    this.cacheLocation,
-    this.logger,
-    this.postLogoutRedirectUri,
-    this.redirectUri,
-    this.validateAuthority
-  });
 }
 
 class UserAgentApplication {
@@ -106,17 +66,17 @@ class UserAgentApplication {
     }
   }
 
-  /// Gets the Dart wrapper of the underlying UserAgentApplication JavaScript object.
-  js.JsObject get jsHandle => _handle;
-
   js.JsObject _handle;
 
   /// Creates a new MSAL user-agent application.
   /// 
+  /// ------
   /// [clientId] - (required) The clientID of your application, you should get this from the 
   /// application registration portal.
   /// 
+  /// ------
   /// [authority] - A URL indicating a directory that MSAL can use to obtain tokens.
+  /// 
   /// - In Azure AD, it is of the form https://<instance>/<tenant> where <instance> is the directory host 
   ///   (e.g. https://login.microsoftonline.com) and <tenant> is a identifier within the directory itself 
   ///   (e.g. a domain associated to the tenant, such as contoso.onmicrosoft.com, or the GUID representing 
@@ -124,19 +84,78 @@ class UserAgentApplication {
   /// - In Azure B2C, it is of the form https://<instance>/tfp/<tenantId>/<policyName>/
   /// - Default value is: "https://login.microsoftonline.com/common".
   /// 
+  /// ------
   /// [tokenReceivedCallback] - (required) The function that will get called once the API returns a token 
   /// (either successfully or with a failure).
   /// 
-  /// [options] - Additional options for the application.
-  UserAgentApplication({
-    @required String clientId, 
-    String authority, 
-    @required TokenReceivedCallback tokenReceivedCallback,
-    UserAgentApplicationOptions options
+  /// ------
+  /// [cacheLocation] - The browser cache location to be used by the application.
+  /// 
+  /// Defaults to [CacheLocation.sessionStorage].
+  /// 
+  /// ------
+  /// [logger] - An MSAL logger to be used by the application.
+  /// 
+  /// Defaults to [null].
+  /// 
+  /// ------
+  /// [postLogoutRedirectUri] - Used to redirect the user to this location after logout.
+  /// 
+  /// Defaults to `window.location.href`.
+  /// 
+  /// ------
+  /// [redirectUri] - The redirect URI of the application, this should be same as the value in the application registration portal. 
+  ///  
+  /// Defaults to `window.location.href`. 
+  /// 
+  /// ------
+  /// [validateAuthority] - Whether authority validation is enabled.
+  /// 
+  /// When set to [true] (default), MSAL will compare the application's authority against well-known URL 
+  /// templates representing well-formed authorities. It is useful when the authority is obtained at 
+  /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
+  UserAgentApplication(String clientId, String authority, TokenReceivedCallback tokenReceivedCallback, {
+    CacheLocation cacheLocation,
+    Logger logger,
+    String postLogoutRedirectUri,
+    String redirectUri,
+    bool validateAuthority
   }) {
     if (clientId == null) throw new ArgumentError.notNull('clientId');
     if (tokenReceivedCallback == null) throw new ArgumentError.notNull('tokenReceivedCallback');
 
+    // Add optional arguments to a map to be used as the application's 'options' argument.
+    //
+    // Note: Don't include arguments in the map if they are null so that the JavaScript
+    //       constructor will know to default them.
+
+    final options = <String, Object>{};
+
+    if (cacheLocation != null) {
+      if (cacheLocation == CacheLocation.localStorage) {
+        options['cacheLocation'] = 'localStorage';
+      } else if (cacheLocation == CacheLocation.sessionStorage) {
+        options['cacheLocation'] = 'sessionStorage';
+      }
+    }
+
+    if (logger != null) { 
+      options['logger'] = logger.jsHandle;
+    }
+
+    if (postLogoutRedirectUri != null) {
+      options['postLogoutRedirectUri'] = postLogoutRedirectUri;
+    }
+
+    if (redirectUri != null) {
+      options['redirectUri'] = redirectUri;
+    }
+
+    if (validateAuthority != null) {
+      options['validateAuthority'] = validateAuthority;
+    }
+
+    // Create the underlying JavaScript object
     final js.JsObject constructor = msalHandle['UserAgentApplication'];
 
     try {
@@ -144,7 +163,7 @@ class UserAgentApplication {
         clientId,
         authority,
         js.allowInterop(tokenReceivedCallback),
-        _convertOptionsToJs(options)
+        new js.JsObject.jsify(options)
       ]);
     } on String catch (errorMessage) {
       // Errors are thrown as strings from msal.js, convert these into MsalErrors
@@ -302,37 +321,4 @@ Future<String> _convertTokenPromiseToFuture(js.JsObject promise) {
     ]);
 
     return completer.future;
-}
-
-js.JsObject _convertOptionsToJs(UserAgentApplicationOptions options) {
-  if (options == null) {
-    return new js.JsObject.jsify({});
-  } else {
-    final map = <String, dynamic>{};
-
-    // Note: Don't include properties in the map if they are null so that the JavaScript
-    //       constructor will know to default them.
-
-    if (options.cacheLocation != null) {
-      if (options.cacheLocation == CacheLocation.localStorage) {
-        map['cacheLocation'] = 'localStorage';
-      } else if (options.cacheLocation == CacheLocation.sessionStorage) {
-        map['cacheLocation'] = 'sessionStorage';
-      }
-    }
-
-    if (options.logger != null) 
-      map['logger'] = options.logger.jsHandle;
-
-    if (options.postLogoutRedirectUri != null) 
-      map['postLogoutRedirectUri'] = options.postLogoutRedirectUri;
-
-    if (options.redirectUri != null) 
-      map['redirectUri'] = options.redirectUri;
-
-    if (options.validateAuthority != null) 
-      map['validateAuthority'] = options.validateAuthority;
-
-    return new js.JsObject.jsify(map);
-  }
 }

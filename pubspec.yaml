@@ -11,6 +11,3 @@ publish_to: none
 
 environment:
   sdk: ">=1.23.0 <2.0.0"
-
-dependencies:
-  meta: ^1.1.2
