@@ -312,13 +312,12 @@ class UserAgentApplication {
 Future<String> _convertTokenPromiseToFuture(js.JsObject promise) {
   final completer = new Completer<String>();
 
-    promise.callMethod('then', [
-      js.allowInterop((String token) {
-        print(token);
-        completer.complete(token);
-      }),
-      js.allowInterop((String error) { completer.completeError(new MsalCodedException(error)); })
-    ]);
+  promise.callMethod('then', [
+    // Ignore justification: readability
+    // ignore: unnecessary_lambdas
+    js.allowInterop((String token) { completer.complete(token); }),
+    js.allowInterop((String error) { completer.completeError(new MsalCodedException(error)); })
+  ]);
 
-    return completer.future;
+  return completer.future;
 }
