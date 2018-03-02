@@ -24,6 +24,7 @@ enum CacheLocation {
   sessionStorage
 }
 
+/// A wrapper over a JavaScript MSAL user agent application.
 class UserAgentApplication {
   /// Gets the Azure Active Directory client ID for this application.
   String get clientId => _handle['clientId'];
@@ -64,6 +65,11 @@ class UserAgentApplication {
       return null;
     }
   }
+
+  /// Gets the time in milliseconds after which MSAL will timeout trying to load an iframe. 
+  num get loadFrameTimeout => _handle['loadFrameTimeout']; 
+  /// Sets the time in milliseconds which MSAL will wait for iframes to load before timing out. 
+  set loadFrameTimeout(num value) => _handle['loadFrameTimeout'] = value; 
 
   js.JsObject _handle;
 
@@ -113,12 +119,25 @@ class UserAgentApplication {
   /// When set to [true] (default), MSAL will compare the application's authority against well-known URL 
   /// templates representing well-formed authorities. It is useful when the authority is obtained at 
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
+  /// 
+  /// ------
+  /// [loadFrameTimeout] - The time in milliseconds after which MSAL will timeout trying to load an iframe.
+  /// 
+  /// Defaults to 6000.
+  /// 
+  /// ------
+  /// [navigateToLoginRequestUrl] - Whether MSAL will redirect to the URL that initiated the login
+  /// after a successful login.
+  /// 
+  /// Defaults to [true].
   UserAgentApplication(String clientId, String authority, TokenReceivedCallback tokenReceivedCallback, {
     CacheLocation cacheLocation,
     Logger logger,
     String postLogoutRedirectUri,
     String redirectUri,
-    bool validateAuthority
+    bool validateAuthority,
+    num loadFrameTimeout,
+    bool navigateToLoginRequestUrl
   }) {
     if (clientId == null) throw new ArgumentError.notNull('clientId');
     if (tokenReceivedCallback == null) throw new ArgumentError.notNull('tokenReceivedCallback');
@@ -152,6 +171,14 @@ class UserAgentApplication {
 
     if (validateAuthority != null) {
       options['validateAuthority'] = validateAuthority;
+    }
+
+    if (loadFrameTimeout != null) {
+      options['loadFrameTimeout'] = loadFrameTimeout;
+    }
+
+    if (navigateToLoginRequestUrl != null) {
+      options['navigateToLoginRequestUrl'] = navigateToLoginRequestUrl;
     }
 
     // Create the underlying JavaScript object

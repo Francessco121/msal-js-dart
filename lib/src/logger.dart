@@ -11,6 +11,7 @@ enum LogLevel {
   verbose
 }
 
+/// A wrapper over a JavaScript MSAL logger.
 class Logger {
   /// Gets the Dart wrapper of the underlying Logger JavaScript object.
   js.JsObject get jsHandle => _handle;

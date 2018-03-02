@@ -1,5 +1,6 @@
 import 'dart:js' as js;
 
+/// A wrapper over a JavaScript MSAL user.
 class User {
   String get displayableId => _handle['displayableId'];
 
@@ -8,6 +9,8 @@ class User {
   String get identityProvider => _handle['identityProvider'];
 
   String get userIdentifier => _handle['userIdentifier'];
+
+  js.JsObject get idToken => _handle['idToken'];
 
   /// Gets the Dart wrapper of the underlying User JavaScript object.
   js.JsObject get jsHandle => _handle;
