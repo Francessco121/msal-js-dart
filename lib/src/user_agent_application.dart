@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:js' as js;
 
-import 'errors.dart';
 import 'exceptions.dart';
 import 'logger.dart';
 import 'msal_context.dart';
@@ -158,17 +157,12 @@ class UserAgentApplication {
     // Create the underlying JavaScript object
     final js.JsObject constructor = msalHandle['UserAgentApplication'];
 
-    try {
-      _handle = new js.JsObject(constructor, [
-        clientId,
-        authority,
-        js.allowInterop(tokenReceivedCallback),
-        new js.JsObject.jsify(options)
-      ]);
-    } on String catch (errorMessage) {
-      // Errors are thrown as strings from msal.js, convert these into MsalErrors
-      throw new MsalError(errorMessage);
-    }
+    _handle = new js.JsObject(constructor, [
+      clientId,
+      authority,
+      js.allowInterop(tokenReceivedCallback),
+      new js.JsObject.jsify(options)
+    ]);
   }
 
   /// Used to acquire an access token for a new user using interactive authentication via a popup Window. 
@@ -187,7 +181,7 @@ class UserAgentApplication {
   /// 
   /// [user] - The user for which the scopes are requested. The default user is the logged in user.
   /// 
-  /// Will throw an [MsalCodedException] on failure.
+  /// Will throw an [MsalException] on failure.
   Future<String> acquireTokenPopup(List<String> scopes, [String authority, User user, String extraQueryParameters]) async {
     // Call acquireTokenPopup and get back the promise
     final js.JsObject promise = _handle.callMethod('acquireTokenPopup', [
@@ -243,7 +237,7 @@ class UserAgentApplication {
   /// 
   /// [user] - The user for which the scopes are requested. The default user is the logged in user.
   /// 
-  /// Will throw an [MsalCodedException] on failure.
+  /// Will throw an [MsalException] on failure.
   Future<String> acquireTokenSilent(List<String> scopes, [String authority, User user, String extraQueryParameters]) async {
     // Call acquireTokenSilent and get back the promise
     final js.JsObject promise = _handle.callMethod('acquireTokenSilent', [
@@ -276,7 +270,7 @@ class UserAgentApplication {
   /// [scopes] - Permissions you want included in the access token. Not all scopes are guaranteed to be included 
   /// in the access token. Scopes like "openid" and "profile" are sent with every request.
   /// 
-  /// Will throw an [MsalCodedException] on failure.
+  /// Will throw an [MsalException] on failure.
   Future<String> loginPopup(List<String> scopes, [String extraQueryParameters]) async {
     // Call loginPopup and get back the promise
     final js.JsObject promise = _handle.callMethod('loginPopup', [
@@ -312,7 +306,7 @@ Future<String> _convertTokenPromiseToFuture(js.JsObject promise) {
     // Ignore justification: readability
     // ignore: unnecessary_lambdas
     js.allowInterop((String token) { completer.complete(token); }),
-    js.allowInterop((String error) { completer.completeError(new MsalCodedException(error)); })
+    js.allowInterop((String error) { completer.completeError(new MsalException(error)); })
   ]);
 
   return completer.future;
