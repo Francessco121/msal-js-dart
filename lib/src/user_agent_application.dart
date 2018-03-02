@@ -217,8 +217,6 @@ class UserAgentApplication {
   /// 
   /// [user] - The user for which the scopes are requested. The default user is the logged in user.
   void acquireTokenRedirect(List<String> scopes, [String authority, User user, String extraQueryParameters]) {
-    // TODO: Does this call throw any exceptions?
-
     _handle.callMethod('acquireTokenRedirect', [
       new js.JsObject.jsify(scopes),
       authority,
@@ -295,8 +293,6 @@ class UserAgentApplication {
   /// [scopes] - Permissions you want included in the access token. Not all scopes are guaranteed to be included 
   /// in the access token. Scopes like "openid" and "profile" are sent with every request.
   void loginRedirect([List<String> scopes, String extraQueryParameters]) {
-    // TODO: Does this call throw any exceptions?
-
     _handle.callMethod('loginRedirect', [
       scopes != null ? new js.JsObject.jsify(scopes) : null,
       extraQueryParameters
