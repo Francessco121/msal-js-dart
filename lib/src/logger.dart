@@ -48,7 +48,9 @@ class Logger {
     final js.JsObject loggerConstructor = msalHandle['Logger'];
 
     _handle = new js.JsObject(loggerConstructor, [
-      js.allowInterop(localCallback),
+      js.allowInterop((int level, String message, bool containsPii) {
+        localCallback(LogLevel.values[level], message, containsPii);
+      }),
       new js.JsObject.jsify(options)
     ]);
   }
