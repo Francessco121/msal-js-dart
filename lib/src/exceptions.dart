@@ -4,10 +4,10 @@ class MsalException implements Exception {
   final String message;
 
   /// Gets the code associated with the MSAL exception 
-  /// or [null] if no code was present in the exception.
+  /// or `null` if no code was present in the exception.
   String get code => _code;
   /// Gets the description of the MSAL exception 
-  /// or [null] if no description was present in the exception.
+  /// or `null` if no description was present in the exception.
   String get description => _description;
 
   String _code;
