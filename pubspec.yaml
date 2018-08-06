@@ -11,4 +11,4 @@ authors:
 publish_to: none
 
 environment:
-  sdk: ">=1.23.0 <2.0.0"
+  sdk: ">=1.23.0 <3.0.0"
