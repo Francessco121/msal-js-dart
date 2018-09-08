@@ -35,7 +35,7 @@ class UserAgentApplication {
   bool get validateAuthority => _handle['validateAuthority'];
   /// Sets whether authority validation is enabled.
   /// 
-  /// When set to [true] (default), MSAL will compare the application's authority against well-known URL 
+  /// When set to `true` (default), MSAL will compare the application's authority against well-known URL 
   /// templates representing well-formed authorities. It is useful when the authority is obtained at 
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
   set validateAuthority(bool value) => _handle['validateAuthority'] = value;
@@ -101,7 +101,7 @@ class UserAgentApplication {
   /// ------
   /// [logger] - An MSAL logger to be used by the application.
   /// 
-  /// Defaults to [null].
+  /// Defaults to `null`.
   /// 
   /// ------
   /// [postLogoutRedirectUri] - Used to redirect the user to this location after logout.
@@ -116,7 +116,7 @@ class UserAgentApplication {
   /// ------
   /// [validateAuthority] - Whether authority validation is enabled.
   /// 
-  /// When set to [true] (default), MSAL will compare the application's authority against well-known URL 
+  /// When set to `true` (default), MSAL will compare the application's authority against well-known URL 
   /// templates representing well-formed authorities. It is useful when the authority is obtained at 
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
   /// 
@@ -129,7 +129,7 @@ class UserAgentApplication {
   /// [navigateToLoginRequestUrl] - Whether MSAL will redirect to the URL that initiated the login
   /// after a successful login.
   /// 
-  /// Defaults to [true].
+  /// Defaults to `true`.
   UserAgentApplication(String clientId, String authority, TokenReceivedCallback tokenReceivedCallback, {
     CacheLocation cacheLocation,
     Logger logger,
@@ -287,7 +287,7 @@ class UserAgentApplication {
     });
   }
 
-  /// Gets the signed in user or [null] if no-one is signed in.
+  /// Gets the signed in user or `null` if no-one is signed in.
   User getUser() {
     return new User.fromJsObject(_handle.callMethod('getUser'));
   }
