@@ -12,6 +12,8 @@ class User {
 
   js.JsObject get idToken => _handle['idToken'];
 
+  String get sid => _handle['sid'];
+
   /// Gets the Dart wrapper of the underlying User JavaScript object.
   js.JsObject get jsHandle => _handle;
 

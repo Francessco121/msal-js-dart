@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:js' as js;
 
+import 'package:meta/meta.dart';
+
 import 'exceptions.dart';
 import 'logger.dart';
 import 'msal_context.dart';
@@ -16,7 +18,7 @@ import 'user.dart';
 /// 
 /// [tokenType] - Token type returned from the STS if API call is successful. 
 /// Possible values are: `id_token` OR `access_token`.
-typedef void TokenReceivedCallback(String errorDescription, String token, String error, String tokenType);
+typedef void TokenReceivedCallback(String errorDescription, String token, String error, String tokenType, String userState);
 
 /// A browser cache location.
 enum CacheLocation {
@@ -80,6 +82,10 @@ class UserAgentApplication {
   /// application registration portal.
   /// 
   /// ------
+  /// [tokenReceivedCallback] - (required) The function that will get called once the API returns a token 
+  /// (either successfully or with a failure).
+  /// 
+  /// ------
   /// [authority] - A URL indicating a directory that MSAL can use to obtain tokens.
   /// 
   /// - In Azure AD, it is of the form https://<instance>/<tenant> where <instance> is the directory host 
@@ -88,10 +94,6 @@ class UserAgentApplication {
   ///   the TenantID property of the directory)
   /// - In Azure B2C, it is of the form https://<instance>/tfp/<tenantId>/<policyName>/
   /// - Default value is: "https://login.microsoftonline.com/common".
-  /// 
-  /// ------
-  /// [tokenReceivedCallback] - (required) The function that will get called once the API returns a token 
-  /// (either successfully or with a failure).
   /// 
   /// ------
   /// [cacheLocation] - The browser cache location to be used by the application.
@@ -130,14 +132,42 @@ class UserAgentApplication {
   /// after a successful login.
   /// 
   /// Defaults to `true`.
-  UserAgentApplication(String clientId, String authority, TokenReceivedCallback tokenReceivedCallback, {
+  /// 
+  /// ------
+  /// [state] - Additional information that will be included in authentication requests and also returned
+  /// to the [tokenReceivedCallback].
+  /// 
+  /// Defaults to an empty string.
+  /// 
+  /// ------
+  /// [unprotectedResources] - A list of URI's, which requests to will not have an MSAL token attached.
+  /// 
+  /// Defaults to an empty list.
+  /// 
+  /// ------
+  /// [protectedResourceMap] - A map of resources to a list of scopes.
+  /// 
+  /// Defaults to an empty map.
+  /// 
+  /// ------
+  /// [storeAuthStateInCookie] - Whether the authentication state should be stored in a cookie.
+  /// 
+  /// Defaults to `false`.
+  UserAgentApplication({
+    @required String clientId, 
+    @required TokenReceivedCallback tokenReceivedCallback, 
+    String authority,
     CacheLocation cacheLocation,
     Logger logger,
     String postLogoutRedirectUri,
     String redirectUri,
     bool validateAuthority,
     num loadFrameTimeout,
-    bool navigateToLoginRequestUrl
+    bool navigateToLoginRequestUrl,
+    String state,
+    List<String> unprotectedResources,
+    Map<String, List<String>> protectedResourceMap,
+    bool storeAuthStateInCookie
   }) {
     if (clientId == null) throw new ArgumentError.notNull('clientId');
     if (tokenReceivedCallback == null) throw new ArgumentError.notNull('tokenReceivedCallback');
@@ -179,6 +209,22 @@ class UserAgentApplication {
 
     if (navigateToLoginRequestUrl != null) {
       options['navigateToLoginRequestUrl'] = navigateToLoginRequestUrl;
+    }
+
+    if (state != null) {
+      options['state'] = state;
+    }
+
+    if (unprotectedResources != null) {
+      options['unprotectedResources'] = unprotectedResources;
+    }
+
+    if (protectedResourceMap != null) {
+      options['protectedResourceMap'] = protectedResourceMap;
+    }
+
+    if (storeAuthStateInCookie != null) {
+      options['storeAuthStateInCookie'] = storeAuthStateInCookie;
     }
 
     // Create the underlying JavaScript object
@@ -318,6 +364,11 @@ class UserAgentApplication {
       scopes != null ? new js.JsObject.jsify(scopes) : null,
       extraQueryParameters
     ]);
+  }
+
+  /// Returns whether a login is currently in progress.
+  bool loginInProgress() {
+    return _handle.callMethod('loginInProgress');
   }
 
   /// Logs out the current user, and redirects to the `postLogoutRedirectUri`.

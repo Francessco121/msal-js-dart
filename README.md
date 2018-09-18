@@ -24,4 +24,4 @@ Import `msal_js`:
 import 'package:msal_js/msal_js.dart';
 ```
 
-The full documentation for using this package will be available once the majority of msal.js is usable via Dart. Until then, you may [refer to the msal.js examples](https://github.com/AzureAD/microsoft-authentication-library-for-js#example) (since this package is just a wrapper, things like class names are the same).
+Please refer to the [msal.js core documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-core/README.md) for more information on using msal.js. Classes, methods, etc., are all named the same in this wrapper as they are in the JavaScript library. The only difference is that classes are not namespaced (e.g. `Msal.UserAgentApplication` in JavaScript is just `UserAgentApplication` in the wrapper).

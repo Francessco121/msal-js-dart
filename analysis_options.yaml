@@ -1,6 +1,10 @@
 # Analyzer documentation, see https://www.dartlang.org/guides/language/analysis-options
 analyzer:
-  strong-mode: true
+  strong-mode: true # Only needed for Dart 1.x
+  errors:
+    await_only_futures: error
+    missing_required_param: error
+    missing_return: error
 
 # Lint rules and documentation, see http://dart-lang.github.io/linter/lints
 linter:
