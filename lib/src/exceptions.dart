@@ -14,7 +14,7 @@ class MsalException implements Exception {
   String _description;
 
   MsalException(this.message) {
-    final parts = message.split(':');
+    final parts = message.split('|');
 
     if (parts.length == 2) {
       _code = parts[0];
