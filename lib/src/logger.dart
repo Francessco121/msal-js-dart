@@ -1,57 +1,46 @@
-import 'dart:js' as js;
+part of '../msal_js.dart';
 
-import 'msal_context.dart';
+/// Additional configuration options for a [Logger].
+class LoggerOptions {
+  /// A unique identifier that can be used to map requests
+  /// and responses for debugging purposes.
+  set correlationId(String value) => 
+    _jsObject.correlationId = value;
 
-typedef void LoggerCallback(LogLevel level, String message, bool containsPii);
+  /// The base logging level. Messages logged with levels lower than the 
+  /// specified base level will not be logged. 
+  /// 
+  /// Defaults to [LogLevel.info].
+  set level(LogLevel value) =>
+    _jsObject.level = value;
 
-enum LogLevel {
-  error,
-  warning,
-  info,
-  verbose
+  /// Whether Personal Identifiable Information (PII) logging is enabled.
+  /// 
+  /// Defaults to `false`.
+  set piiLoggingEnabled(bool value) =>
+    _jsObject.piiLoggingEnabled = value;
+
+  final _jsObject = new LoggerOptionsJs();
 }
 
-/// A wrapper over a JavaScript MSAL logger.
+/// A logger for an MSAL [UserAgentApplication].
+/// 
+/// See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/Logging
+/// for more information.
 class Logger {
-  /// Gets the Dart wrapper of the underlying Logger JavaScript object.
-  js.JsObject get jsHandle => _handle;
-  
-  js.JsObject _handle;
+  final LoggerJs _jsObject;
 
-  Logger(LoggerCallback localCallback, {
-    String correlationId,
-    LogLevel level,
-    bool piiLoggingEnabled
-  }) {
-    if (localCallback == null) throw new ArgumentError.notNull('localCallback');
+  /// Creates a new MSAL logger which calls the given [localCallback]
+  /// with each log message.
+  /// 
+  /// Additional [options] may be specified to configure the logger further.
+  factory Logger(LoggerCallback localCallback, [LoggerOptions options]) {
+    if (localCallback == null) throw ArgumentError.notNull('localCallback');
 
-    // Add optional arguments to a map to be used as the logger's 'options' argument.
-    //
-    // Note: Don't include arguments in the map if they are null so that the JavaScript
-    //       constructor will know to default them.
-
-    final options = <String, Object>{};
-
-    if (correlationId != null) {
-      options['correlationId'] = correlationId;
-    }
-
-    if (level != null) {
-      options['level'] = level.index;
-    }
-    
-    if (piiLoggingEnabled != null) {
-      options['piiLoggingEnabled'] = piiLoggingEnabled;
-    }
-
-    // Create the underlying JavaScript object
-    final js.JsObject loggerConstructor = msalHandle['Logger'];
-
-    _handle = new js.JsObject(loggerConstructor, [
-      js.allowInterop((int level, String message, bool containsPii) {
-        localCallback(LogLevel.values[level], message, containsPii);
-      }),
-      new js.JsObject.jsify(options)
-    ]);
+    return Logger._fromJsObject(
+      LoggerJs(allowInterop(localCallback), options?._jsObject)
+    );
   }
+
+  Logger._fromJsObject(this._jsObject);
 }

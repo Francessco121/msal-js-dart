@@ -1,3 +1,5 @@
+part of '../msal_js.dart';
+
 /// A handleable error from MSAL.
 class MsalException implements Exception {
   /// Gets the full MSAL exception message.

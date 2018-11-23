@@ -1,5 +1,16 @@
-export 'src/errors.dart';
-export 'src/exceptions.dart';
-export 'src/logger.dart';
-export 'src/user_agent_application.dart';
-export 'src/user.dart';
+library msal_js;
+
+import 'dart:async';
+
+import 'package:js/js.dart';
+
+import 'src/interop/interop.dart';
+
+export 'src/interop/interop.dart'
+  show LogLevel, LoggerCallback, TokenReceivedCallback;
+
+part 'src/utils/promise_utils.dart';
+part 'src/logger.dart';
+part 'src/msal_exception.dart';
+part 'src/user.dart';
+part 'src/user_agent_application.dart';
