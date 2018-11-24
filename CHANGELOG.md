@@ -1,10 +1,11 @@
-# Changelog
-
 ## v0.3.0
 - Rewrote entire library using `package:js`.
 - The constructor for `UserAgentApplication` now semantically matches the JavaScript version.
 - The constructor for `Logger` now semantically matches the JavaScript version.
 - No longer contains a build of msal.js. A valid version of msal.js must be installed separately.
+
+--------
+Versions listed below are not available on pub as they were made before this package was published.
 
 ## v0.2.1
 - Fix `MsalException` not correctly decoding the error code/description.
