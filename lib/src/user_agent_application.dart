@@ -169,7 +169,7 @@ class UserAgentApplication {
     if (clientId == null) throw ArgumentError.notNull('clientId');
 
     return UserAgentApplication._fromJsObject(
-      UserAgentApplicationJs(clientId, authority, tokenReceivedCallback, options?._jsObject)
+      UserAgentApplicationJs(clientId, authority, allowInterop(tokenReceivedCallback), options?._jsObject)
     );
   }
 
