@@ -1,3 +1,6 @@
+## v0.3.1
+- Fix crash which occurred when using the logger callback in code compiled with dart2js.
+
 ## v0.3.0
 - Rewrote entire library using `package:js`.
 - The constructor for `UserAgentApplication` now semantically matches the JavaScript version.
