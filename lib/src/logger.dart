@@ -1,5 +1,25 @@
 part of '../msal_js.dart';
 
+typedef void LoggerCallback(LogLevel level, String message, bool containsPii);
+
+/// Wraps the public logger callback with the JavaScript version.
+/// 
+/// Two exist because dart2js doesn't support having enums in functions
+/// passed to JavaScript, so we need to convert the value for the user.
+LoggerCallbackJs _wrapLoggerCallback(LoggerCallback callback) {
+  return (int level, String message, bool containsPii) {
+    callback(_getLogLevel(level), message, containsPii);
+  };
+}
+
+LogLevel _getLogLevel(int index) {
+  if (index < 0 || index > LogLevel.values.length) {
+    return null;
+  }
+
+  return LogLevel.values[index];
+}
+
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
   /// A unique identifier that can be used to map requests
@@ -12,7 +32,7 @@ class LoggerOptions {
   /// 
   /// Defaults to [LogLevel.info].
   set level(LogLevel value) =>
-    _jsObject.level = value;
+    _jsObject.level = value.index;
 
   /// Whether Personal Identifiable Information (PII) logging is enabled.
   /// 
@@ -38,7 +58,10 @@ class Logger {
     if (localCallback == null) throw ArgumentError.notNull('localCallback');
 
     return Logger._fromJsObject(
-      LoggerJs(allowInterop(localCallback), options?._jsObject)
+      LoggerJs(
+        allowInterop(_wrapLoggerCallback(localCallback)), 
+        options?._jsObject
+      )
     );
   }
 

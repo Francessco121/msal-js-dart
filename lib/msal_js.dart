@@ -7,7 +7,7 @@ import 'package:js/js.dart';
 import 'src/interop/interop.dart';
 
 export 'src/interop/interop.dart'
-  show LogLevel, LoggerCallback, TokenReceivedCallback;
+  show LogLevel, TokenReceivedCallback;
 
 part 'src/utils/promise_utils.dart';
 part 'src/logger.dart';
