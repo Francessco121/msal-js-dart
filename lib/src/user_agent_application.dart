@@ -20,6 +20,9 @@ String _cacheLocationToString(CacheLocation cacheLocation) {
   }
 }
 
+/// A callback used for letting MSAL retrieve a redirect URI from the application dynamically.
+typedef RedirectUriCallback = String Function();
+
 /// A browser cache location.
 enum CacheLocation {
   localStorage,
@@ -42,15 +45,33 @@ class UserAgentApplicationOptions {
 
   /// Used to redirect the user to this location after logout.
   /// 
-  /// Defaults to `window.location.href`.
-  set postLogoutRedirectUri(String value) => 
-    _jsObject.postLogoutRedirectUri = value;
+  /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
+  /// ([RedirectUriCallback]).
+  /// 
+  /// Defaults to a function returning the current `window.location.href`. 
+  set postLogoutRedirectUri(dynamic value) {
+    if (value is! String && value is! RedirectUriCallback) {
+      throw ArgumentError.value(value, 'value', 
+        'The post-logout redirect URI must either be a String or a RedirectUriCallback.'
+      );
+    }
 
-  /// The redirect URI of the application, this should be same as the value in the application registration portal. 
+    _jsObject.postLogoutRedirectUri = value;
+  }
+
+  /// The redirect URI of the application, this should be same as the value in the application registration portal.
+  /// 
+  /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
+  /// ([RedirectUriCallback]).
   ///  
-  /// Defaults to `window.location.href`. 
-  set redirectUri(String value) => 
+  /// Defaults to a function returning the current `window.location.href`. 
+  set redirectUri(dynamic value) {
+    if (value is! String && value is! RedirectUriCallback) {
+      throw ArgumentError.value(value, 'value', 'The redirect URI must either be a String or a RedirectUriCallback.');
+    }
+
     _jsObject.redirectUri = value;
+  }
 
   /// Whether authority validation is enabled.
   /// 
@@ -169,7 +190,12 @@ class UserAgentApplication {
     if (clientId == null) throw ArgumentError.notNull('clientId');
 
     return UserAgentApplication._fromJsObject(
-      UserAgentApplicationJs(clientId, authority, allowInterop(tokenReceivedCallback), options?._jsObject)
+      UserAgentApplicationJs(
+        clientId, 
+        authority, 
+        tokenReceivedCallback != null ? allowInterop(tokenReceivedCallback) : null, 
+        options?._jsObject
+      )
     );
   }
 

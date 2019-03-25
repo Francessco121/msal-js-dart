@@ -51,8 +51,8 @@ class UserAgentApplicationJs {
 class UserAgentApplicationOptionsJs {
   external set cacheLocation(String value);
   external set logger(LoggerJs value);
-  external set postLogoutRedirectUri(String value);
-  external set redirectUri(String value);
+  external set postLogoutRedirectUri(dynamic value);
+  external set redirectUri(dynamic value);
   external set validateAuthority(bool value);
   external set loadFrameTimeout(num value);
   external set navigateToLoginRequestUrl(bool value);
