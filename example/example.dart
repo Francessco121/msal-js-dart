@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:msal_js/msal_js.dart';
 
 // This example is based on
