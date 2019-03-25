@@ -67,9 +67,10 @@ void _authCallback(String errorDescription, String token, String error, String t
 
 Each package version (on the left) specifies which version of msal.js it supports (on the right). **Only changes in support are added to this table.**
 
-If the package version you are looking for is not listed, use the row corresponding to the next listed version going down. For example, 0.3.0 is not listed so the version of msal.js that 0.3.0 supports is 0.2.3 since the next package entry down is 0.2.0 (which supports msal.js 0.2.3).
+If the package version you are looking for is not listed, use the row corresponding to the next listed version going down. For example, the package version 0.3.0 is not listed, so the version of msal.js that 0.3.0 supports is 0.2.3 since the next package entry down is 0.2.0 (which supports msal.js 0.2.3).
 
 | Version     | msal.js |
 | ----------- | ------- |
+| **0.3.2**   | 0.2.4   |
 | **0.2.0**   | 0.2.3   |
 | **0.1.0**   | 0.1.5   |

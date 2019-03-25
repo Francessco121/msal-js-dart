@@ -1,3 +1,11 @@
+## v0.3.2
+- Support for msal.js v0.2.4.
+- `UserAgentApplicationOptions` changes:
+  - `redirectUri` may now be either a `String` or `RedirectUriCallback`.
+  - `postLogoutRedirectUri` may now be either a `String` or `RedirectUriCallback`.
+- `UserAgentApplication` changes:
+  - The constructor parameter `tokenReceivedCallback` may now be `null`.
+
 ## v0.3.1
 - Fix crash which occurred when using the logger callback in code compiled with dart2js.
 
