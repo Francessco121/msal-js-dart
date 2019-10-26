@@ -9,9 +9,9 @@ See the [msal.js support table](#msaljs-support-table) below to determine which 
 
 ## Usage
 
-See [example/example.dart](./example/example.dart) for a more complete example.
+See [example/example.md](./example/example.md) for a more complete example.
 
-Also see the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki). Class, function, and parameter names are all the same between this wrapper and msal.js, so following msal.js examples should be mostly straight-forward.
+Also see the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki). Class, function, and parameter names are all the same between this wrapper and msal.js (**except errors, which use the suffix `Exception` instead of `Error`**), so following msal.js examples should be mostly straight-forward.
 
 Short getting started example:
 ```dart
@@ -25,20 +25,23 @@ void main() {
   // msal.js use the option's default value. Setting an
   // option to `null` will not use its default value.
 
-  // Create an MSAL logger
+  // Create an MSAL logger (optional)
   var logger = new Logger(_loggerCallback,
     new LoggerOptions()
       ..level = LogLevel.verbose // log everything
   );
 
-  // Create an MSAL authentication context
-  var userAgentApplication = new UserAgentApplication(
-    'your_client_id', 
-    null, 
-    _authCallback,
-    new UserAgentApplicationOptions()
-      ..cacheLocation = CacheLocation.localStorage
-  );
+  // Configure and create an MSAL authentication context
+  // Note: Only clientId is required
+  var config = new Configuration()
+    ..auth = (new AuthOptions()
+      ..clientId = 'your_client_id'
+    );
+
+  var userAgentApplication = new UserAgentApplication(config);
+
+  // If you plan on using the redirect flow, register a callback
+  userAgentApplication.handleRedirectCallback(_authCallback);
 
   // Login by calling either:
   // - userAgentApplication.loginRedirect
@@ -58,7 +61,7 @@ void _loggerCallback(LogLevel level, String message, bool containsPii) {
   print('[$level] $message');
 }
 
-void _authCallback(String errorDescription, String token, String error, String tokenType, String userState) {
+void _authCallback(AuthException error, [AuthResponse response]) {
   // ...
 }
 ```
