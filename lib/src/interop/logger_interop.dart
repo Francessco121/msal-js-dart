@@ -1,6 +1,6 @@
 part of 'interop.dart';
 
-typedef void LoggerCallbackJs(int level, String message, bool containsPii);
+typedef LoggerCallbackJs = void Function(int level, String message, bool containsPii);
 
 enum LogLevel {
   error,

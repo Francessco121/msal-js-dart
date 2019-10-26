@@ -7,7 +7,7 @@ Future<T> _convertMsalPromise<T>(PromiseJs<T> promise) {
 
   promise.then(
     allowInterop((value) => completer.complete(value)),
-    allowInterop((reason) => completer.completeError(new MsalException(reason)))
+    allowInterop((error) => completer.completeError(_convertJsAuthError(error)))
   );
 
   return completer.future;

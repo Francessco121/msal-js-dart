@@ -1,6 +1,6 @@
 part of '../msal_js.dart';
 
-typedef void LoggerCallback(LogLevel level, String message, bool containsPii);
+typedef LoggerCallback = void Function(LogLevel level, String message, bool containsPii);
 
 /// Wraps the public logger callback with the JavaScript version.
 /// 

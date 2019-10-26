@@ -1,3 +1,7 @@
+## v1.0.0
+- Support for msal.js v1.0.0
+
+
 ## v0.3.2
 - Support for msal.js v0.2.4.
 - `UserAgentApplicationOptions` changes:
