@@ -55,7 +55,7 @@ class UserAgentApplication {
   /// To renew an ID token, pass the client ID as the only scope in the [request].
   /// 
   /// Will throw an [AuthException] on failure.
-  Future<AuthResponse> acquireTokenPopup(AuthenticationParameters request) async {
+  Future<AuthResponse> acquireTokenPopup(AuthRequest request) async {
     AuthResponseJs response = await _convertMsalPromise(
       _jsObject.acquireTokenPopup(request._jsObject)
     );
@@ -66,7 +66,7 @@ class UserAgentApplication {
   /// Acquires an access token by redirecting the user to the authorization endpoint.
   /// 
   /// To renew an ID token, pass the client ID as the only scope in the [request].
-  void acquireTokenRedirect(AuthenticationParameters request) {
+  void acquireTokenRedirect(AuthRequest request) {
     _jsObject.acquireTokenRedirect(request._jsObject);
   }
 
@@ -76,7 +76,7 @@ class UserAgentApplication {
   /// To renew an ID token, pass the client ID as the only scope in the [request].
   /// 
   /// Will throw an [AuthException] on failure.
-  Future<AuthResponse> acquireTokenSilent(AuthenticationParameters request) async {
+  Future<AuthResponse> acquireTokenSilent(AuthRequest request) async {
     AuthResponseJs response = await _convertMsalPromise(
       _jsObject.acquireTokenSilent(request._jsObject)
     );
@@ -102,7 +102,7 @@ class UserAgentApplication {
   /// Initiates the login process by opening a popup browser window.
   /// 
   /// Will throw an [AuthException] on failure.
-  Future<AuthResponse> loginPopup([AuthenticationParameters request]) async {
+  Future<AuthResponse> loginPopup([AuthRequest request]) async {
     AuthResponseJs response = await  _convertMsalPromise(
       _jsObject.loginPopup(request?._jsObject)
     );
@@ -111,7 +111,7 @@ class UserAgentApplication {
   }
 
   /// Initiates the login process by redirecting the user to the authorization endpoint.
-  void loginRedirect([AuthenticationParameters request]) {
+  void loginRedirect([AuthRequest request]) {
     _jsObject.loginRedirect(request?._jsObject);
   }
 

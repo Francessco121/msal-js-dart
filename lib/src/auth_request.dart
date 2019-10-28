@@ -1,8 +1,8 @@
 part of '../msal_js.dart';
 
 /// Used to configure an authentication request.
-class AuthenticationParameters {
-  // TODO: Find documentation for, and document AuthenticationParameters
+class AuthRequest {
+  // TODO: Document AuthRequest properties
 
   List<String> get scopes => _jsObject.scopes;
   set scopes(List<String> value) => _jsObject.scopes = value;
@@ -41,5 +41,5 @@ class AuthenticationParameters {
   String get loginHint => _jsObject.loginHint;
   set loginHint(String value) => _jsObject.loginHint = value;
 
-  final AuthenticationParametersJs _jsObject = new AuthenticationParametersJs();
+  final _jsObject = new AuthenticationParametersJs();
 }

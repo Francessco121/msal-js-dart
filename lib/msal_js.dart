@@ -11,8 +11,8 @@ export 'src/interop/interop.dart'
 
 part 'src/utils/promise_utils.dart';
 part 'src/account.dart';
+part 'src/auth_request.dart';
 part 'src/auth_response.dart';
-part 'src/authentication_parameters.dart';
 part 'src/cache_location.dart';
 part 'src/configuration.dart';
 part 'src/exceptions.dart';

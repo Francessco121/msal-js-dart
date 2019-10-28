@@ -45,7 +45,7 @@ Your app must login the user with either the `loginPopup` or the `loginRedirect`
 
 ```dart
 // Login via popup example
-final loginRequest = new AuthenticationParameters()
+final loginRequest = new AuthRequest()
   ..scopes = ['user.read', 'mail.send'];
 
 try {
@@ -70,7 +70,7 @@ If the `acquireTokenSilent` call fails with an error of type `InteractionRequire
 ```dart
 // If the user is already logged in, you can acquire a token
 if (userAgentApplication.getAccount() != null) {
-  final tokenRequest = new AuthenticationParameters()
+  final tokenRequest = new AuthRequest()
     ..scopes = ['user.read', 'mail.send'];
 
   try {
