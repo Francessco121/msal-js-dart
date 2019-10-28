@@ -1,6 +1,11 @@
 # MSAL.js for Dart
-
 A Dart wrapper for the [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js). 
+
+## Contents
+- [Install msal.js](#install-msaljs)
+- [Usage](#usage)
+- [Differences from msal.js](#differences-from-msaljs)
+- [msal.js Support Table](#msaljs-support-table)
 
 ## Install msal.js
 This package does not come with msal.js. Please refer to the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/MSAL-Installation) for installation.
@@ -8,10 +13,9 @@ This package does not come with msal.js. Please refer to the [msal.js documentat
 See the [msal.js support table](#msaljs-support-table) below to determine which version of msal.js should be used with each version of this package.
 
 ## Usage
-
 See [example/example.md](./example/example.md) for a more complete example.
 
-Also see the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki). Class, function, and parameter names are all the same between this wrapper and msal.js (**except errors, which use the suffix `Exception` instead of `Error`**), so following msal.js examples should be mostly straight-forward.
+Also see the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki). Class, function, and parameter names are *almost* all the same between this wrapper and msal.js (please see ["Differences from msal.js"](#differences-from-msaljs) for more information). Following msal.js examples should be mostly straight-forward.
 
 Short getting started example:
 ```dart
@@ -66,8 +70,15 @@ void _authCallback(AuthException error, [AuthResponse response]) {
 }
 ```
 
-## msal.js Support Table
+## Differences from msal.js
+This package has a few minor differences from the JavaScript and TypeScript APIs in msal.js. These are mainly due to incompatibilities between TypeScript and Dart and quality-of-life differences to provide a more idiomatic Dart API.
 
+- APIs returning JavaScript `Promise`s instead return Dart `Future`s.
+- TypeScript string unions (such as `cacheLocation`) are represented as Dart enums.
+- MSAL errors are represented as Dart exceptions and use the suffix `Exception` instead of `Error` (e.g. `AuthError` in msal.js is `AuthException` in this wrapper).
+- Typescript interfaces are represented as a full Dart type. Instead of passing a map which meets the interface requirements, an actual type must be constructed (e.g. instead of `loginPopup({scopes: []})` you would do `loginPopup(new AuthRequest()..scopes = [])`).
+
+## msal.js Support Table
 Each package version (on the left) specifies which version of msal.js it supports (on the right). **Only changes in support are added to this table.**
 
 If the package version you are looking for is not listed, use the row corresponding to the next listed version going down. For example, the package version 0.3.0 is not listed, so the version of msal.js that 0.3.0 supports is 0.2.3 since the next package entry down is 0.2.0 (which supports msal.js 0.2.3).
