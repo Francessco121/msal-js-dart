@@ -1,4 +1,5 @@
 ## v1.0.0
+- Changed minimum Dart SDK version from 1.23.0 to 2.0.0
 - Support for msal.js v1.0.0
 
 

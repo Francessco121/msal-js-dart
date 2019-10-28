@@ -8,7 +8,7 @@ authors:
 - Jason Penniman <jason.penniman@milestonetg.com>
 
 environment:
-  sdk: ">=1.23.0 <3.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
   js: ^0.6.1
