@@ -43,6 +43,8 @@ class UserAgentApplication {
   /// 
   /// This callback must be set before [acquireTokenRedirect] and [loginRedirect] can be used.
   void handleRedirectCallback(AuthResponseCallback callback) {
+    if (callback == null) throw ArgumentError.notNull('callback');
+    
     void jsCallback(AuthErrorJs error, [AuthResponseJs response]) {
       callback(_convertJsAuthError(error), AuthResponse._fromJsObject(response));
     }
