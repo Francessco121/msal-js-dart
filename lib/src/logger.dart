@@ -61,14 +61,18 @@ class Logger {
   factory Logger(LoggerCallback localCallback, [LoggerOptions options]) {
     if (localCallback == null) throw ArgumentError.notNull('localCallback');
 
-    options ??= LoggerOptions();
+    final LoggerCallbackJs jsCallback = allowInterop(_wrapLoggerCallback(localCallback));
+    
+    // Call the constructor differently to ensure 'undefined' is passed when options is null.
+    LoggerJs jsObject;
 
-    return Logger._fromJsObject(
-      LoggerJs(
-        allowInterop(_wrapLoggerCallback(localCallback)), 
-        options?._jsObject
-      )
-    );
+    if (options == null) {
+      jsObject = LoggerJs(jsCallback);
+    } else {
+      jsObject = LoggerJs(jsCallback, options._jsObject);
+    }
+
+    return Logger._fromJsObject(jsObject);
   }
 
   Logger._fromJsObject(this._jsObject);
