@@ -49,7 +49,11 @@ class UserAgentApplication {
       callback(_convertJsAuthError(error), AuthResponse._fromJsObject(response));
     }
 
-    _jsObject.handleRedirectCallback(jsCallback);
+    try {
+      _jsObject.handleRedirectCallback(jsCallback);
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Acquires an access token using interactive authentication via a popup Window. 
@@ -69,7 +73,11 @@ class UserAgentApplication {
   /// 
   /// To renew an ID token, pass the client ID as the only scope in the [request].
   void acquireTokenRedirect(AuthRequest request) {
-    _jsObject.acquireTokenRedirect(request._jsObject);
+    try {
+      _jsObject.acquireTokenRedirect(request._jsObject);
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Acquires an access token by using a cached token if available or by sending a
@@ -88,17 +96,25 @@ class UserAgentApplication {
 
   /// Gets all currently cached unique accounts based on `homeAccountIdentifier`.
   List<Account> getAllAccounts() {
-    return _jsObject
-      .getAllAccounts()
-      .map((jsAccount) => Account._fromJsObject(jsAccount))
-      .toList();
+    try {
+      return _jsObject
+        .getAllAccounts()
+        .map((jsAccount) => Account._fromJsObject(jsAccount))
+        .toList();
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Gets the signed in account or `null` if no-one is signed in.
   Account getAccount() {
-    final AccountJs jsAccount = _jsObject.getAccount();
+    try {
+      final AccountJs jsAccount = _jsObject.getAccount();
 
-    return jsAccount == null ? null : Account._fromJsObject(jsAccount);
+      return jsAccount == null ? null : Account._fromJsObject(jsAccount);
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Initiates the login process by opening a popup browser window.
@@ -114,22 +130,38 @@ class UserAgentApplication {
 
   /// Initiates the login process by redirecting the user to the authorization endpoint.
   void loginRedirect([AuthRequest request]) {
-    _jsObject.loginRedirect(request?._jsObject);
+    try {
+      _jsObject.loginRedirect(request?._jsObject);
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Logs out the current user, and redirects to the `postLogoutRedirectUri`.
   void logout() {
-    _jsObject.logout();
+    try {
+      _jsObject.logout();
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Returns whether a login is currently in progress.
   bool getLoginInProgress() {
-    return _jsObject.getLoginInProgress();
+    try {
+      return _jsObject.getLoginInProgress();
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Returns the current configuration of this user agent application.
   Configuration getCurrentConfiguration() {
-    return Configuration._fromJsObject(_jsObject.getCurrentConfiguration());
+    try {
+      return Configuration._fromJsObject(_jsObject.getCurrentConfiguration());
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Returns the post-logout redirect URI currently configured.
@@ -137,7 +169,11 @@ class UserAgentApplication {
   /// If the post-logout redirect URI was configured as a function, it
   /// will be evaluated and its result will be returned.
   String getPostLogoutRedirectUri() {
-    return _jsObject.getPostLogoutRedirectUri();
+    try {
+      return _jsObject.getPostLogoutRedirectUri();
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Returns the redirect URI currently configured.
@@ -145,6 +181,10 @@ class UserAgentApplication {
   /// If the redirect URI was configured as a function, it
   /// will be evaluated and its result will be returned.
   String getRedirectUri() {
-    return _jsObject.getRedirectUri();
+    try {
+      return _jsObject.getRedirectUri();
+    } on AuthErrorJs catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 }
