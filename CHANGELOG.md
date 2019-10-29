@@ -1,7 +1,27 @@
 ## v1.0.0
-- Changed minimum Dart SDK version from 1.23.0 to 2.0.0
-- Support for msal.js v1.0.0
+See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/MSAL.js-1.0.0-api-release for conceptual breaking changes in 1.0.
 
+- Support for msal.js v1.0.x.
+- Changed minimum Dart SDK version from 1.23.0 to 2.0.0.
+- Replaced `User` with `Account`.
+- Replaced `MsalException` with `AuthException` and its inheritors.
+- `UserAgentApplication` changes:
+  - Login/acquire methods now take in and return `AuthRequest` and `AuthResponse` respectively.
+  - Constructor now takes in a single `Configuration` object.
+  - Replaced `TokenReceivedCallback` with `AuthResponseCallback`.
+  - Replaced `getUser` with `getAccount`.
+  - Replaced `getAllUsers` with `getAllAccounts`.
+  - Replaced `loginInProgress` with `getLoginInProgress`.
+  - Added `handleRedirectCallback`.
+  - Added `getCurrentConfiguration`.
+  - Added `getPostLogoutRedirectUri`.
+  - Added `getRedirectUri`.
+  - Removed `cacheLocation`.
+  - Removed `loadFrameTimeout`.
+  - Removed `clientId`.
+  - Removed `validateAuthority`.
+- Added missing getters to `LoggerOptions`.
+- Fixed error when providing `null` for options when creating a `Logger`.
 
 ## v0.3.2
 - Support for msal.js v0.2.4.
