@@ -2,19 +2,23 @@ part of '../msal_js.dart';
 
 /// Used to configure a [UserAgentApplication].
 class Configuration {
-  AuthOptions get auth => AuthOptions._fromJsObject(_jsObject.auth);
+  AuthOptions get auth => 
+    _jsObject.auth == null ? null : AuthOptions._fromJsObject(_jsObject.auth);
   /// Sets the auth options.
   set auth(AuthOptions value) => _jsObject.auth = value._jsObject;
 
-  CacheOptions get cache => CacheOptions._fromJsObject(_jsObject.cache);
+  CacheOptions get cache => 
+    _jsObject.cache == null ? null : CacheOptions._fromJsObject(_jsObject.cache);
   /// Sets the cache options.
   set cache(CacheOptions value) => _jsObject.cache = value._jsObject;
 
-  SystemOptions get system => SystemOptions._fromJsObject(_jsObject.system);
+  SystemOptions get system => 
+    _jsObject.system == null ? null : SystemOptions._fromJsObject(_jsObject.system);
   /// Sets the library specific options.
   set system(SystemOptions value) => _jsObject.system = value._jsObject;
 
-  FrameworkOptions get framework => FrameworkOptions._fromJsObject(_jsObject.framework);
+  FrameworkOptions get framework => 
+    _jsObject.framework == null ? null : FrameworkOptions._fromJsObject(_jsObject.framework);
   /// Sets the environment specific options.
   set framework(FrameworkOptions value) => _jsObject.framework = value._jsObject;
 
@@ -52,14 +56,14 @@ class AuthOptions {
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
   set validateAuthority(bool value) => _jsObject.validateAuthority = value;
 
-  String get redirectUri => _jsObject.redirectUri;
+  dynamic get redirectUri => _jsObject.redirectUri;
   /// Sets the redirect URI of the application.
   /// 
   /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
   /// ([RedirectUriCallback]).
   ///  
   /// Defaults to a function returning the current `window.location.href`. 
-  set redirectUri(String value) {
+  set redirectUri(dynamic value) {
     if (value is! String && value is! RedirectUriCallback) {
       throw ArgumentError.value(value, 'value', 'The redirect URI must either be a String or a RedirectUriCallback.');
     }
@@ -67,14 +71,14 @@ class AuthOptions {
     _jsObject.redirectUri = value;
   }
 
-  String get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
+  dynamic get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
   /// Sets the URI to redirect to the user to after logout.
   /// 
   /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
   /// ([RedirectUriCallback]).
   ///  
   /// Defaults to a function returning the current `window.location.href`. 
-  set postLogoutRedirectUri(String value) {
+  set postLogoutRedirectUri(dynamic value) {
     if (value is! String && value is! RedirectUriCallback) {
       throw ArgumentError.value(value, 'value', 
         'The post-logout redirect URI must either be a String or a RedirectUriCallback.'
@@ -104,7 +108,12 @@ class AuthOptions {
 class CacheOptions {
   CacheLocation get cacheLocation => 
     _stringToCacheLocation(_jsObject.cacheLocation);
-  /// Sets the client ID of the registered application.
+  /// Sets which browser cache should be used.
+  /// 
+  /// Session storage is recommended, but local storage will allow authentication
+  /// across multiple browser tabs.
+  /// 
+  /// Defaults to [CacheLocation.sessionStorage].
   set cacheLocation(CacheLocation value) => 
     _jsObject.cacheLocation = _cacheLocationToString(value);
 
@@ -128,7 +137,8 @@ class CacheOptions {
 
 /// Used to configure library specific options for a [UserAgentApplication].
 class SystemOptions {
-  Logger get logger => Logger._fromJsObject(_jsObject.logger);
+  Logger get logger => 
+    _jsObject.logger == null ? null : Logger._fromJsObject(_jsObject.logger);
   /// Sets the logger to be used by the application.
   /// 
   /// Defaults to `null`.
@@ -148,8 +158,9 @@ class SystemOptions {
     _jsObject.tokenRenewalOffsetSeconds = value;
 
   num get navigateFrameWait => _jsObject.navigateFrameWait;
-  // TODO: Document navigateFrameWait
+  /// Sets the wait time (in milliseconds) for hidden iframe navigation.
   /// 
+  /// Defaults to 500.
   set navigateFrameWait(num value) => _jsObject.navigateFrameWait = value;
 
   final SystemOptionsJs _jsObject;

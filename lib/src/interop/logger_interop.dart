@@ -17,8 +17,11 @@ class LoggerJs {
 @JS()
 @anonymous
 class LoggerOptionsJs {
+  external String get correlationId;
   external set correlationId(String value);
+  external int get level;
   external set level(int level);
+  external bool get piiLoggingEnabled;
   external set piiLoggingEnabled(bool value);
   
   external factory LoggerOptionsJs();

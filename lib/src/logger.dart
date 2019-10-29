@@ -22,11 +22,14 @@ LogLevel _getLogLevel(int index) {
 
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
-  /// A unique identifier that can be used to map requests
-  /// and responses for debugging purposes.
+  String get correlationId => _jsObject.correlationId;
+  /// A unique identifier that can be used to map requests and responses.
   set correlationId(String value) => 
     _jsObject.correlationId = value;
 
+  LogLevel get level => _jsObject.level == null
+    ? null
+    : LogLevel.values[_jsObject.level];
   /// The base logging level. Messages logged with levels lower than the 
   /// specified base level will not be logged. 
   /// 
@@ -34,6 +37,7 @@ class LoggerOptions {
   set level(LogLevel value) =>
     _jsObject.level = value.index;
 
+  bool get piiLoggingEnabled => _jsObject.piiLoggingEnabled;
   /// Whether Personal Identifiable Information (PII) logging is enabled.
   /// 
   /// Defaults to `false`.

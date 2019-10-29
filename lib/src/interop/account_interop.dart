@@ -6,8 +6,7 @@ class AccountJs {
   external String get homeAccountIdentifier;
   external String get userName;
   external String get name;
-  external Map<String, String> get idToken;
-  external Map<String, String> get idTokenClaims; // TODO: Test idTokenClaims
+  external dynamic get idToken;
   external String get sid;
   external String get environment;
 }

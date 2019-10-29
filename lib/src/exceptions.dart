@@ -2,7 +2,7 @@ part of '../msal_js.dart';
 
 AuthException _convertJsAuthError(AuthErrorJs jsError) {
   if (jsError == null) return null;
-  
+
   switch (jsError.runtimeType) {
     case ClientAuthErrorJs:
       return new ClientAuthException._fromJsObject(jsError);
@@ -33,7 +33,7 @@ class AuthException implements Exception {
   AuthException._fromJsObject(this._jsObject);
 
   @override
-  String toString() => 'AuthException: $message';
+  String toString() => 'AuthException: $errorCode:$message';
 }
 
 /// Thrown by MSAL when there is an error in the client code running on the browser.
@@ -42,7 +42,7 @@ class ClientAuthException extends AuthException {
     : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ClientAuthException: $message';
+  String toString() => 'ClientAuthException: $errorCode:$message';
 }
 
 /// Thrown by MSAL when there is an error in the configuration of a library object.
@@ -51,7 +51,7 @@ class ClientConfigurationException extends ClientAuthException {
     : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ClientConfigurationException: $message';
+  String toString() => 'ClientConfigurationException: $errorCode:$message';
 }
 
 /// Thrown by MSAL when the user is required to perform an interactive token request.
@@ -60,7 +60,7 @@ class InteractionRequiredAuthException extends ServerException {
     : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'InteractionRequiredAuthException: $message';
+  String toString() => 'InteractionRequiredAuthException: $errorCode:$message';
 }
 
 /// Thrown by MSAL when there is an error with the server code,
@@ -70,5 +70,5 @@ class ServerException extends AuthException {
     : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ServerException: $message';
+  String toString() => 'ServerException: $errorCode:$message';
 }

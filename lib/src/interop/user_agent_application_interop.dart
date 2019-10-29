@@ -9,8 +9,6 @@ class UserAgentApplicationJs {
 
   external UserAgentApplicationJs(ConfigurationJs configuration);
 
-  // TODO: Add getAuthorityInstance
-
   external void handleRedirectCallback(AuthResponseCallbackJs callback);
 
   external PromiseJs<AuthResponseJs> acquireTokenPopup(AuthenticationParametersJs request);
