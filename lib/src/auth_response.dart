@@ -8,7 +8,7 @@ class AuthResponse {
   /// The ID of the tenant where the user was found.
   String get tenantId => _jsObject.tenantId;
 
-  /// The type of token that was renewed.
+  /// The type of token that was requested.
   /// 
   /// Either `id_token` or `access_token`.
   String get tokenType => _jsObject.tokenType;
