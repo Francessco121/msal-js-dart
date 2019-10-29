@@ -3,17 +3,16 @@ part of '../msal_js.dart';
 AuthException _convertJsAuthError(AuthErrorJs jsError) {
   if (jsError == null) return null;
 
-  switch (jsError.runtimeType) {
-    case ClientAuthErrorJs:
-      return new ClientAuthException._fromJsObject(jsError);
-    case ClientConfigurationErrorJs:
-      return new ClientConfigurationException._fromJsObject(jsError);
-    case InteractionRequiredAuthErrorJs:
-      return new InteractionRequiredAuthException._fromJsObject(jsError);
-    case ServerErrorJs:
-      return new ServerException._fromJsObject(jsError);
-    default:
-      return new AuthException._fromJsObject(jsError);
+  if (jsError is ClientConfigurationErrorJs) {
+    return new ClientConfigurationException._fromJsObject(jsError);
+  } else if (jsError is InteractionRequiredAuthErrorJs) {
+    return new InteractionRequiredAuthException._fromJsObject(jsError);
+  } else if (jsError is ServerErrorJs) {
+    return new ServerException._fromJsObject(jsError);
+  } else if (jsError is ClientAuthErrorJs) {
+    return new ClientAuthException._fromJsObject(jsError);
+  } else {
+    return new AuthException._fromJsObject(jsError);
   }
 }
 
