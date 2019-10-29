@@ -61,6 +61,8 @@ class Logger {
   factory Logger(LoggerCallback localCallback, [LoggerOptions options]) {
     if (localCallback == null) throw ArgumentError.notNull('localCallback');
 
+    options ??= LoggerOptions();
+
     return Logger._fromJsObject(
       LoggerJs(
         allowInterop(_wrapLoggerCallback(localCallback)), 
