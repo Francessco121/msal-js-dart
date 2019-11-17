@@ -1,4 +1,4 @@
-/// A wrapper for the 'Microsoft Authentication Library for JavaScript (MSAL.js)'.
+/// A wrapper for the core msal.js library.
 /// 
 /// This library expects that msal.js has loaded and exposed the global `Msal` JavaScript object,
 /// as that is how this library interacts with MSAL. A [MissingMsalJsException] will be thrown if 
