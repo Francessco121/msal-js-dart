@@ -32,7 +32,7 @@ class Configuration {
   final JsObject _jsObject;
 
   Configuration() 
-    : _jsObject = new JsObject(context['Object']);
+    : _jsObject = JsObject(context['Object']);
 
   Configuration._fromJsObject(this._jsObject);
 }
@@ -142,7 +142,7 @@ class AuthOptions {
   final JsObject _jsObject;
 
   AuthOptions() 
-    : _jsObject = new JsObject(context['Object']);
+    : _jsObject = JsObject(context['Object']);
 
   AuthOptions._fromJsObject(this._jsObject);
 }
@@ -173,7 +173,7 @@ class CacheOptions {
   final JsObject _jsObject;
 
   CacheOptions() 
-    : _jsObject = new JsObject(context['Object']);
+    : _jsObject = JsObject(context['Object']);
 
   CacheOptions._fromJsObject(this._jsObject);
 }
@@ -209,7 +209,7 @@ class SystemOptions {
   final JsObject _jsObject;
 
   SystemOptions() 
-    : _jsObject = new JsObject(context['Object']);
+    : _jsObject = JsObject(context['Object']);
 
   SystemOptions._fromJsObject(this._jsObject);
 }
@@ -240,7 +240,7 @@ class FrameworkOptions {
   final JsObject _jsObject;
 
   FrameworkOptions() 
-    : _jsObject = new JsObject(context['Object']);
+    : _jsObject = JsObject(context['Object']);
 
   FrameworkOptions._fromJsObject(this._jsObject);
 }

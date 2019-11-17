@@ -46,7 +46,7 @@ class LoggerOptions {
   set piiLoggingEnabled(bool value) =>
     _jsObject['piiLoggingEnabled'] = value;
 
-  final _jsObject = new JsObject(context['Object']);
+  final _jsObject = JsObject(context['Object']);
 }
 
 /// A logger for an MSAL [UserAgentApplication].

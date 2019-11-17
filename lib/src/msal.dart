@@ -7,7 +7,7 @@ JsObject get msalJsObject {
   final JsObject jsObject = context['Msal'];
 
   if (jsObject == null) {
-    throw new MissingMsalJsException(
+    throw MissingMsalJsException(
       "The global JavaScript 'Msal' namespace object could not be found. "
       'msal.js must load successfully before package:msal_js can be used.'
     );

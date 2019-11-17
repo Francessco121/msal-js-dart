@@ -16,15 +16,15 @@ AuthException _convertJsAuthError(dynamic jsError) {
   final String errorName = jsAuthError.name;
 
   if (errorName == 'ClientConfigurationError') {
-    return new ClientConfigurationException._fromJsObject(jsAuthError);
+    return ClientConfigurationException._fromJsObject(jsAuthError);
   } else if (errorName == 'InteractionRequiredAuthError') {
-    return new InteractionRequiredAuthException._fromJsObject(jsAuthError);
+    return InteractionRequiredAuthException._fromJsObject(jsAuthError);
   } else if (errorName == 'ServerError') {
-    return new ServerException._fromJsObject(jsAuthError);
+    return ServerException._fromJsObject(jsAuthError);
   } else if (errorName == 'ClientAuthError') {
-    return new ClientAuthException._fromJsObject(jsAuthError);
+    return ClientAuthException._fromJsObject(jsAuthError);
   } else {
-    return new AuthException._fromJsObject(jsAuthError);
+    return AuthException._fromJsObject(jsAuthError);
   }
 }
 

@@ -3,7 +3,7 @@
 part of '../../msal_js.dart';
 
 Future<T> _convertMsalPromise<T>(JsObject promise) {
-  final completer = new Completer<T>();
+  final completer = Completer<T>();
 
   promise.callMethod('then', [
     allowInterop((value) => completer.complete(value)),

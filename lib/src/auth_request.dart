@@ -94,5 +94,5 @@ class AuthRequest {
   /// authorization server should be made.
   set forceRefresh(bool value) => _jsObject['forceRefresh'] = value;
 
-  final _jsObject = new JsObject(context['Object']);
+  final _jsObject = JsObject(context['Object']);
 }

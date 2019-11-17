@@ -1,3 +1,6 @@
+# Include Google default rules to avoid lower package health scores
+include: package:pedantic/analysis_options.yaml
+
 # Analyzer documentation, see https://www.dartlang.org/guides/language/analysis-options
 analyzer:
   errors:
