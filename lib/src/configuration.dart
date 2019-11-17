@@ -3,40 +3,47 @@ part of '../msal_js.dart';
 /// Used to configure a [UserAgentApplication].
 class Configuration {
   AuthOptions get auth => 
-    _jsObject.auth == null ? null : AuthOptions._fromJsObject(_jsObject.auth);
+    _jsObject['auth'] == null ? null : AuthOptions._fromJsObject(_jsObject['auth']);
   /// Sets the auth options.
-  set auth(AuthOptions value) => _jsObject.auth = value._jsObject;
+  set auth(AuthOptions value) => _jsObject['auth'] = value._jsObject;
 
   CacheOptions get cache => 
-    _jsObject.cache == null ? null : CacheOptions._fromJsObject(_jsObject.cache);
+    _jsObject['cache'] == null ? null : CacheOptions._fromJsObject(_jsObject['cache']);
   /// Sets the cache options.
-  set cache(CacheOptions value) => _jsObject.cache = value._jsObject;
+  set cache(CacheOptions value) => _jsObject['cache'] = value._jsObject;
 
   SystemOptions get system => 
-    _jsObject.system == null ? null : SystemOptions._fromJsObject(_jsObject.system);
+    _jsObject['system'] == null ? null : SystemOptions._fromJsObject(_jsObject['system']);
   /// Sets the library specific options.
-  set system(SystemOptions value) => _jsObject.system = value._jsObject;
+  set system(SystemOptions value) => _jsObject['system'] = value._jsObject;
 
+  @Deprecated('''
+    FrameworkOptions is only used by the Angular MSAL libraries and will do nothing in this package. 
+    See [FrameworkOptions] for more information.
+  ''')
   FrameworkOptions get framework => 
-    _jsObject.framework == null ? null : FrameworkOptions._fromJsObject(_jsObject.framework);
-  /// Sets the environment specific options.
-  set framework(FrameworkOptions value) => _jsObject.framework = value._jsObject;
+    _jsObject['framework'] == null ? null : FrameworkOptions._fromJsObject(_jsObject['framework']);
+  @Deprecated('''
+    FrameworkOptions is only used by the Angular MSAL libraries and will do nothing in this package. 
+    See [FrameworkOptions] for more information.
+  ''')
+  set framework(FrameworkOptions value) => _jsObject['framework'] = value._jsObject;
 
-  final ConfigurationJs _jsObject;
+  final JsObject _jsObject;
 
   Configuration() 
-    : _jsObject = new ConfigurationJs();
+    : _jsObject = new JsObject(context['Object']);
 
   Configuration._fromJsObject(this._jsObject);
 }
 
 /// Used to configure the auth options for a [UserAgentApplication].
 class AuthOptions {
-  String get clientId => _jsObject.clientId;
+  String get clientId => _jsObject['clientId'];
   /// Sets the client ID of the registered application.
-  set clientId(String value) => _jsObject.clientId = value;
+  set clientId(String value) => _jsObject['clientId'] = value;
 
-  String get authority => _jsObject.authority;
+  String get authority => _jsObject['authority'];
   /// Sets the authority to be used.
   /// 
   /// [value] - A URL indicating a directory that MSAL can use to obtain tokens:
@@ -46,17 +53,31 @@ class AuthOptions {
   ///   the TenantID property of the directory)
   /// - In Azure B2C, it is of the form https://<instance>/tfp/<tenant>/<policyName>/
   /// - Defaults to https://login.microsoftonline.com/common.
-  set authority(String value) => _jsObject.authority = value;
+  set authority(String value) => _jsObject['authority'] = value;
 
-  bool get validateAuthority => _jsObject.validateAuthority;
+  bool get validateAuthority => _jsObject['validateAuthority'];
   /// Sets whether the authority should be validated.
   /// 
   /// When set to `true` (default), MSAL will compare the application's authority against well-known URL 
   /// templates representing well-formed authorities. It is useful when the authority is obtained at 
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
-  set validateAuthority(bool value) => _jsObject.validateAuthority = value;
+  set validateAuthority(bool value) => _jsObject['validateAuthority'] = value;
 
-  dynamic get redirectUri => _jsObject.redirectUri;
+  dynamic get redirectUri {
+    final dynamic uri = _jsObject['redirectUri'];
+
+    if (uri is JsFunction) {
+      String wrappedCallback() {
+        return uri.apply(null);
+      }
+
+      assert(wrappedCallback is RedirectUriCallback);
+
+      return wrappedCallback;
+    } else {
+      return uri;
+    }
+  }
   /// Sets the redirect URI of the application.
   /// 
   /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
@@ -68,10 +89,28 @@ class AuthOptions {
       throw ArgumentError.value(value, 'value', 'The redirect URI must either be a String or a RedirectUriCallback.');
     }
     
-    _jsObject.redirectUri = value;
+    if (value is RedirectUriCallback) {
+      value = allowInterop<RedirectUriCallback>(value);
+    }
+    
+    _jsObject['redirectUri'] = value;
   }
 
-  dynamic get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
+  dynamic get postLogoutRedirectUri {
+    final dynamic uri = _jsObject['postLogoutRedirectUri'];
+
+    if (uri is JsFunction) {
+      String wrappedCallback() {
+        return uri.apply(null);
+      }
+
+      assert(wrappedCallback is RedirectUriCallback);
+
+      return wrappedCallback;
+    } else {
+      return uri;
+    }
+  }
   /// Sets the URI to redirect to the user to after logout.
   /// 
   /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
@@ -84,22 +123,26 @@ class AuthOptions {
         'The post-logout redirect URI must either be a String or a RedirectUriCallback.'
       );
     }
+
+    if (value is RedirectUriCallback) {
+      value = allowInterop<RedirectUriCallback>(value);
+    }
     
-    _jsObject.postLogoutRedirectUri = value;
+    _jsObject['postLogoutRedirectUri'] = value;
   }
 
-  bool get navigateToLoginRequestUrl => _jsObject.navigateToLoginRequestUrl;
+  bool get navigateToLoginRequestUrl => _jsObject['navigateToLoginRequestUrl'];
   /// Sets whether the user will be redirected to the URL that initiated the login
   /// after a successful login.
   /// 
   /// Defaults to `true`.
   set navigateToLoginRequestUrl(bool value) => 
-    _jsObject.navigateToLoginRequestUrl = value;
+    _jsObject['navigateToLoginRequestUrl'] = value;
 
-  final AuthOptionsJs _jsObject;
+  final JsObject _jsObject;
 
   AuthOptions() 
-    : _jsObject = new AuthOptionsJs();
+    : _jsObject = new JsObject(context['Object']);
 
   AuthOptions._fromJsObject(this._jsObject);
 }
@@ -107,7 +150,7 @@ class AuthOptions {
 /// Used to configure the cache options for a [UserAgentApplication].
 class CacheOptions {
   CacheLocation get cacheLocation => 
-    _stringToCacheLocation(_jsObject.cacheLocation);
+    _stringToCacheLocation(_jsObject['cacheLocation']);
   /// Sets which browser cache should be used.
   /// 
   /// Session storage is recommended, but local storage will allow authentication
@@ -115,9 +158,9 @@ class CacheOptions {
   /// 
   /// Defaults to [CacheLocation.sessionStorage].
   set cacheLocation(CacheLocation value) => 
-    _jsObject.cacheLocation = _cacheLocationToString(value);
+    _jsObject['cacheLocation'] = _cacheLocationToString(value);
 
-  bool get storeAuthStateInCookie => _jsObject.storeAuthStateInCookie;
+  bool get storeAuthStateInCookie => _jsObject['storeAuthStateInCookie'];
   /// Sets whether the authentication state should be stored in a cookie.
   /// 
   /// If `true`, MSAL store's the auth request state required for validation of the auth 
@@ -125,12 +168,12 @@ class CacheOptions {
   /// 
   /// Defaults to `false`.
   set storeAuthStateInCookie(bool value) => 
-    _jsObject.storeAuthStateInCookie = value;
+    _jsObject['storeAuthStateInCookie'] = value;
 
-  final CacheOptionsJs _jsObject;
+  final JsObject _jsObject;
 
   CacheOptions() 
-    : _jsObject = new CacheOptionsJs();
+    : _jsObject = new JsObject(context['Object']);
 
   CacheOptions._fromJsObject(this._jsObject);
 }
@@ -138,67 +181,65 @@ class CacheOptions {
 /// Used to configure library specific options for a [UserAgentApplication].
 class SystemOptions {
   Logger get logger => 
-    _jsObject.logger == null ? null : Logger._fromJsObject(_jsObject.logger);
+    _jsObject['logger'] == null ? null : Logger._fromJsObject(_jsObject['logger']);
   /// Sets the logger to be used by the application.
   /// 
   /// Defaults to `null`.
-  set logger(Logger value) => _jsObject.logger = value._jsObject;
+  set logger(Logger value) => _jsObject['logger'] = value._jsObject;
 
-  num get loadFrameTimeout => _jsObject.loadFrameTimeout;
+  num get loadFrameTimeout => _jsObject['loadFrameTimeout'];
   /// Sets the maximum time in milliseconds the library will wait for an iframe to load.
   /// 
   /// Defaults to 6000.
-  set loadFrameTimeout(num value) => _jsObject.loadFrameTimeout = value;
+  set loadFrameTimeout(num value) => _jsObject['loadFrameTimeout'] = value;
 
-  num get tokenRenewalOffsetSeconds => _jsObject.tokenRenewalOffsetSeconds;
+  num get tokenRenewalOffsetSeconds => _jsObject['tokenRenewalOffsetSeconds'];
   /// Sets the window of offset (in seconds) needed to renew the token before expiry.
   /// 
   /// Defaults to 300.
   set tokenRenewalOffsetSeconds(num value) => 
-    _jsObject.tokenRenewalOffsetSeconds = value;
+    _jsObject['tokenRenewalOffsetSeconds'] = value;
 
-  num get navigateFrameWait => _jsObject.navigateFrameWait;
+  num get navigateFrameWait => _jsObject['navigateFrameWait'];
   /// Sets the wait time (in milliseconds) for hidden iframe navigation.
   /// 
   /// Defaults to 500.
-  set navigateFrameWait(num value) => _jsObject.navigateFrameWait = value;
+  set navigateFrameWait(num value) => _jsObject['navigateFrameWait'] = value;
 
-  final SystemOptionsJs _jsObject;
+  final JsObject _jsObject;
 
   SystemOptions() 
-    : _jsObject = new SystemOptionsJs();
+    : _jsObject = new JsObject(context['Object']);
 
   SystemOptions._fromJsObject(this._jsObject);
 }
 
-/// Used to configure support for specific environments for a [UserAgentApplication].
+@Deprecated('''
+  FrameworkOptions is only used by the Angular MSAL libraries internally. 
+  Specifying it in the config will do nothing as this package wraps only the core 
+  MSAL library, which does not use any configuration defined here. 
+  This should not be used and will be removed in the future.
+''')
 class FrameworkOptions {
+  static const _unprotectedResourcesConverter = JsObjectListConverter<String>();
+  static const _protectedResourceConverter = JsObjectMapConverter<List<String>>(
+    JsObjectListConverter<String>()
+  );
+
   List<String> get unprotectedResources => 
-    _jsObject.unprotectedResources;
-  /// Sets a list of URI's, which requests to will not have an MSAL token attached.
-  /// 
-  /// Defaults to `null`.
+    _unprotectedResourcesConverter.decode(_jsObject['unprotectedResources']);
   set unprotectedResources(List<String> value) => 
-    _jsObject.unprotectedResources = value;
+    _jsObject['unprotectedResources'] = _unprotectedResourcesConverter.encode(value);
 
   Map<String, List<String>> get protectedResourceMap => 
-    _jsObject.protectedResourceMap;
-  /// Sets the mapping of resources to scopes, which is used by MSAL for automatically
-  /// attaching access tokens in web API calls. A single access token is obtained for
-  /// the resource.
-  /// 
-  /// You can map a specific resource path as follows: 
-  /// {"https://graph.microsoft.com/v1.0/me", ["user.read"]}, or the app URL of the 
-  /// resource as: {"https://graph.microsoft.com/", ["user.read", "mail.send"]}. 
-  /// 
-  /// Defaults to `null`.
+    _protectedResourceConverter.decode(_jsObject['protectedResourceMap']);
   set protectedResourceMap(Map<String, List<String>> value) => 
-    _jsObject.protectedResourceMap = value;
+    _jsObject['protectedResourceMap'] = _protectedResourceConverter.encode(value);
 
-  final FrameworkOptionsJs _jsObject;
+  final JsObject _jsObject;
 
   FrameworkOptions() 
-    : _jsObject = new FrameworkOptionsJs();
+    : _jsObject = new JsObject(context['Object']);
 
   FrameworkOptions._fromJsObject(this._jsObject);
 }

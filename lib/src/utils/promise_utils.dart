@@ -2,13 +2,13 @@
 
 part of '../../msal_js.dart';
 
-Future<T> _convertMsalPromise<T>(PromiseJs<T> promise) {
+Future<T> _convertMsalPromise<T>(JsObject promise) {
   final completer = new Completer<T>();
 
-  promise.then(
+  promise.callMethod('then', [
     allowInterop((value) => completer.complete(value)),
     allowInterop((error) => completer.completeError(_convertJsAuthError(error)))
-  );
+  ]);
 
   return completer.future;
 }

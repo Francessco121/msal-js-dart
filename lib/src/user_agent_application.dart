@@ -1,9 +1,14 @@
 part of '../msal_js.dart';
 
 /// A callback used for letting MSAL retrieve a redirect URI from the application dynamically.
+/// 
+/// A valid URI should be returned from this function.
 typedef RedirectUriCallback = String Function();
 
 /// A callback for an authentication response after a redirect.
+/// 
+/// - [error] - If not null, contains the error that caused authentication to fail.
+/// - [response] - If not null, contains the successful authentication response data.
 typedef AuthResponseCallback = void Function(AuthException error, [AuthResponse response]);
 
 /// An MSAL authentication context.
@@ -12,7 +17,7 @@ typedef AuthResponseCallback = void Function(AuthException error, [AuthResponse 
 /// for more information.
 class UserAgentApplication {
   /// Gets the authority for this application.
-  String get authority => _jsObject.authority;
+  String get authority => _jsObject['authority'];
   /// Sets the authority of this application.
   /// 
   /// [value] - A URL indicating a directory that MSAL can use to obtain tokens:
@@ -22,9 +27,9 @@ class UserAgentApplication {
   ///   the TenantID property of the directory)
   /// - In Azure B2C, it is of the form https://<instance>/tfp/<tenant>/<policyName>/
   /// - Default value is: "https://login.microsoftonline.com/common"
-  set authority(String value) => _jsObject.authority = value;
+  set authority(String value) => _jsObject['authority'] = value;
   
-  final UserAgentApplicationJs _jsObject;
+  final JsObject _jsObject;
 
   /// Creates a new MSAL authentication context from the given [configuration].
   /// 
@@ -33,7 +38,7 @@ class UserAgentApplication {
     if (configuration == null) throw ArgumentError.notNull('configuration');
 
     return UserAgentApplication._fromJsObject(
-      UserAgentApplicationJs(configuration._jsObject)
+      JsObject(msalJsObject['UserAgentApplication'], [configuration._jsObject])
     );
   }
 
@@ -45,13 +50,13 @@ class UserAgentApplication {
   void handleRedirectCallback(AuthResponseCallback callback) {
     if (callback == null) throw ArgumentError.notNull('callback');
     
-    void jsCallback(AuthErrorJs error, [AuthResponseJs response]) {
+    void jsCallback(JsObject error, [JsObject response]) {
       callback(_convertJsAuthError(error), AuthResponse._fromJsObject(response));
     }
 
     try {
-      _jsObject.handleRedirectCallback(jsCallback);
-    } on AuthErrorJs catch (ex) {
+      _jsObject.callMethod('handleRedirectCallback', [allowInterop(jsCallback)]);
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -62,8 +67,8 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenPopup(AuthRequest request) async {
-    AuthResponseJs response = await _convertMsalPromise(
-      _jsObject.acquireTokenPopup(request._jsObject)
+    final JsObject response = await _convertMsalPromise(
+      _jsObject.callMethod('acquireTokenPopup', [request._jsObject])
     );
 
     return AuthResponse._fromJsObject(response);
@@ -74,8 +79,8 @@ class UserAgentApplication {
   /// To renew an ID token, pass the client ID as the only scope in the [request].
   void acquireTokenRedirect(AuthRequest request) {
     try {
-      _jsObject.acquireTokenRedirect(request._jsObject);
-    } on AuthErrorJs catch (ex) {
+      _jsObject.callMethod('acquireTokenRedirect', [request._jsObject]);
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -87,8 +92,8 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenSilent(AuthRequest request) async {
-    AuthResponseJs response = await _convertMsalPromise(
-      _jsObject.acquireTokenSilent(request._jsObject)
+    final JsObject response = await _convertMsalPromise(
+      _jsObject.callMethod('acquireTokenSilent', [request._jsObject])
     );
 
     return AuthResponse._fromJsObject(response);
@@ -97,11 +102,11 @@ class UserAgentApplication {
   /// Gets all currently cached unique accounts based on `homeAccountIdentifier`.
   List<Account> getAllAccounts() {
     try {
-      return _jsObject
-        .getAllAccounts()
+      return (_jsObject
+        .callMethod('getAllAccounts') as JsArray)
         .map((jsAccount) => Account._fromJsObject(jsAccount))
         .toList();
-    } on AuthErrorJs catch (ex) {
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -109,10 +114,10 @@ class UserAgentApplication {
   /// Gets the signed in account or `null` if no-one is signed in.
   Account getAccount() {
     try {
-      final AccountJs jsAccount = _jsObject.getAccount();
+      final JsObject jsAccount = _jsObject.callMethod('getAccount');
 
       return jsAccount == null ? null : Account._fromJsObject(jsAccount);
-    } on AuthErrorJs catch (ex) {
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -121,8 +126,8 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> loginPopup([AuthRequest request]) async {
-    AuthResponseJs response = await  _convertMsalPromise(
-      _jsObject.loginPopup(request?._jsObject)
+    final JsObject response = await _convertMsalPromise(
+      _jsObject.callMethod('loginPopup', [request?._jsObject])
     );
 
     return AuthResponse._fromJsObject(response);
@@ -131,8 +136,8 @@ class UserAgentApplication {
   /// Initiates the login process by redirecting the user to the authorization endpoint.
   void loginRedirect([AuthRequest request]) {
     try {
-      _jsObject.loginRedirect(request?._jsObject);
-    } on AuthErrorJs catch (ex) {
+      _jsObject.callMethod('loginRedirect', [request?._jsObject]);
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -140,8 +145,8 @@ class UserAgentApplication {
   /// Logs out the current user, and redirects to the `postLogoutRedirectUri`.
   void logout() {
     try {
-      _jsObject.logout();
-    } on AuthErrorJs catch (ex) {
+      _jsObject.callMethod('logout');
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -149,8 +154,8 @@ class UserAgentApplication {
   /// Returns whether a login is currently in progress.
   bool getLoginInProgress() {
     try {
-      return _jsObject.getLoginInProgress();
-    } on AuthErrorJs catch (ex) {
+      return _jsObject.callMethod('getLoginInProgress');
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -158,8 +163,8 @@ class UserAgentApplication {
   /// Returns the current configuration of this user agent application.
   Configuration getCurrentConfiguration() {
     try {
-      return Configuration._fromJsObject(_jsObject.getCurrentConfiguration());
-    } on AuthErrorJs catch (ex) {
+      return Configuration._fromJsObject(_jsObject.callMethod('getCurrentConfiguration'));
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -170,8 +175,8 @@ class UserAgentApplication {
   /// will be evaluated and its result will be returned.
   String getPostLogoutRedirectUri() {
     try {
-      return _jsObject.getPostLogoutRedirectUri();
-    } on AuthErrorJs catch (ex) {
+      return _jsObject.callMethod('getPostLogoutRedirectUri');
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }
@@ -182,8 +187,8 @@ class UserAgentApplication {
   /// will be evaluated and its result will be returned.
   String getRedirectUri() {
     try {
-      return _jsObject.getRedirectUri();
-    } on AuthErrorJs catch (ex) {
+      return _jsObject.callMethod('getRedirectUri');
+    } on dynamic catch (ex) {
       throw _convertJsAuthError(ex);
     }
   }

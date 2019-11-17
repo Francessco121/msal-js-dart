@@ -1,3 +1,8 @@
+## v1.0.1
+- Fixed `AuthRequest.extraQueryParameters` not working.
+- Removed dependency on `package:js`.
+- Deprecated `FrameworkOptions`. The 'framework' configuration for `UserAgentApplication` is an unfortunate coupling between `msal-core` and `msal-angular(js)`. Since this package only wraps `msal-core`, setting these options does nothing and should not have been included in the API to begin with. It will be removed in a future release.
+
 ## v1.0.0
 See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/MSAL.js-1.0.0-api-release for conceptual breaking changes in 1.0.
 

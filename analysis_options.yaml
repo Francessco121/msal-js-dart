@@ -57,6 +57,7 @@ linter:
     - prefer_const_constructors_in_immutables
     - prefer_constructors_over_static_methods
     - prefer_contains
+    - prefer_final_locals
     - prefer_final_fields
     - prefer_foreach
     - prefer_function_declarations_over_variables
@@ -73,7 +74,6 @@ linter:
     - type_init_formals
     - unawaited_futures
     - unnecessary_brace_in_string_interps
-    - unnecessary_lambdas
     - unnecessary_null_aware_assignments
     - unnecessary_null_in_if_null_operators
     - unnecessary_overrides

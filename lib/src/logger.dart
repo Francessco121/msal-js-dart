@@ -1,16 +1,10 @@
 part of '../msal_js.dart';
 
-typedef LoggerCallback = void Function(LogLevel level, String message, bool containsPii);
-
-/// Wraps the public logger callback with the JavaScript version.
+/// A callback for an MSAL log [message].
 /// 
-/// Two exist because dart2js doesn't support having enums in functions
-/// passed to JavaScript, so we need to convert the value for the user.
-LoggerCallbackJs _wrapLoggerCallback(LoggerCallback callback) {
-  return (int level, String message, bool containsPii) {
-    callback(_getLogLevel(level), message, containsPii);
-  };
-}
+/// - [level] - Specifies the severity of the message.
+/// - [containsPii] - Specifies whether the message contents contain Personal Identifiable Information (PII).
+typedef LoggerCallback = void Function(LogLevel level, String message, bool containsPii);
 
 LogLevel _getLogLevel(int index) {
   if (index < 0 || index > LogLevel.values.length) {
@@ -20,31 +14,39 @@ LogLevel _getLogLevel(int index) {
   return LogLevel.values[index];
 }
 
+/// The severity of a log message.
+enum LogLevel {
+  error,
+  warning,
+  info,
+  verbose
+}
+
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
-  String get correlationId => _jsObject.correlationId;
+  String get correlationId => _jsObject['correlationId'];
   /// A unique identifier that can be used to map requests and responses.
   set correlationId(String value) => 
-    _jsObject.correlationId = value;
+    _jsObject['correlationId'] = value;
 
-  LogLevel get level => _jsObject.level == null
+  LogLevel get level => _jsObject['level'] == null
     ? null
-    : LogLevel.values[_jsObject.level];
+    : LogLevel.values[_jsObject['level']];
   /// The base logging level. Messages logged with levels lower than the 
   /// specified base level will not be logged. 
   /// 
   /// Defaults to [LogLevel.info].
   set level(LogLevel value) =>
-    _jsObject.level = value.index;
+    _jsObject['level'] = value.index;
 
-  bool get piiLoggingEnabled => _jsObject.piiLoggingEnabled;
+  bool get piiLoggingEnabled => _jsObject['piiLoggingEnabled'];
   /// Whether Personal Identifiable Information (PII) logging is enabled.
   /// 
   /// Defaults to `false`.
   set piiLoggingEnabled(bool value) =>
-    _jsObject.piiLoggingEnabled = value;
+    _jsObject['piiLoggingEnabled'] = value;
 
-  final _jsObject = new LoggerOptionsJs();
+  final _jsObject = new JsObject(context['Object']);
 }
 
 /// A logger for an MSAL [UserAgentApplication].
@@ -52,7 +54,7 @@ class LoggerOptions {
 /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/Logging
 /// for more information.
 class Logger {
-  final LoggerJs _jsObject;
+  final JsObject _jsObject;
 
   /// Creates a new MSAL logger which calls the given [localCallback]
   /// with each log message.
@@ -61,18 +63,22 @@ class Logger {
   factory Logger(LoggerCallback localCallback, [LoggerOptions options]) {
     if (localCallback == null) throw ArgumentError.notNull('localCallback');
 
-    final LoggerCallbackJs jsCallback = allowInterop(_wrapLoggerCallback(localCallback));
-    
-    // Call the constructor differently to ensure 'undefined' is passed when options is null.
-    LoggerJs jsObject;
-
-    if (options == null) {
-      jsObject = LoggerJs(jsCallback);
-    } else {
-      jsObject = LoggerJs(jsCallback, options._jsObject);
+    // Wrap the callback to convert LogLevel
+    void jsCallback(int level, String message, bool containsPii) {
+      localCallback(_getLogLevel(level), message, containsPii);
     }
 
-    return Logger._fromJsObject(jsObject);
+    // Build a list of arguments
+    final arguments = <dynamic>[allowInterop(jsCallback)];
+
+    if (options != null) {
+      arguments.add(options._jsObject);
+    }
+
+    // Create the JS object
+    return Logger._fromJsObject(
+      JsObject(msalJsObject['Logger'], arguments)
+    );
   }
 
   Logger._fromJsObject(this._jsObject);

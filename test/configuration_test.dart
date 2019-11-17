@@ -19,10 +19,6 @@ void main() {
         ..cacheLocation = CacheLocation.localStorage
         ..storeAuthStateInCookie = true
       )
-      ..framework = (FrameworkOptions()
-        ..protectedResourceMap = {'test': ['test']}
-        ..unprotectedResources = ['test']
-      )
       ..system = (SystemOptions()
         ..loadFrameTimeout = 1
         ..navigateFrameWait = 1
@@ -39,8 +35,6 @@ void main() {
       expect(config.auth.validateAuthority, isFalse);
       expect(config.cache.cacheLocation, equals(CacheLocation.localStorage));
       expect(config.cache.storeAuthStateInCookie, isTrue);
-      expect(config.framework.protectedResourceMap['test'], contains('test'));
-      expect(config.framework.unprotectedResources, contains('test'));
       expect(config.system.loadFrameTimeout, equals(1));
       expect(config.system.navigateFrameWait, equals(1));
       expect(config.system.tokenRenewalOffsetSeconds, equals(1));
@@ -49,7 +43,7 @@ void main() {
     assertConfig();
 
     // Create user agent application and get config from there
-    var userAgentApp = new UserAgentApplication(config);
+    final userAgentApp = new UserAgentApplication(config);
     config = userAgentApp.getCurrentConfiguration();
 
     // Assert config is the same after retrieved from user agent app
@@ -62,5 +56,20 @@ void main() {
 
     expect(() { AuthOptions()..redirectUri = 2; }, throwsA(isA<ArgumentError>()));
     expect(() { AuthOptions()..postLogoutRedirectUri = 2; }, throwsA(isA<ArgumentError>()));
+  });
+
+  test('Redirect URI callback can be retrieved and called manually', () {
+    const String redirectUri = 'https://test.com/test';
+    const String postRedirectUri = 'https://test.com/';
+
+    String redirectUriCallback() => redirectUri;
+    String postRedirectUriCallback() => postRedirectUri;
+    
+    final options = AuthOptions()
+      ..redirectUri = expectAsync0(redirectUriCallback)
+      ..postLogoutRedirectUri = expectAsync0(postRedirectUriCallback);
+
+    expect(options.redirectUri(), equals(redirectUri));
+    expect(options.postLogoutRedirectUri(), equals(postRedirectUri));
   });
 }

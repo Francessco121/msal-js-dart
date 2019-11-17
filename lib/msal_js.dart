@@ -1,13 +1,21 @@
+/// A wrapper for the 'Microsoft Authentication Library for JavaScript (MSAL.js)'.
+/// 
+/// This library expects that msal.js has loaded and exposed the global `Msal` JavaScript object,
+/// as that is how this library interacts with MSAL. A [MissingMsalJsException] will be thrown if 
+/// this library is used before the global `Msal` object is available.
+/// 
+/// Instantiate a [UserAgentApplication] to get started.
 library msal_js;
 
 import 'dart:async';
+import 'dart:js';
+import 'dart:js_util';
 
-import 'package:js/js.dart';
+import 'src/utils/js_object_converter.dart';
+import 'src/msal.dart';
 
-import 'src/interop/interop.dart';
-
-export 'src/interop/interop.dart'
-  show LogLevel;
+export 'src/msal.dart'
+  show MissingMsalJsException;
 
 part 'src/utils/promise_utils.dart';
 part 'src/account.dart';
