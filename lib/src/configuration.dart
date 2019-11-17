@@ -222,9 +222,10 @@ class SystemOptions {
 ''')
 class FrameworkOptions {
   static const _unprotectedResourcesConverter = JsObjectListConverter<String>();
-  static const _protectedResourceConverter = JsObjectMapConverter<List<String>>(
-    JsObjectListConverter<String>()
-  );
+  static const _protectedResourceConverter = JsObjectChainedConverter([
+    JsObjectListConverter<String>(),
+    JsObjectMapConverter<List<String>>()
+  ], recursive: true);
 
   List<String> get unprotectedResources => 
     _unprotectedResourcesConverter.decode(_jsObject['unprotectedResources']);

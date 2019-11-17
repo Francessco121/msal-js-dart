@@ -11,28 +11,89 @@ abstract class JsObjectConverter {
 
   const JsObjectConverter();
 
+  bool canEncode(dynamic value);
+  bool canDecode(dynamic value);
+
   dynamic encode(dynamic value);
-  dynamic decode(dynamic value);
+  dynamic decode(dynamic value, [JsObjectConverter recursiveConverter]);
 }
 
 class JsObjectIdentityConverter extends JsObjectConverter {
   const JsObjectIdentityConverter();
 
   @override
-  dynamic decode(dynamic value) => value;
+  bool canDecode(value) => true;
+
+  @override
+  bool canEncode(value) => true;
+
+  @override
+  dynamic decode(dynamic value, [JsObjectConverter recursiveConverter]) => value;
 
   @override
   dynamic encode(dynamic value) => value;
 }
 
-class JsObjectMapConverter<V> extends JsObjectConverter {
-  final JsObjectConverter _nested;
+class JsObjectChainedConverter extends JsObjectConverter {
+  /// Whether decoded values should also use this converter where applicable.
+  /// 
+  /// If false (default), decoded values which take converters will use the identity converter.
+  final bool recursive;
+  final List<JsObjectConverter> converters;
 
-  const JsObjectMapConverter([this._nested]);
+  const JsObjectChainedConverter(this.converters, {this.recursive = false});
 
   @override
-  dynamic decode(dynamic value) => 
-    value == null ? null : JsObjectAsMap<V>.created(value, _nested);
+  bool canDecode(value) => 
+    converters.any((c) => c.canDecode(value));
+
+  @override
+  bool canEncode(value) => 
+    converters.any((c) => c.canEncode(value));
+
+  @override
+  dynamic decode(dynamic value, [JsObjectConverter recursiveConverter]) {
+    if (recursive) {
+      if (recursiveConverter == null) {
+        recursiveConverter = this;
+      } else {
+        recursiveConverter = JsObjectChainedConverter([recursiveConverter, this]);
+      }
+    }
+
+    for (final converter in converters) {
+      if (converter.canDecode(value)) {
+        return converter.decode(value, recursiveConverter);
+      }
+    }
+
+    return value;
+  }
+
+  @override
+  dynamic encode(dynamic value) {
+    for (final converter in converters) {
+      if (converter.canEncode(value)) {
+        return converter.encode(value);
+      }
+    }
+
+    return value;
+  }
+}
+
+class JsObjectMapConverter<V> extends JsObjectConverter {
+  const JsObjectMapConverter();
+
+  @override
+  bool canDecode(value) => value == null || value is JsObject;
+
+  @override
+  bool canEncode(value) => value == null || value is Map<String, V>;
+
+  @override
+  dynamic decode(dynamic value, [JsObjectConverter recursiveConverter]) => 
+    value == null ? null : JsObjectAsMap<V>.created(value, recursiveConverter);
 
   @override
   dynamic encode(dynamic value) {
@@ -47,13 +108,17 @@ class JsObjectMapConverter<V> extends JsObjectConverter {
 }
 
 class JsObjectListConverter<E> extends JsObjectConverter {
-  final JsObjectConverter _nested;
-
-  const JsObjectListConverter([this._nested]);
+  const JsObjectListConverter();
 
   @override
-  dynamic decode(dynamic value) => 
-    value == null ? null : JsObjectAsList<E>.created(value, _nested);
+  bool canDecode(value) => value == null || value is JsArray;
+
+  @override
+  bool canEncode(value) => value == null || value is List<E>;
+
+  @override
+  dynamic decode(dynamic value, [JsObjectConverter recursiveConverter]) => 
+    value == null ? null : JsObjectAsList<E>.created(value, recursiveConverter);
 
   @override
   dynamic encode(dynamic value) {

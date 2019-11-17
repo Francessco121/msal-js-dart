@@ -1,3 +1,8 @@
+## v1.1.0
+- Support for msal.js v1.1.x
+- Added `Account.idTokenClaims`
+- Added `AuthRequest.forceRefresh`
+
 ## v1.0.1
 - Fixed `AuthRequest.extraQueryParameters` not working.
 - Removed dependency on `package:js`.

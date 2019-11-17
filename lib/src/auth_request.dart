@@ -89,5 +89,10 @@ class AuthRequest {
   /// for more information.
   set loginHint(String value) => _jsObject['loginHint'] = value;
 
+  bool get forceRefresh => _jsObject['forceRefresh'];
+  /// Sets whether the cache should be skipped and a token request to the
+  /// authorization server should be made.
+  set forceRefresh(bool value) => _jsObject['forceRefresh'] = value;
+
   final _jsObject = new JsObject(context['Object']);
 }

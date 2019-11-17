@@ -2,6 +2,12 @@ part of '../msal_js.dart';
 
 /// An authenticated user account.
 class Account {
+  static const _claimsConverter = JsObjectChainedConverter([
+    JsObjectListConverter(),
+    JsObjectMapConverter(),
+    JsObjectConverter.identity
+  ], recursive: true);
+
   /// The ID of this user's account.
   String get accountIdentifier => _jsObject['accountIdentifier'];
 
@@ -16,7 +22,14 @@ class Account {
   String get name => _jsObject['name'];
 
   /// The ID token associated with this account.
+  /// 
+  /// Note: It is recommended to use [idTokenClaims] instead if you
+  /// just need the claims.
   dynamic get idToken => _jsObject['idToken'];
+
+  /// A map of all claims in the [idToken].
+  Map<String, dynamic> get idTokenClaims =>
+    _claimsConverter.decode(_jsObject['idTokenClaims']);
 
   /// The account's session identifier (`idToken.sid`).
   String get sid => _jsObject['sid'];
