@@ -94,5 +94,12 @@ class AuthRequest {
   /// authorization server should be made.
   set forceRefresh(bool value) => _jsObject['forceRefresh'] = value;
 
+  String get redirectUri => _jsObject['redirectUri'];
+  /// Set to override the redirect URI used when retrieving a token.
+  /// 
+  /// This can be used for example to redirect silent token requests to
+  /// a blank page instead of a page which normally loads the entire application.
+  set redirectUri(String value) => _jsObject['redirectUri'] = value;
+
   final _jsObject = JsObject(context['Object']);
 }

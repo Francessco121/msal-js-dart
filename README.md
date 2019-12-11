@@ -85,6 +85,7 @@ If the package version you are looking for is not listed, use the row correspond
 
 | Version     | msal.js |
 | ----------- | ------- |
+| **1.2.0**   | 1.2.0   |
 | **1.1.0**   | 1.1.0   |
 | **1.0.0**   | 1.0.0   |
 | **0.3.2**   | 0.2.4   |

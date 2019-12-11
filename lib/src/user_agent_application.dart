@@ -67,11 +67,15 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenPopup(AuthRequest request) async {
-    final JsObject response = await _convertMsalPromise(
-      _jsObject.callMethod('acquireTokenPopup', [request._jsObject])
-    );
+    try {
+      final JsObject response = await _convertMsalPromise(
+        _jsObject.callMethod('acquireTokenPopup', [request._jsObject])
+      );
 
-    return AuthResponse._fromJsObject(response);
+      return AuthResponse._fromJsObject(response);
+    } on dynamic catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Acquires an access token by redirecting the user to the authorization endpoint.
@@ -92,11 +96,15 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenSilent(AuthRequest request) async {
-    final JsObject response = await _convertMsalPromise(
-      _jsObject.callMethod('acquireTokenSilent', [request._jsObject])
-    );
+    try {
+      final JsObject response = await _convertMsalPromise(
+        _jsObject.callMethod('acquireTokenSilent', [request._jsObject])
+      );
 
-    return AuthResponse._fromJsObject(response);
+      return AuthResponse._fromJsObject(response);
+    } on dynamic catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Gets all currently cached unique accounts based on `homeAccountIdentifier`.
@@ -126,11 +134,15 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> loginPopup([AuthRequest request]) async {
-    final JsObject response = await _convertMsalPromise(
-      _jsObject.callMethod('loginPopup', [request?._jsObject])
-    );
+    try {
+      final JsObject response = await _convertMsalPromise(
+        _jsObject.callMethod('loginPopup', [request?._jsObject])
+      );
 
-    return AuthResponse._fromJsObject(response);
+      return AuthResponse._fromJsObject(response);
+    } on dynamic catch (ex) {
+      throw _convertJsAuthError(ex);
+    }
   }
 
   /// Initiates the login process by redirecting the user to the authorization endpoint.

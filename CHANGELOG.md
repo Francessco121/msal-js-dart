@@ -1,3 +1,7 @@
+## v1.2.0
+- Support for msal.js v1.2.x
+- Added `AuthRequest.redirectUri`
+
 ## v1.1.0
 - Support for msal.js v1.1.x
 - Added `Account.idTokenClaims`
