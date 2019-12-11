@@ -3,9 +3,6 @@ description: "A Dart wrapper for the 'Microsoft Authentication Library for JavaS
 version: 1.2.0
 homepage: https://github.com/milestonetg/msal-js-dart
 
-authors:
-- Ethan Lafrenais <ethan.lafrenais@milestonetg.com>
-
 environment:
   sdk: ">=2.0.0 <3.0.0"
 
