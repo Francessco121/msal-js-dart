@@ -1,3 +1,6 @@
+## v1.2.1
+- Fix `acquireTokenPopup`, `acquireTokenSilent`, and `loginPopup` failing to correctly convert JS promise errors to exceptions.
+
 ## v1.2.0
 - Support for msal.js v1.2.x
 - Added `AuthRequest.redirectUri`
