@@ -13,7 +13,7 @@ AuthException _convertJsAuthError(dynamic jsError) {
   }
 
   // Determine type
-  final String errorName = jsAuthError.name;
+  final errorName = jsAuthError.name;
 
   if (errorName == 'ClientConfigurationError') {
     return ClientConfigurationException._fromJsObject(jsAuthError);

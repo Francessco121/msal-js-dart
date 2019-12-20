@@ -69,7 +69,7 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenPopup(AuthRequest request) async {
-    final JsObject response = await _convertMsalPromise(
+    final response = await _convertMsalPromise<JsObject>(
       _callJsMethod('acquireTokenPopup', [request._jsObject])
     );
 
@@ -90,7 +90,7 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> acquireTokenSilent(AuthRequest request) async {
-    final JsObject response = await _convertMsalPromise(
+    final response = await _convertMsalPromise<JsObject>(
       _callJsMethod('acquireTokenSilent', [request._jsObject])
     );
 
@@ -115,7 +115,7 @@ class UserAgentApplication {
   /// 
   /// Will throw an [AuthException] on failure.
   Future<AuthResponse> loginPopup([AuthRequest request]) async {
-    final JsObject response = await _convertMsalPromise(
+    final response = await _convertMsalPromise<JsObject>(
       _callJsMethod('loginPopup', [request._jsObject])
     );
 

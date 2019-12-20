@@ -1,3 +1,7 @@
+// ignore_for_file: prefer_spread_collections
+// The `prefer_spread_collections` lint must be ignored because it requires Dart 2.3,
+// but this package has a minimum SDK version of 2.0.
+
 @TestOn('browser')
 
 import 'package:msal_js/msal_js.dart';
@@ -42,9 +46,9 @@ void main() {
     expect(request.extraQueryParameters, containsPair('c', 'd'));
     
     // Check normal reference behavior
-    final List<String> scopes = request.scopes;
-    final List<String> extraScopesToConsent = request.extraScopesToConsent;
-    final Map<String, String> extraQueryParameters = request.extraQueryParameters;
+    final scopes = request.scopes;
+    final extraScopesToConsent = request.extraScopesToConsent;
+    final extraQueryParameters = request.extraQueryParameters;
 
     request.scopes = ['c']..addAll(scopes);
     request.extraScopesToConsent = ['c']..addAll(extraScopesToConsent);

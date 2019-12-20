@@ -59,8 +59,8 @@ void main() {
   });
 
   test('Redirect URI callback can be retrieved and called manually', () {
-    const String redirectUri = 'https://test.com/test';
-    const String postRedirectUri = 'https://test.com/';
+    const redirectUri = 'https://test.com/test';
+    const postRedirectUri = 'https://test.com/';
 
     String redirectUriCallback() => redirectUri;
     String postRedirectUriCallback() => postRedirectUri;
