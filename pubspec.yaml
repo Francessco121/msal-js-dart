@@ -2,6 +2,8 @@ name: msal_js
 description: "A Dart wrapper for the 'Microsoft Authentication Library for JavaScript (MSAL.js)'."
 version: 1.2.2
 homepage: https://github.com/milestonetg/msal-js-dart
+repository: https://github.com/milestonetg/msal-js-dart
+issue_tracker: https://github.com/milestonetg/msal-js-dart/issues
 
 environment:
   sdk: ">=2.0.0 <3.0.0"

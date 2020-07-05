@@ -1,3 +1,5 @@
+[![Pub Version](https://img.shields.io/pub/v/msal_js)](https://pub.dev/packages/msal_js)
+
 # MSAL.js for Dart
 A Dart wrapper for the [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js). 
 

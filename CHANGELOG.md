@@ -1,6 +1,7 @@
 ## v1.2.2
 - Replace `dart:js` usage with `package:js`. This gets around a `dart2js` issue when compiling a Flutter app for the web and also "modernizes" the codebase a little. 
 - Deprecated `MissingMsalJsException`. This is no longer thrown even if msal.js is missing.
+- Added Flutter Web app example.
 
 ## v1.2.1
 - Fix `acquireTokenPopup`, `acquireTokenSilent`, and `loginPopup` failing to correctly convert JS promise errors to exceptions.

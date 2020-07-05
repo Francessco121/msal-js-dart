@@ -1,3 +1,7 @@
+> **Looking for a Flutter Web example?**
+> 
+> See our [example for Flutter Web apps here](./flutter_web_example).
+
 > **NOTE: PLEASE READ FIRST**
 >
 > This example is based on https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-core/README.md#usage.
