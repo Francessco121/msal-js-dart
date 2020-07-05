@@ -1,66 +1,19 @@
 part of '../msal_js.dart';
 
-AuthException _convertJsAuthError(dynamic jsError) {
+AuthException _convertJsAuthError(interop.AuthError jsError) {
   if (jsError == null) return null;
 
-  // Convert [jsError] to common type
-  _JsAuthError jsAuthError;
-
-  if (jsError is JsObject) {
-    jsAuthError = _JsAuthError.fromJsObject(jsError);
-  } else {
-    jsAuthError = _JsAuthError.fromRawJsObject(jsError);
-  }
-
   // Determine type
-  final errorName = jsAuthError.name;
-
-  if (errorName == 'ClientConfigurationError') {
-    return ClientConfigurationException._fromJsObject(jsAuthError);
-  } else if (errorName == 'InteractionRequiredAuthError') {
-    return InteractionRequiredAuthException._fromJsObject(jsAuthError);
-  } else if (errorName == 'ServerError') {
-    return ServerException._fromJsObject(jsAuthError);
-  } else if (errorName == 'ClientAuthError') {
-    return ClientAuthException._fromJsObject(jsAuthError);
+  if (jsError is interop.ClientConfigurationError) {
+    return ClientConfigurationException._fromJsObject(jsError);
+  } else if (jsError is interop.InteractionRequiredAuthError) {
+    return InteractionRequiredAuthException._fromJsObject(jsError);
+  } else if (jsError is interop.ServerError) {
+    return ServerException._fromJsObject(jsError);
+  } else if (jsError is interop.ClientAuthError) {
+    return ClientAuthException._fromJsObject(jsError);
   } else {
-    return AuthException._fromJsObject(jsAuthError);
-  }
-}
-
-class _JsAuthError {
-  final String name;
-  final String errorCode;
-  final String errorMessage;
-  final String message;
-  final String stack;
-
-  _JsAuthError._({
-    this.name,
-    this.errorCode,
-    this.errorMessage,
-    this.message,
-    this.stack
-  });
-
-  factory _JsAuthError.fromJsObject(JsObject jsObject) {
-    return _JsAuthError._(
-      name: jsObject['name'],
-      errorCode: jsObject['errorCode'],
-      errorMessage: jsObject['errorMessage'],
-      message: jsObject['message'],
-      stack: jsObject['stack']
-    );
-  }
-  
-  factory _JsAuthError.fromRawJsObject(dynamic jsObject) {
-    return _JsAuthError._(
-      name: getProperty(jsObject, 'name'),
-      errorCode: getProperty(jsObject, 'errorCode'),
-      errorMessage: getProperty(jsObject, 'errorMessage'),
-      message: getProperty(jsObject, 'message'),
-      stack: getProperty(jsObject, 'stack')
-    );
+    return AuthException._fromJsObject(jsError);
   }
 }
 
@@ -78,7 +31,7 @@ class AuthException implements Exception {
   /// The JavaScript stack trace for the error.
   String get stack => _jsObject.stack;
 
-  final _JsAuthError _jsObject;
+  final interop.AuthError _jsObject;
 
   AuthException._fromJsObject(this._jsObject);
 
@@ -88,7 +41,7 @@ class AuthException implements Exception {
 
 /// Thrown by MSAL when there is an error in the client code running on the browser.
 class ClientAuthException extends AuthException {
-  ClientAuthException._fromJsObject(_JsAuthError jsObject)
+  ClientAuthException._fromJsObject(interop.ClientAuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -97,7 +50,7 @@ class ClientAuthException extends AuthException {
 
 /// Thrown by MSAL when there is an error in the configuration of a library object.
 class ClientConfigurationException extends ClientAuthException {
-  ClientConfigurationException._fromJsObject(_JsAuthError jsObject)
+  ClientConfigurationException._fromJsObject(interop.ClientConfigurationError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -106,7 +59,7 @@ class ClientConfigurationException extends ClientAuthException {
 
 /// Thrown by MSAL when the user is required to perform an interactive token request.
 class InteractionRequiredAuthException extends ServerException {
-  InteractionRequiredAuthException._fromJsObject(_JsAuthError jsObject)
+  InteractionRequiredAuthException._fromJsObject(interop.InteractionRequiredAuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -116,7 +69,7 @@ class InteractionRequiredAuthException extends ServerException {
 /// Thrown by MSAL when there is an error with the server code,
 /// for example, unavailability.
 class ServerException extends AuthException {
-  ServerException._fromJsObject(_JsAuthError jsObject)
+  ServerException._fromJsObject(interop.ServerError jsObject)
     : super._fromJsObject(jsObject);
 
   @override

@@ -24,29 +24,29 @@ enum LogLevel {
 
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
-  String get correlationId => _jsObject['correlationId'];
+  String get correlationId => _jsObject.correlationId;
   /// A unique identifier that can be used to map requests and responses.
   set correlationId(String value) => 
-    _jsObject['correlationId'] = value;
+    _jsObject.correlationId = value;
 
-  LogLevel get level => _jsObject['level'] == null
+  LogLevel get level => _jsObject.level == null
     ? null
-    : LogLevel.values[_jsObject['level']];
+    : LogLevel.values[_jsObject.level];
   /// The base logging level. Messages logged with levels lower than the 
   /// specified base level will not be logged. 
   /// 
   /// Defaults to [LogLevel.info].
   set level(LogLevel value) =>
-    _jsObject['level'] = value.index;
+    _jsObject.level = value.index;
 
-  bool get piiLoggingEnabled => _jsObject['piiLoggingEnabled'];
+  bool get piiLoggingEnabled => _jsObject.piiLoggingEnabled;
   /// Whether Personal Identifiable Information (PII) logging is enabled.
   /// 
   /// Defaults to `false`.
   set piiLoggingEnabled(bool value) =>
-    _jsObject['piiLoggingEnabled'] = value;
+    _jsObject.piiLoggingEnabled = value;
 
-  final _jsObject = JsObject(context['Object']);
+  final _jsObject = interop.LoggerOptions();
 }
 
 /// A logger for an MSAL [UserAgentApplication].
@@ -54,7 +54,7 @@ class LoggerOptions {
 /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/Logging
 /// for more information.
 class Logger {
-  final JsObject _jsObject;
+  final interop.Logger _jsObject;
 
   /// Creates a new MSAL logger which calls the given [localCallback]
   /// with each log message.
@@ -68,16 +68,9 @@ class Logger {
       localCallback(_getLogLevel(level), message, containsPii);
     }
 
-    // Build a list of arguments
-    final arguments = <dynamic>[allowInterop(jsCallback)];
-
-    if (options != null) {
-      arguments.add(options._jsObject);
-    }
-
     // Create the JS object
     return Logger._fromJsObject(
-      JsObject(msalJsObject['Logger'], arguments)
+      interop.Logger(allowInterop(jsCallback), options?._jsObject)
     );
   }
 

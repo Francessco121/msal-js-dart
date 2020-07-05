@@ -1,11 +1,12 @@
 @TestOn('browser')
 
-import 'package:msal_js/src/utils/js_object_as_list.dart';
+import 'package:js/js_util.dart';
+import 'package:msal_js/src/js_proxies/js_proxies.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('JsObjectAsList behaves as a List', () {
-    final List<String> list = JsObjectAsList<String>();
+  test('JsArrayListProxy behaves as a List', () {
+    final List<String> list = JsArrayListProxy<String>(jsify([]));
     
     // Check length
     expect(list.length, equals(0));
