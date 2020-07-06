@@ -28,7 +28,6 @@ void main() {
     try {
       function();
     } on AuthError catch (ex) {
-      print(ex.name);
       throw convertJsAuthError(ex);
     }
   }
