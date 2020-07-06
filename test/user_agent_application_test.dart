@@ -41,6 +41,15 @@ void main() {
     );
   });
 
+  test('acquireTokenSilent converts JS errors', () {
+    final userAgentApp = UserAgentApplication(Configuration());
+    
+    expect(
+      () => userAgentApp.acquireTokenSilent(AuthRequest()..scopes = ['user.read']), 
+      throwsA(isA<ClientAuthException>())
+    );
+  });
+
   test('getLoginInProgress works', () {
     final userAgentApp = UserAgentApplication(Configuration());
 
