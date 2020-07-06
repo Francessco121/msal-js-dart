@@ -1,16 +1,16 @@
-part of '../msal_js.dart';
+import 'interop/interop.dart' as interop;
 
-AuthException _convertJsAuthError(interop.AuthError jsError) {
+AuthException convertJsAuthError(interop.AuthError jsError) {
   if (jsError == null) return null;
 
   // Determine type
-  if (jsError is interop.ClientConfigurationError) {
+  if (jsError.name == 'ClientConfigurationError') {
     return ClientConfigurationException._fromJsObject(jsError);
-  } else if (jsError is interop.InteractionRequiredAuthError) {
+  } else if (jsError.name == 'InteractionRequiredAuthError') {
     return InteractionRequiredAuthException._fromJsObject(jsError);
-  } else if (jsError is interop.ServerError) {
+  } else if (jsError.name == 'ServerError') {
     return ServerException._fromJsObject(jsError);
-  } else if (jsError is interop.ClientAuthError) {
+  } else if (jsError.name == 'ClientAuthError') {
     return ClientAuthException._fromJsObject(jsError);
   } else {
     return AuthException._fromJsObject(jsError);
@@ -41,7 +41,7 @@ class AuthException implements Exception {
 
 /// Thrown by MSAL when there is an error in the client code running on the browser.
 class ClientAuthException extends AuthException {
-  ClientAuthException._fromJsObject(interop.ClientAuthError jsObject)
+  ClientAuthException._fromJsObject(interop.AuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -50,7 +50,7 @@ class ClientAuthException extends AuthException {
 
 /// Thrown by MSAL when there is an error in the configuration of a library object.
 class ClientConfigurationException extends ClientAuthException {
-  ClientConfigurationException._fromJsObject(interop.ClientConfigurationError jsObject)
+  ClientConfigurationException._fromJsObject(interop.AuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -59,7 +59,7 @@ class ClientConfigurationException extends ClientAuthException {
 
 /// Thrown by MSAL when the user is required to perform an interactive token request.
 class InteractionRequiredAuthException extends ServerException {
-  InteractionRequiredAuthException._fromJsObject(interop.InteractionRequiredAuthError jsObject)
+  InteractionRequiredAuthException._fromJsObject(interop.AuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override
@@ -69,7 +69,7 @@ class InteractionRequiredAuthException extends ServerException {
 /// Thrown by MSAL when there is an error with the server code,
 /// for example, unavailability.
 class ServerException extends AuthException {
-  ServerException._fromJsObject(interop.ServerError jsObject)
+  ServerException._fromJsObject(interop.AuthError jsObject)
     : super._fromJsObject(jsObject);
 
   @override

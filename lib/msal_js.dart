@@ -14,10 +14,13 @@ import 'package:js/js_util.dart';
 
 import 'src/interop/interop.dart' as interop;
 import 'src/js_proxies/js_proxies.dart';
+import 'src/exceptions.dart';
 
 export 'src/msal.dart'
   // ignore: deprecated_member_use_from_same_package
   show MissingMsalJsException;
+export 'src/exceptions.dart'
+  hide convertJsAuthError;
 
 part 'src/utils/error_utils.dart';
 part 'src/account.dart';
@@ -25,6 +28,5 @@ part 'src/auth_request.dart';
 part 'src/auth_response.dart';
 part 'src/cache_location.dart';
 part 'src/configuration.dart';
-part 'src/exceptions.dart';
 part 'src/logger.dart';
 part 'src/user_agent_application.dart';

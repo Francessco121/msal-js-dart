@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Exceptions Test</title>
+    <link rel="x-dart-test" href="exceptions_test.dart">
+    <script src="https://unpkg.com/msal@1.2.2/dist/msal.min.js"></script>
+    <script>
+      window.throwClientConfigurationError = function() {
+        throw new Msal.ClientConfigurationError('test');
+      };
+
+      window.throwInteractionRequiredAuthError = function() {
+        throw new Msal.InteractionRequiredAuthError('test');
+      };
+
+      window.throwServerError = function() {
+        throw new Msal.ServerError('test');
+      };
+
+      window.throwClientAuthError = function() {
+        throw new Msal.ClientAuthError('test');
+      };
+
+      window.throwAuthError = function() {
+        throw new Msal.AuthError('test');
+      };
+    </script>
+    <script src="packages/test/dart.js"></script>
+  </head>
+  <body>
+  </body>
+</html>

@@ -42,7 +42,7 @@ class UserAgentApplication {
         interop.UserAgentApplication(configuration._jsObject)
       );
     } on interop.AuthError catch (ex) {
-      throw _convertJsAuthError(ex);
+      throw convertJsAuthError(ex);
     }
   }
 
@@ -55,7 +55,7 @@ class UserAgentApplication {
     if (callback == null) throw ArgumentError.notNull('callback');
     
     void jsCallback(interop.AuthError error, [interop.AuthResponse response]) {
-      callback(_convertJsAuthError(error), AuthResponse._fromJsObject(response));
+      callback(convertJsAuthError(error), AuthResponse._fromJsObject(response));
     }
 
     _callJsMethod(() => _jsObject.handleRedirectCallback(allowInterop(jsCallback)));

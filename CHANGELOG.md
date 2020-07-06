@@ -1,3 +1,6 @@
+## v1.2.3
+- Fix `InteractionRequiredAuthError`s and `ServerError`s not being converted correctly to their exception counterparts.
+
 ## v1.2.2
 - Replace `dart:js` usage with `package:js`. This gets around a `dart2js` issue when compiling a Flutter app for the web and also "modernizes" the codebase a little. 
 - Deprecated `MissingMsalJsException`. This is no longer thrown even if msal.js is missing.
