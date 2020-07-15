@@ -16,14 +16,14 @@ class Account {
   String get name => _jsObject.name;
 
   /// The ID token associated with this account.
-  /// 
+  ///
   /// Note: It is recommended to use [idTokenClaims] instead if you
   /// just need the claims.
   dynamic get idToken => _jsObject.idToken;
 
   /// A map of all claims in the [idToken].
   Map<String, dynamic> get idTokenClaims =>
-    jsDecodeMap<dynamic>(_jsObject.idTokenClaims);
+      jsDecodeMap<dynamic>(_jsObject.idTokenClaims);
 
   /// The account's session identifier (`idToken.sid`).
   String get sid => _jsObject.sid;

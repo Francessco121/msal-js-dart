@@ -21,13 +21,15 @@ AuthException convertJsAuthError(interop.AuthError jsError) {
 class AuthException implements Exception {
   /// The code of the error that occurred.
   String get errorCode => _jsObject.errorCode;
+
   /// A message describing the error.
   String get errorMessage => _jsObject.errorMessage;
 
   // JS Error fields, AuthError extends Error
-  
+
   /// Same as [errorMessage].
   String get message => _jsObject.message;
+
   /// The JavaScript stack trace for the error.
   String get stack => _jsObject.stack;
 
@@ -42,7 +44,7 @@ class AuthException implements Exception {
 /// Thrown by MSAL when there is an error in the client code running on the browser.
 class ClientAuthException extends AuthException {
   ClientAuthException._fromJsObject(interop.AuthError jsObject)
-    : super._fromJsObject(jsObject);
+      : super._fromJsObject(jsObject);
 
   @override
   String toString() => 'ClientAuthException: $errorCode:$message';
@@ -51,7 +53,7 @@ class ClientAuthException extends AuthException {
 /// Thrown by MSAL when there is an error in the configuration of a library object.
 class ClientConfigurationException extends ClientAuthException {
   ClientConfigurationException._fromJsObject(interop.AuthError jsObject)
-    : super._fromJsObject(jsObject);
+      : super._fromJsObject(jsObject);
 
   @override
   String toString() => 'ClientConfigurationException: $errorCode:$message';
@@ -60,7 +62,7 @@ class ClientConfigurationException extends ClientAuthException {
 /// Thrown by MSAL when the user is required to perform an interactive token request.
 class InteractionRequiredAuthException extends ServerException {
   InteractionRequiredAuthException._fromJsObject(interop.AuthError jsObject)
-    : super._fromJsObject(jsObject);
+      : super._fromJsObject(jsObject);
 
   @override
   String toString() => 'InteractionRequiredAuthException: $errorCode:$message';
@@ -70,7 +72,7 @@ class InteractionRequiredAuthException extends ServerException {
 /// for example, unavailability.
 class ServerException extends AuthException {
   ServerException._fromJsObject(interop.AuthError jsObject)
-    : super._fromJsObject(jsObject);
+      : super._fromJsObject(jsObject);
 
   @override
   String toString() => 'ServerException: $errorCode:$message';

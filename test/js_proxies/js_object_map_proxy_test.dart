@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 void main() {
   test('JsObjectMapProxy behaves as a Map', () {
     final Map<String, String> map = JsObjectMapProxy<String>(newObject());
-    
+
     // Check indexers
     map['a'] = 'b';
     expect(map['a'], equals('b'));
@@ -28,12 +28,10 @@ void main() {
     expect(map.values, equals(['b', 'd']));
 
     // Check entries
-    expect(map.entries, predicate(
-      (e) => e.any((kv) => kv.key == 'a' && kv.value == 'b')
-    ));
-    expect(map.entries, predicate(
-      (e) => e.any((kv) => kv.key == 'c' && kv.value == 'd')
-    ));
+    expect(map.entries,
+        predicate((e) => e.any((kv) => kv.key == 'a' && kv.value == 'b')));
+    expect(map.entries,
+        predicate((e) => e.any((kv) => kv.key == 'c' && kv.value == 'd')));
 
     // Check remove
     expect(map.remove('a'), equals('b'));

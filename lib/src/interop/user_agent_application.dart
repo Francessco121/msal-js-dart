@@ -1,6 +1,7 @@
 part of 'interop.dart';
 
-typedef AuthResponseCallback = void Function(AuthError error, AuthResponse response);
+typedef AuthResponseCallback = void Function(
+    AuthError error, AuthResponse response);
 
 @JS('UserAgentApplication')
 class UserAgentApplication {

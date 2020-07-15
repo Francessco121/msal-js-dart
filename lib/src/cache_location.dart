@@ -1,10 +1,7 @@
 part of '../msal_js.dart';
 
 /// A browser cache location.
-enum CacheLocation {
-  localStorage,
-  sessionStorage
-}
+enum CacheLocation { localStorage, sessionStorage }
 
 CacheLocation _stringToCacheLocation(String cacheLocation) {
   if (cacheLocation == 'localStorage') {

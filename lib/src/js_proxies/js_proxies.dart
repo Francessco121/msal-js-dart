@@ -14,7 +14,8 @@ List<E> jsDecodeList<E>(dynamic value) {
   if (value == null) {
     return null;
   } else {
-    assert(value is interop.Array || (value is List && value is! JsArrayListProxy));
+    assert(value is interop.Array ||
+        (value is List && value is! JsArrayListProxy));
 
     return JsArrayListProxy<E>(value);
   }
@@ -32,8 +33,8 @@ Map<String, V> jsDecodeMap<V>(dynamic value) {
 }
 
 /// Encodes the given [value] into a JS friendly value.
-/// 
-/// Accepts standard Dart primitives, [JsArrayListProxy], [JsObjectMapProxy], 
+///
+/// Accepts standard Dart primitives, [JsArrayListProxy], [JsObjectMapProxy],
 /// [Map], and [Iterable] values. Other values will be returned unchanged.
 dynamic jsEncode(dynamic value) {
   if (value != null) {
@@ -48,16 +49,17 @@ dynamic jsEncode(dynamic value) {
       value = jsify(value);
     }
   }
-  
+
   return value;
 }
 
 /// Decodes the given [value] into a native Dart type.
-/// 
+///
 /// Accepts JS `Array`s and JS `Object`s. Other values will be returned unchanged.
 dynamic jsDecode(dynamic value) {
   if (value != null) {
-    if (value is interop.Array || (value is List && value is! JsArrayListProxy)) {
+    if (value is interop.Array ||
+        (value is List && value is! JsArrayListProxy)) {
       // Proxy JS Array
       value = JsArrayListProxy(value);
     } else if (value is interop.Object) {

@@ -1,8 +1,8 @@
 part of 'js_proxies.dart';
 
 /// Provides a Dart `Map` interface for a proxied JavaScript Object.
-/// 
-/// Will automatically convert `List`s and `Map`s to JS Arrays and JS Objects 
+///
+/// Will automatically convert `List`s and `Map`s to JS Arrays and JS Objects
 /// respectively and vice versa without copying the underlying JS value (e.g.
 /// modifying the "proxied" JS Array/Object will be reflected in JS and vice versa).
 class JsObjectMapProxy<V> with MapMixin<String, V> {
@@ -14,12 +14,11 @@ class JsObjectMapProxy<V> with MapMixin<String, V> {
   Iterable<String> get keys => interop.Object.keys(_jsObject).cast<String>();
 
   @override
-  V operator [](Object key) =>
-    jsDecode(getProperty(_jsObject, key));
+  V operator [](Object key) => jsDecode(getProperty(_jsObject, key));
 
   @override
   void operator []=(String key, V value) =>
-    setProperty(_jsObject, key, jsEncode(value));
+      setProperty(_jsObject, key, jsEncode(value));
 
   @override
   void clear() {

@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 void main() {
   test('JsArrayListProxy behaves as a List', () {
     final List<String> list = JsArrayListProxy<String>(jsify([]));
-    
+
     // Check length
     expect(list.length, equals(0));
     list.length = 1;

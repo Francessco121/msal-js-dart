@@ -9,7 +9,7 @@ class AuthResponse {
   String get tenantId => _jsObject.tenantId;
 
   /// The type of token that was requested.
-  /// 
+  ///
   /// Either `id_token` or `access_token`.
   String get tokenType => _jsObject.tokenType;
 
@@ -29,7 +29,7 @@ class AuthResponse {
   Account get account => Account._fromJsObject(_jsObject.account);
 
   /// The OAuth 2.0 state that was specified in the auth request.
-  /// 
+  ///
   /// See [AuthRequest.state] for more information.
   String get accountState => _jsObject.accountState;
 

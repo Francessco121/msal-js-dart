@@ -44,7 +44,7 @@ void main() {
     expect(request.scopes, contains('b'));
     expect(request.extraScopesToConsent, contains('b'));
     expect(request.extraQueryParameters, containsPair('c', 'd'));
-    
+
     // Check normal reference behavior
     final scopes = request.scopes;
     final extraScopesToConsent = request.extraScopesToConsent;

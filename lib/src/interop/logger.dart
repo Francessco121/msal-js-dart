@@ -1,6 +1,7 @@
 part of 'interop.dart';
 
-typedef LoggerCallback = void Function(int level, String message, bool containsPii);
+typedef LoggerCallback = void Function(
+    int level, String message, bool containsPii);
 
 @JS()
 @anonymous
