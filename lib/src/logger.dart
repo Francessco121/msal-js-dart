@@ -64,8 +64,13 @@ class Logger {
     }
 
     // Create the JS object
-    return Logger._fromJsObject(
-        interop.Logger(allowInterop(jsCallback), options?._jsObject));
+    if (options == null) {
+      return Logger._fromJsObject(
+          interop.Logger.defaultOptions(allowInterop(jsCallback)));
+    } else {
+      return Logger._fromJsObject(
+          interop.Logger(allowInterop(jsCallback), options?._jsObject));
+    }
   }
 
   Logger._fromJsObject(this._jsObject);

@@ -18,5 +18,6 @@ class LoggerOptions {
 
 @JS('Logger')
 class Logger {
-  external Logger(LoggerCallback localCallback, [LoggerOptions options]);
+  external Logger(LoggerCallback localCallback, LoggerOptions options);
+  external Logger.defaultOptions(LoggerCallback localCallback);
 }

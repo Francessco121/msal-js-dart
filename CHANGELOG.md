@@ -1,3 +1,6 @@
+## v1.3.0
+- Fix exception when creating a `Logger` without any options.
+
 ## v1.2.3
 - Fix `InteractionRequiredAuthError`s and `ServerError`s not being converted correctly to their exception counterparts.
 
