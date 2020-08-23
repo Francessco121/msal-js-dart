@@ -64,4 +64,11 @@ void main() {
 
     expect(userAgentApp.getPostLogoutRedirectUri(), equals('test'));
   });
+
+  test('setLogger works', () {
+    void _loggerCallback(LogLevel level, String message, bool containsPii) {}
+
+    final userAgentApp = UserAgentApplication(Configuration());
+    userAgentApp.setLogger(Logger(_loggerCallback));
+  });
 }

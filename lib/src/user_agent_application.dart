@@ -133,6 +133,11 @@ class UserAgentApplication {
     _callJsMethod(() => _jsObject.logout());
   }
 
+  /// Sets the logger to be used by the application.
+  void setLogger(Logger logger) {
+    _callJsMethod(() => _jsObject.setLogger(logger?._jsObject));
+  }
+
   /// Returns whether a login is currently in progress.
   bool getLoginInProgress() {
     return _callJsMethod(() => _jsObject.getLoginInProgress());

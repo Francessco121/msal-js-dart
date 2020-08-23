@@ -19,6 +19,7 @@ class UserAgentApplication {
   external dynamic loginPopup([AuthenticationParameters request]);
   external void loginRedirect([AuthenticationParameters request]);
   external void logout();
+  external void setLogger(Logger logger);
   external bool getLoginInProgress();
   external Configuration getCurrentConfiguration();
   external String getPostLogoutRedirectUri();
