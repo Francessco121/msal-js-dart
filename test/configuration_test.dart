@@ -13,7 +13,8 @@ void main() {
         ..navigateToLoginRequestUrl = false
         ..postLogoutRedirectUri = 'post'
         ..redirectUri = 'redirect'
-        ..validateAuthority = false)
+        ..validateAuthority = false
+        ..knownAuthorities = ['https://login.microsoftonline.com/test'])
       ..cache = (CacheOptions()
         ..cacheLocation = CacheLocation.localStorage
         ..storeAuthStateInCookie = true)
@@ -31,6 +32,8 @@ void main() {
       expect(config.auth.postLogoutRedirectUri, equals('post'));
       expect(config.auth.redirectUri, equals('redirect'));
       expect(config.auth.validateAuthority, isFalse);
+      expect(config.auth.knownAuthorities,
+          equals(['https://login.microsoftonline.com/test']));
       expect(config.cache.cacheLocation, equals(CacheLocation.localStorage));
       expect(config.cache.storeAuthStateInCookie, isTrue);
       expect(config.system.loadFrameTimeout, equals(1));

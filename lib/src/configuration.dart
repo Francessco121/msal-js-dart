@@ -72,6 +72,16 @@ class AuthOptions {
   /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
   set validateAuthority(bool value) => _jsObject.validateAuthority = value;
 
+  List<String> get knownAuthorities =>
+      jsDecodeList<String>(_jsObject.knownAuthorities);
+  
+  /// If [validateAuthority] is set to true, this will be used to set the 
+  /// Trusted Host list. 
+  /// 
+  /// Defaults to empty.
+  set knownAuthorities(List<String> value) =>
+      _jsObject.knownAuthorities = jsEncode(value);
+
   dynamic get redirectUri => _jsObject.redirectUri;
 
   /// Sets the redirect URI of the application.

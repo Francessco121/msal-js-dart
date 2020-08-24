@@ -28,6 +28,9 @@ class AuthOptions {
   external bool get validateAuthority;
   external set validateAuthority(bool validateAuthority);
 
+  external List get knownAuthorities;
+  external set knownAuthorities(List knownAuthorities);
+
   external dynamic get redirectUri;
   external set redirectUri(dynamic redirectUri);
 
