@@ -14,6 +14,7 @@ class UserAgentApplication {
   external dynamic acquireTokenPopup(AuthenticationParameters request);
   external void acquireTokenRedirect(AuthenticationParameters request);
   external dynamic acquireTokenSilent(AuthenticationParameters request);
+  external dynamic ssoSilent(AuthenticationParameters request);
   external List getAllAccounts();
   external Account getAccount();
   external dynamic loginPopup([AuthenticationParameters request]);
