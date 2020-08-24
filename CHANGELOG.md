@@ -1,5 +1,6 @@
 ## v1.3.0
 - Added `UserAgentApplication.setLogger`.
+- Added `AuthRequest.redirectStartPage`.
 - Fixed exception thrown when creating a `Logger` without any options.
 
 ## v1.2.3

@@ -41,4 +41,7 @@ class AuthenticationParameters {
 
   external String get redirectUri;
   external set redirectUri(String redirectUri);
+
+  external String get redirectStartPage;
+  external set redirectStartPage(String redirectStartPage);
 }

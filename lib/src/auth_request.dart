@@ -109,5 +109,16 @@ class AuthRequest {
   /// a blank page instead of a page which normally loads the entire application.
   set redirectUri(String value) => _jsObject.redirectUri = value;
 
+  String get redirectStartPage => _jsObject.redirectStartPage;
+
+  /// Sets the page that should be returned to after `loginRedirect` or 
+  /// `acquireTokenRedirect`. 
+  /// 
+  /// This should only be used if this is different from the `redirectUri` and 
+  /// will default to the page that initiates the request. When the 
+  /// `navigateToLoginRequestUrl` config option is set to false this parameter 
+  /// will be ignored.
+  set redirectStartPage(String value) => _jsObject.redirectStartPage = value;
+
   final _jsObject = interop.AuthenticationParameters();
 }
