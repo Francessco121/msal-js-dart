@@ -83,15 +83,20 @@ This package has a few minor differences from the JavaScript and TypeScript APIs
 - Typescript interfaces are represented as a full Dart type. Instead of passing a map which meets the interface requirements, an actual type must be constructed (e.g. instead of `loginPopup({scopes: []})` you would do `loginPopup(new AuthRequest()..scopes = [])`).
 
 ## msal.js Support Table
-Each package version (on the left) specifies which version of msal.js it supports (on the right). **Only changes in support are added to this table.**
+> **Important Note**: The msal.js library *does not* follow semantic versioning like Dart packages do. This package makes a best effort to keep its version inline with msal.js without breaking semantic versioning.
 
-If the package version you are looking for is not listed, use the row corresponding to the next listed version going down. For example, the package version 0.3.0 is not listed, so the version of msal.js that 0.3.0 supports is 0.2.3 since the next package entry down is 0.2.0 (which supports msal.js 0.2.3).
+The following table showcases the msal.js version that is targeted by each version of this package.
 
-| Version     | msal.js |
-| ----------- | ------- |
-| **1.2.0**   | 1.2.0   |
-| **1.1.0**   | 1.1.0   |
-| **1.0.0**   | 1.0.0   |
-| **0.3.2**   | 0.2.4   |
-| **0.2.0**   | 0.2.3   |
-| **0.1.0**   | 0.1.5   |
+Newer versions of msal.js will likely work on older versions of this package. For example, msal.js 1.3.0 will work on 1.2.0 of this package, but the new APIs will be unavailable. Avoid using msal.js versions older than the package version that targets it. APIs may be available in Dart that do not exist in the older JS version.
+
+Often, msal.js will make API additions and changes in their "patch" releases. These changes won't be reflected in this package until the next "minor" release to avoid breaking semantic versioning.
+
+| Dart (msal_js)     | JavaScript (msal.js) |
+| ------------------ | -------------------- |
+| **1.3.0**          | 1.3.2                |
+| **1.2.0**          | 1.2.0                |
+| **1.1.0**          | 1.1.0                |
+| **1.0.0**          | 1.0.0                |
+| **0.3.2**          | 0.2.4                |
+| **0.2.0**          | 0.2.3                |
+| **0.1.0**          | 0.1.5                |
