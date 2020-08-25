@@ -53,4 +53,7 @@ class AuthenticationParameters {
 
   external RedirectNavigateCallback get onRedirectNavigate;
   external set onRedirectNavigate(RedirectNavigateCallback onRedirectNavigate);
+
+  external String get authorityMetadata;
+  external set authorityMetadata(String authorityMetadata);
 }

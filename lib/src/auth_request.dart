@@ -134,5 +134,15 @@ class AuthRequest {
   set onRedirectNavigate(interop.RedirectNavigateCallback value) =>
       _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
 
+  String get authorityMetadata => _jsObject.authorityMetadata;
+
+  /// Sets the OpenID configuration metadata for the configured authority.
+  ///
+  /// Must be passed as a JSON string.
+  ///
+  /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-core/docs/performance.md#bypass-authority-metadata-resolution
+  /// for more information.
+  set authorityMetadata(String value) => _jsObject.authorityMetadata = value;
+
   final _jsObject = interop.AuthenticationParameters();
 }

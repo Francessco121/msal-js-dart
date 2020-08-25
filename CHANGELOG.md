@@ -3,6 +3,8 @@
 - Added `UserAgentApplication.setLogger`.
 - Added `AuthRequest.redirectStartPage`.
 - Added `AuthRequest.onRedirectNavigate`.
+- Added `AuthRequest.authorityMetadata`.
+- Added `AuthOptions.authorityMetadata`.
 - Added `AuthOptions.knownAuthorities`.
 - Fixed exception thrown when creating a `Logger` without any options.
 

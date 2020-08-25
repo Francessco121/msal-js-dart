@@ -133,6 +133,16 @@ class AuthOptions {
   set navigateToLoginRequestUrl(bool value) =>
       _jsObject.navigateToLoginRequestUrl = value;
 
+  String get authorityMetadata => _jsObject.authorityMetadata;
+
+  /// Sets the OpenID configuration metadata for the configured authority.
+  ///
+  /// Must be passed as a JSON string.
+  ///
+  /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-core/docs/performance.md#bypass-authority-metadata-resolution
+  /// for more information.
+  set authorityMetadata(String value) => _jsObject.authorityMetadata = value;
+
   final interop.AuthOptions _jsObject;
 
   AuthOptions() : _jsObject = interop.AuthOptions();

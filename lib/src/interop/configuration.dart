@@ -39,6 +39,9 @@ class AuthOptions {
 
   external bool get navigateToLoginRequestUrl;
   external set navigateToLoginRequestUrl(bool navigateToLoginRequestUrl);
+
+  external String get authorityMetadata;
+  external set authorityMetadata(String authorityMetadata);
 }
 
 @JS()
