@@ -120,5 +120,19 @@ class AuthRequest {
   /// will be ignored.
   set redirectStartPage(String value) => _jsObject.redirectStartPage = value;
 
+  interop.RedirectNavigateCallback get onRedirectNavigate =>
+      _jsObject.onRedirectNavigate;
+
+  /// Sets the callback that will be invoked before a redirect flow (e.g.
+  /// `loginRedirect`, `acquireTokenRedirect`) navigates to a URL.
+  ///
+  /// Can be used to prevent navigation to some or all redirect URIs as well as
+  /// to implement redirects manually.
+  ///
+  /// Return false to prevent navigation. Return true or null to allow
+  /// navigation.
+  set onRedirectNavigate(interop.RedirectNavigateCallback value) =>
+      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
+
   final _jsObject = interop.AuthenticationParameters();
 }

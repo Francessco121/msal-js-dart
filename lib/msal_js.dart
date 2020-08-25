@@ -19,6 +19,7 @@ import 'src/exceptions.dart';
 // ignore: deprecated_member_use_from_same_package
 export 'src/msal.dart' show MissingMsalJsException;
 export 'src/exceptions.dart' hide convertJsAuthError;
+export 'src/interop/interop.dart' show RedirectNavigateCallback;
 
 part 'src/utils/error_utils.dart';
 part 'src/account.dart';

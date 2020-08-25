@@ -2,6 +2,7 @@
 - Added `UserAgentApplication.ssoSilent`.
 - Added `UserAgentApplication.setLogger`.
 - Added `AuthRequest.redirectStartPage`.
+- Added `AuthRequest.onRedirectNavigate`.
 - Added `AuthOptions.knownAuthorities`.
 - Fixed exception thrown when creating a `Logger` without any options.
 

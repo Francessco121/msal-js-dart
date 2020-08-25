@@ -1,5 +1,11 @@
 part of 'interop.dart';
 
+/// A callback invoked before a redirect flow navigates to the given [url].
+///
+/// - Returning false will prevent navigation from happening.
+/// - Returning true or null will allow the navigation to continue.
+typedef RedirectNavigateCallback = bool Function(String url);
+
 @JS()
 @anonymous
 class AuthenticationParameters {
@@ -44,4 +50,7 @@ class AuthenticationParameters {
 
   external String get redirectStartPage;
   external set redirectStartPage(String redirectStartPage);
+
+  external RedirectNavigateCallback get onRedirectNavigate;
+  external set onRedirectNavigate(RedirectNavigateCallback onRedirectNavigate);
 }
