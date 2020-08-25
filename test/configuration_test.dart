@@ -8,13 +8,13 @@ void main() {
     // Create config
     var config = Configuration()
       ..auth = (AuthOptions()
-        ..authority = 'https://login.microsoftonline.com/test'
+        ..authority = 'https://login.microsoftonline.com/common'
         ..clientId = 'fakeid'
         ..navigateToLoginRequestUrl = false
         ..postLogoutRedirectUri = 'post'
         ..redirectUri = 'redirect'
         ..validateAuthority = false
-        ..knownAuthorities = ['https://login.microsoftonline.com/test'])
+        ..knownAuthorities = ['login.microsoftonline.com'])
       ..cache = (CacheOptions()
         ..cacheLocation = CacheLocation.localStorage
         ..storeAuthStateInCookie = true)
@@ -26,14 +26,14 @@ void main() {
     // Assert config can be read back
     void assertConfig() {
       expect(config.auth.authority,
-          equals('https://login.microsoftonline.com/test'));
+          equals('https://login.microsoftonline.com/common'));
       expect(config.auth.clientId, equals('fakeid'));
       expect(config.auth.navigateToLoginRequestUrl, isFalse);
       expect(config.auth.postLogoutRedirectUri, equals('post'));
       expect(config.auth.redirectUri, equals('redirect'));
       expect(config.auth.validateAuthority, isFalse);
-      expect(config.auth.knownAuthorities,
-          equals(['https://login.microsoftonline.com/test']));
+      expect(
+          config.auth.knownAuthorities, equals(['login.microsoftonline.com']));
       expect(config.cache.cacheLocation, equals(CacheLocation.localStorage));
       expect(config.cache.storeAuthStateInCookie, isTrue);
       expect(config.system.loadFrameTimeout, equals(1));

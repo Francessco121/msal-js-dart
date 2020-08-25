@@ -7,8 +7,10 @@ void main() {
   test('loginRedirect converts JS errors', () {
     final userAgentApp = UserAgentApplication(Configuration());
 
-    // Fails because there's no callback
-    expect(() => userAgentApp.loginRedirect(),
+    // Fails because the prompt is invalid
+    expect(
+        () => userAgentApp
+            .loginRedirect(AuthRequest()..prompt = 'some_invalid_prompt'),
         throwsA(isA<ClientConfigurationException>()));
   });
 
