@@ -16,3 +16,10 @@ class AuthError {
   external String get message;
   external String get stack;
 }
+
+@JS()
+@anonymous
+class ClientConfigurationErrorMessage {
+  external String get code;
+  external String get desc;
+}

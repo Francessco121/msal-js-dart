@@ -17,6 +17,11 @@ AuthException convertJsAuthError(interop.AuthError jsError) {
   }
 }
 
+AuthException convertJsClientConfigurationErrorMessage(
+    interop.ClientConfigurationErrorMessage jsError) {
+  return ClientConfigurationMessageException._jsObject(jsError);
+}
+
 /// A general error thrown by MSAL.
 class AuthException implements Exception {
   /// The code of the error that occurred.
@@ -54,6 +59,40 @@ class ClientAuthException extends AuthException {
 class ClientConfigurationException extends ClientAuthException {
   ClientConfigurationException._fromJsObject(interop.AuthError jsObject)
       : super._fromJsObject(jsObject);
+
+  @override
+  String toString() => 'ClientConfigurationException: $errorCode:$message';
+}
+
+/// A custom implementation of [ClientConfigurationException] that takes a
+/// [interop.ClientConfigurationErrorMessage] as a source instead of a real
+/// auth error.
+///
+/// msal.js sometimes throws an anonymous object instead of an actual config
+/// error, so we need to catch it specifically, otherwise users can't see the
+/// actual error that happened.
+class ClientConfigurationMessageException
+    implements ClientConfigurationException {
+  @override
+  String get errorCode => _message.code;
+
+  @override
+  String get errorMessage => _message.desc;
+
+  @override
+  String get message => _message.desc;
+
+  @override
+  String get stack => null;
+
+  // Note: This override is necessary because we are implementing a class in
+  // the same Dart library. Private members are visible across the library.
+  @override
+  final interop.AuthError _jsObject = null;
+
+  final interop.ClientConfigurationErrorMessage _message;
+
+  ClientConfigurationMessageException._jsObject(this._message);
 
   @override
   String toString() => 'ClientConfigurationException: $errorCode:$message';
