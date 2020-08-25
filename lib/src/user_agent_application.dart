@@ -96,9 +96,9 @@ class UserAgentApplication {
   }
 
   /// Establishes user context silently with SSO when an existing session is known.
-  /// 
+  ///
   /// The [request] must provide a `loginHint` or `sid`.
-  /// 
+  ///
   /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/lib/msal-core#ssosilent
   /// for more information.
   Future<AuthResponse> ssoSilent(AuthRequest request) async {

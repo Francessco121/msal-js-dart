@@ -48,9 +48,7 @@ void main() {
   test('ssoSilent converts JS errors', () {
     final userAgentApp = UserAgentApplication(Configuration());
 
-    expect(
-        () => userAgentApp
-            .ssoSilent(AuthRequest()..scopes = ['user.read']),
+    expect(() => userAgentApp.ssoSilent(AuthRequest()..scopes = ['user.read']),
         throwsA(isA<ClientAuthException>()));
   });
 

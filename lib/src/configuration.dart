@@ -74,10 +74,10 @@ class AuthOptions {
 
   List<String> get knownAuthorities =>
       jsDecodeList<String>(_jsObject.knownAuthorities);
-  
-  /// If [validateAuthority] is set to true, this will be used to set the 
-  /// Trusted Host list. 
-  /// 
+
+  /// If [validateAuthority] is set to true, this will be used to set the
+  /// Trusted Host list.
+  ///
   /// Defaults to empty.
   set knownAuthorities(List<String> value) =>
       _jsObject.knownAuthorities = jsEncode(value);
