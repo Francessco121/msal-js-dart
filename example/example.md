@@ -29,12 +29,10 @@ After instantiating your instance, if you plan on using a redirect flow (`loginR
 import 'package:msal_js/msal_js.dart';
 
 // Configure and create the UserAgentApplication
-final config = new Configuration()
-  ..auth = (new AuthOptions()
-    ..clientId = 'your_client_id'
-  );
+final config = Configuration()
+  ..auth = (AuthOptions()..clientId = 'your_client_id');
 
-final userAgentApplication = new UserAgentApplication(config);
+final userAgentApplication = UserAgentApplication(config);
 
 // Register a callback for redirect flows (optional)
 userAgentApplication.handleRedirectCallback(authCallback);
@@ -49,12 +47,11 @@ Your app must login the user with either the `loginPopup` or the `loginRedirect`
 
 ```dart
 // Login via popup example
-final loginRequest = new AuthRequest()
-  ..scopes = ['user.read', 'mail.send'];
+final loginRequest = AuthRequest()..scopes = ['user.read', 'mail.send'];
 
 try {
-  final AuthResponse response = 
-    await userAgentApplication.loginPopup(loginRequest);
+  final AuthResponse response =
+      await userAgentApplication.loginPopup(loginRequest);
 
   // Handle successful response
 } on AuthException catch (ex) {
@@ -74,21 +71,20 @@ If the `acquireTokenSilent` call fails with an error of type `InteractionRequire
 ```dart
 // If the user is already logged in, you can acquire a token
 if (userAgentApplication.getAccount() != null) {
-  final tokenRequest = new AuthRequest()
-    ..scopes = ['user.read', 'mail.send'];
+  final tokenRequest = AuthRequest()..scopes = ['user.read', 'mail.send'];
 
   try {
     // Try silently
-    final AuthResponse response = 
-      await userAgentApplication.acquireTokenSilent(tokenRequest);
+    final AuthResponse response =
+        await userAgentApplication.acquireTokenSilent(tokenRequest);
 
     // Get access token from response.accessToken
   } on InteractionRequiredAuthException {
     // Interactive prompt is required to get token
     try {
-      final AuthResponse response = 
-        await userAgentApplication.acquireTokenPopup(tokenRequest);
-    
+      final AuthResponse response =
+          await userAgentApplication.acquireTokenPopup(tokenRequest);
+
       // Get access token from response.accessToken
     } on AuthException catch (ex) {
       // Handle error
@@ -106,12 +102,12 @@ Simple `package:http` example of using Microsoft Graph with a token:
 ```dart
 import 'package:http/http.dart';
 
-final Client client = new BrowserClient();
+final Client client = BrowserClient();
 
 final Response response = await client.get(
   'https://graph.microsoft.com/v1.0/me',
   headers: {
-    'Authorization': 'Bearer $token'
-  }
+    'Authorization': 'Bearer $token',
+  },
 );
 ```

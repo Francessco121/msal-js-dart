@@ -34,19 +34,17 @@ void main() {
   // option to `null` will not use its default value.
 
   // Create an MSAL logger (optional)
-  var logger = new Logger(_loggerCallback,
-    new LoggerOptions()
-      ..level = LogLevel.verbose // log everything
+  var logger = Logger(
+    _loggerCallback,
+    LoggerOptions()..level = LogLevel.verbose, // log everything
   );
 
   // Configure and create an MSAL authentication context
   // Note: Only clientId is required
-  var config = new Configuration()
-    ..auth = (new AuthOptions()
-      ..clientId = 'your_client_id'
-    );
+  var config = Configuration()
+    ..auth = (AuthOptions()..clientId = 'your_client_id');
 
-  var userAgentApplication = new UserAgentApplication(config);
+  var userAgentApplication = UserAgentApplication(config);
 
   // If you plan on using the redirect flow, register a callback
   userAgentApplication.handleRedirectCallback(_authCallback);

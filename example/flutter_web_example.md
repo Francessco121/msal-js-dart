@@ -15,10 +15,11 @@ const List<String> scopes = [];
 
 void main() {
   // Create an MSAL logger
-  final logger = Logger(_loggerCallback,
+  final logger = Logger(
+    _loggerCallback,
     LoggerOptions()
       // Log everything for the purpose of this demo
-      ..level = LogLevel.verbose
+      ..level = LogLevel.verbose,
   );
 
   // Create an MSAL UserAgentApplication
@@ -26,20 +27,17 @@ void main() {
     Configuration()
       ..auth = (AuthOptions()
         ..clientId = clientId
-        ..authority = authority
-      )
-      ..system = (SystemOptions()
-        ..logger = logger
-      )
+        ..authority = authority)
+      ..system = (SystemOptions()..logger = logger),
   );
 
   // Setup a callback for the redirect login flow
   //
-  // **IMPORTANT NOTE:** It is highly recommended to setup 
-  // your UserAgentApplication and call handleRedirectCallback 
-  // sometime before your Flutter app starts. The router in 
-  // the [MaterialApp] widget will clear the URL when it loads 
-  // which will prevent MSAL from getting the token from it 
+  // **IMPORTANT NOTE:** It is highly recommended to setup
+  // your UserAgentApplication and call handleRedirectCallback
+  // sometime before your Flutter app starts. The router in
+  // the [MaterialApp] widget will clear the URL when it loads
+  // which will prevent MSAL from getting the token from it
   // after a redirect login.
   userAgentApplication.handleRedirectCallback(_redirectCallback);
 
@@ -62,8 +60,8 @@ void _redirectCallback(AuthException error, [AuthResponse response]) {
   }
 }
 
-/// Simple default Flutter app. 
-/// 
+/// Simple default Flutter app.
+///
 /// Passes the [UserAgentApplication] onto the home page.
 class MyApp extends StatelessWidget {
   final UserAgentApplication userAgentApplication;
@@ -83,13 +81,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// The demo home page for interacting with the 
+/// The demo home page for interacting with the
 /// MSAL [UserAgentApplication].
 class MyHomePage extends StatefulWidget {
   final UserAgentApplication userAgentApplication;
 
-  MyHomePage({@required this.userAgentApplication, Key key}) 
-    : super(key: key);
+  MyHomePage({
+    @required this.userAgentApplication,
+    Key key,
+  }) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -110,22 +110,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// Starts a redirect login.
   void _loginRedirect() {
-    widget.userAgentApplication.loginRedirect(
-      AuthRequest()..scopes = scopes
-    );
+    widget.userAgentApplication.loginRedirect(AuthRequest()..scopes = scopes);
   }
 
   /// Starts a popup login.
   Future<void> _loginPopup() async {
     try {
-      final response = await widget.userAgentApplication.loginPopup(
-        AuthRequest()..scopes = scopes
-      );
+      final response = await widget.userAgentApplication
+          .loginPopup(AuthRequest()..scopes = scopes);
 
       setState(() {
         _account = response.account;
       });
-      
+
       print('Popup login successful. name: ${response.account.name}');
     } on AuthException catch (ex) {
       print('MSAL: ${ex.errorCode}:${ex.errorMessage}');
@@ -147,25 +144,23 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (_account == null)
-              ...[
-                RaisedButton(
-                  child: Text('Login Redirect'),
-                  onPressed: _loginRedirect,
-                ),
-                RaisedButton(
-                  child: Text('Login Popup'),
-                  onPressed: _loginPopup,
-                ),
-              ],
-            if (_account != null)
-              ...[
-                Text('Signed in as ${_account.name}'),
-                RaisedButton(
-                  child: Text('Logout'),
-                  onPressed: _logout,
-                ),
-              ]
+            if (_account == null) ...[
+              RaisedButton(
+                child: Text('Login Redirect'),
+                onPressed: _loginRedirect,
+              ),
+              RaisedButton(
+                child: Text('Login Popup'),
+                onPressed: _loginPopup,
+              ),
+            ],
+            if (_account != null) ...[
+              Text('Signed in as ${_account.name}'),
+              RaisedButton(
+                child: Text('Logout'),
+                onPressed: _logout,
+              ),
+            ]
           ],
         ),
       ),
