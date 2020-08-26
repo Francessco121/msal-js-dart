@@ -17,7 +17,7 @@ See the [msal.js support table](#msaljs-support-table) below to determine which 
 ## Usage
 For more complete usage information, see this [example](./example/example.md). 
 
-For usage in a Flutter Web app, see the [Flutter Web example](./example/flutter_web_example.md).
+For usage in a Flutter Web app, see the [Flutter Web example](./example/flutter_web_example.md). Please also see the [known issues and their workarounds with Flutter](./example/flutter_web_example.md#known-issues).
 
 Also see the [msal.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki). Class, function, and parameter names are *almost* all the same between this wrapper and msal.js (please see ["Differences from msal.js"](#differences-from-msaljs) for more information). Following msal.js examples should be mostly straight-forward.
 

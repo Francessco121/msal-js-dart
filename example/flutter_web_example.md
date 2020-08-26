@@ -2,6 +2,15 @@
 
 Using msal.js in a Flutter Web app isn't much different than using it in a normal web app. Reference the msal.js JavaScript file in your Flutter app's `index.html` just like a normal app, either using a CDN or a local download of the file in your app's `web` directory.
 
+## Known Issues
+
+### Flutter's router prevents redirect flows from completing
+If Flutter's router initializes before `UserAgentApplication.handleRedirectCallback` is called, the browser's URL will be overwritten removing the token response it contained from the auth redirect.
+
+**Workaround:** Call `handleRedirectCallback` before Flutter's `runApp`, or use a pop-up flow instead.
+
+## Example App
+
 See the below example and the considerations noted within for a quick demo of how you could use msal.js in Flutter.
 
 ```dart
