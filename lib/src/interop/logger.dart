@@ -6,14 +6,14 @@ typedef LoggerCallback = void Function(
 @JS()
 @anonymous
 class LoggerOptions {
-  external String get correlationId;
-  external set correlationId(String correlationId);
+  external String? get correlationId;
+  external set correlationId(String? correlationId);
 
-  external int get level;
-  external set level(int level);
+  external int? get level;
+  external set level(int? level);
 
-  external bool get piiLoggingEnabled;
-  external set piiLoggingEnabled(bool piiLoggingEnabled);
+  external bool? get piiLoggingEnabled;
+  external set piiLoggingEnabled(bool? piiLoggingEnabled);
 }
 
 @JS('Logger')
