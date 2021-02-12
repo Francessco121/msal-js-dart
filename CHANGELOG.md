@@ -1,5 +1,5 @@
 ## v1.4.0-nullsafety.0
-- Migrated to null safety.
+- Migrated to null safety. (#21, thanks [nyarian](https://github.com/nyarian)!)
   - **Note:** Many properties and returns are now nullable that seem like they shouldn't be. This is because msal.js is written in a way that makes it impossible to guarantee null safety.
 - Updated minimum SDK version to `2.12.0-0`.
 - Added `LogLevel.unknown` to represent msal.js log levels that don't have an enum value counterpart.
