@@ -3,22 +3,19 @@ part of '../msal_js.dart';
 /// A browser cache location.
 enum CacheLocation { localStorage, sessionStorage }
 
-CacheLocation _stringToCacheLocation(String cacheLocation) {
-  if (cacheLocation == 'localStorage') {
-    return CacheLocation.localStorage;
-  } else if (cacheLocation == 'sessionStorage') {
-    return CacheLocation.sessionStorage;
-  } else {
-    return null;
-  }
+CacheLocation? _stringToCacheLocation(String cacheLocation) {
+  const mapping = {
+    'localStorage': CacheLocation.localStorage,
+    'sessionStorage': CacheLocation.sessionStorage
+  };
+  return mapping[cacheLocation];
 }
 
 String _cacheLocationToString(CacheLocation cacheLocation) {
-  if (cacheLocation == CacheLocation.localStorage) {
-    return 'localStorage';
-  } else if (cacheLocation == CacheLocation.sessionStorage) {
-    return 'sessionStorage';
-  } else {
-    return null;
+  switch (cacheLocation) {
+    case CacheLocation.localStorage:
+      return 'localStorage';
+    case CacheLocation.sessionStorage:
+      return 'sessionStorage';
   }
 }

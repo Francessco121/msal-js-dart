@@ -10,7 +10,7 @@ part 'js_array_list_proxy.dart';
 part 'js_object_map_proxy.dart';
 
 /// Decodes the given [value] as a typed Dart [List].
-List<E> jsDecodeList<E>(dynamic value) {
+List<E>? jsDecodeList<E>(dynamic value) {
   if (value == null) {
     return null;
   } else {
@@ -22,7 +22,7 @@ List<E> jsDecodeList<E>(dynamic value) {
 }
 
 /// Decodes the given [value] as a typed Dart [Map].
-Map<String, V> jsDecodeMap<V>(dynamic value) {
+Map<String, V>? jsDecodeMap<V>(dynamic value) {
   if (value == null) {
     return null;
   } else {

@@ -37,18 +37,18 @@ void main() {
     expect(request.extraQueryParameters, containsPair('a', 'b'));
 
     // Check references
-    request.scopes.add('b');
-    request.extraScopesToConsent.add('b');
-    request.extraQueryParameters['c'] = 'd';
+    request.scopes!.add('b');
+    request.extraScopesToConsent!.add('b');
+    request.extraQueryParameters!['c'] = 'd';
 
     expect(request.scopes, contains('b'));
     expect(request.extraScopesToConsent, contains('b'));
     expect(request.extraQueryParameters, containsPair('c', 'd'));
 
     // Check normal reference behavior
-    final scopes = request.scopes;
-    final extraScopesToConsent = request.extraScopesToConsent;
-    final extraQueryParameters = request.extraQueryParameters;
+    final scopes = request.scopes!;
+    final extraScopesToConsent = request.extraScopesToConsent!;
+    final extraQueryParameters = request.extraQueryParameters!;
 
     request.scopes = ['c']..addAll(scopes);
     request.extraScopesToConsent = ['c']..addAll(extraScopesToConsent);

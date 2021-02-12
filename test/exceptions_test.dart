@@ -35,29 +35,39 @@ void main() {
   test(
       'ClientConfigurationError gets converted to ClientConfigurationException',
       () {
-    expect(() => _convert(() => throwClientConfigurationError()),
-        throwsA(isA<ClientConfigurationException>()));
+    expect(
+      () => _convert(() => throwClientConfigurationError()),
+      throwsA(isA<ClientConfigurationException>()),
+    );
   });
 
   test(
       'InteractionRequiredAuthError gets converted to InteractionRequiredAuthException',
       () {
-    expect(() => _convert(() => throwInteractionRequiredAuthError()),
-        throwsA(isA<InteractionRequiredAuthException>()));
+    expect(
+      () => _convert(() => throwInteractionRequiredAuthError()),
+      throwsA(isA<InteractionRequiredAuthException>()),
+    );
   });
 
   test('ServerError gets converted to ServerException', () {
-    expect(() => _convert(() => throwServerError()),
-        throwsA(isA<ServerException>()));
+    expect(
+      () => _convert(() => throwServerError()),
+      throwsA(isA<ServerException>()),
+    );
   });
 
   test('ClientAuthError gets converted to ClientAuthException', () {
-    expect(() => _convert(() => throwClientAuthError()),
-        throwsA(isA<ClientAuthException>()));
+    expect(
+      () => _convert(() => throwClientAuthError()),
+      throwsA(isA<ClientAuthException>()),
+    );
   });
 
   test('AuthError gets converted to AuthException', () {
     expect(
-        () => _convert(() => throwAuthError()), throwsA(isA<AuthException>()));
+      () => _convert(() => throwAuthError()),
+      throwsA(isA<AuthException>()),
+    );
   });
 }
