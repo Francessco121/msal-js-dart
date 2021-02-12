@@ -26,10 +26,9 @@ class AuthResponse {
   DateTime? get expiresOn => _jsObject.expiresOn;
 
   /// The authenticated account.
-  Account? get account {
-    final account = _jsObject.account;
-    return account == null ? null : Account._fromJsObject(account);
-  }
+  Account? get account => _jsObject.account == null
+      ? null
+      : Account._fromJsObject(_jsObject.account!);
 
   /// The OAuth 2.0 state that was specified in the auth request.
   ///

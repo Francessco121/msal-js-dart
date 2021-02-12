@@ -14,7 +14,7 @@ class AuthError {
 
   external String? get name;
   external String? get message;
-  external String? get stack;
+  external String? get stack; // TODO: This is a non-standard Mozilla property
 }
 
 @JS()

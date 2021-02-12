@@ -22,9 +22,8 @@ class Account {
   dynamic get idToken => _jsObject.idToken;
 
   /// A map of all claims in the [idToken].
-  Map<String, dynamic>? get idTokenClaims {
-    return jsDecodeMap<dynamic>(_jsObject.idTokenClaims);
-  }
+  Map<String, dynamic>? get idTokenClaims =>
+      jsDecodeMap<dynamic>(_jsObject.idTokenClaims);
 
   /// The account's session identifier (`idToken.sid`).
   String? get sid => _jsObject.sid;

@@ -14,11 +14,18 @@ LogLevel _getLogLevel(int index) {
 }
 
 /// The severity of a log message.
-///
-/// `unknown` level is not a `msal-js`-mirrored level. It is a part of the
-/// interop layer and is used when the log level coming from JS is undefined
-/// and is usually a result of `msal-js-dart` and `msal-js` versions gap
-enum LogLevel { unknown, error, warning, info, verbose }
+enum LogLevel {
+  /// Unknown is not an MSAL.js log level. This level is given when MSAL.js
+  /// yields a log level that is not handled yet by this package.
+  ///
+  /// Normally, this only occurs as a version difference between this package
+  /// and MSAL.js.
+  unknown,
+  error,
+  warning,
+  info,
+  verbose
+}
 
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
@@ -27,10 +34,8 @@ class LoggerOptions {
   /// A unique identifier that can be used to map requests and responses.
   set correlationId(String? value) => _jsObject.correlationId = value;
 
-  LogLevel? get level {
-    final level = _jsObject.level;
-    return level == null ? null : LogLevel.values[level];
-  }
+  LogLevel? get level =>
+      _jsObject.level == null ? null : LogLevel.values[_jsObject.level!];
 
   /// The base logging level. Messages logged with levels lower than the
   /// specified base level will not be logged.

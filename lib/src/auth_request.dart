@@ -13,9 +13,8 @@ class AuthRequest {
   /// for scopes in multiple resources.
   set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
 
-  List<String>? get extraScopesToConsent {
-    return jsDecodeList<String>(_jsObject.extraScopesToConsent);
-  }
+  List<String>? get extraScopesToConsent =>
+      jsDecodeList<String>(_jsObject.extraScopesToConsent);
 
   /// Sets the additional scopes the user must consent to, usually for a different
   /// resource than the normal request [scopes].
@@ -23,9 +22,8 @@ class AuthRequest {
   /// When making an auth request, [scopes] usually can only contain scopes for
   /// a single resource. This property makes it possible to ask the user to
   /// pre-consent to scopes for a different resource.
-  set extraScopesToConsent(List<String>? value) {
-    return _jsObject.extraScopesToConsent = jsEncode(value);
-  }
+  set extraScopesToConsent(List<String>? value) =>
+      _jsObject.extraScopesToConsent = jsEncode(value);
 
   String? get prompt => _jsObject.prompt;
 
@@ -35,14 +33,12 @@ class AuthRequest {
   /// for more information.
   set prompt(String? value) => _jsObject.prompt = value;
 
-  Map<String, String>? get extraQueryParameters {
-    return jsDecodeMap<String>(_jsObject.extraQueryParameters);
-  }
+  Map<String, String>? get extraQueryParameters =>
+      jsDecodeMap<String>(_jsObject.extraQueryParameters);
 
   /// Sets additional query parameters to attach to the HTTP request.
-  set extraQueryParameters(Map<String, String>? value) {
-    return _jsObject.extraQueryParameters = jsEncode(value);
-  }
+  set extraQueryParameters(Map<String, String>? value) =>
+      _jsObject.extraQueryParameters = jsEncode(value);
 
   String? get claimsRequest => _jsObject.claimsRequest;
 
@@ -72,10 +68,9 @@ class AuthRequest {
   /// Sets a unique identifier that can be used to map requests and responses.
   set correlationId(String? value) => _jsObject.correlationId = value;
 
-  Account? get account {
-    final account = _jsObject.account;
-    return account == null ? null : Account._fromJsObject(account);
-  }
+  Account? get account => _jsObject.account == null
+      ? null
+      : Account._fromJsObject(_jsObject.account!);
 
   /// Set to provide a hint to the authorization endpoint about the
   /// specific user to get a token for.
@@ -127,9 +122,8 @@ class AuthRequest {
   /// will be ignored.
   set redirectStartPage(String? value) => _jsObject.redirectStartPage = value;
 
-  interop.RedirectNavigateCallback? get onRedirectNavigate {
-    return _jsObject.onRedirectNavigate;
-  }
+  interop.RedirectNavigateCallback? get onRedirectNavigate =>
+      _jsObject.onRedirectNavigate;
 
   /// Sets the callback that will be invoked before a redirect flow (e.g.
   /// `loginRedirect`, `acquireTokenRedirect`) navigates to a URL.
@@ -139,9 +133,8 @@ class AuthRequest {
   ///
   /// Return false to prevent navigation. Return true or null to allow
   /// navigation.
-  set onRedirectNavigate(interop.RedirectNavigateCallback? value) {
-    _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
-  }
+  set onRedirectNavigate(interop.RedirectNavigateCallback? value) =>
+      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
 
   String? get authorityMetadata => _jsObject.authorityMetadata;
 

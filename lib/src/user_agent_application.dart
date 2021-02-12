@@ -57,9 +57,8 @@ class UserAgentApplication {
           response == null ? null : AuthResponse._fromJsObject(response));
     }
 
-    _callJsMethod(() {
-      _jsObject.handleRedirectCallback(allowInterop(jsCallback));
-    });
+    _callJsMethod(
+        () => _jsObject.handleRedirectCallback(allowInterop(jsCallback)));
   }
 
   /// Acquires an access token using interactive authentication via a popup Window.
@@ -103,23 +102,23 @@ class UserAgentApplication {
   Future<AuthResponse> ssoSilent(AuthRequest request) async {
     final response = await _convertMsalPromise<interop.AuthResponse>(
         _callJsMethod(() => _jsObject.ssoSilent(request._jsObject)));
+
     return AuthResponse._fromJsObject(response);
   }
 
   /// Gets all currently cached unique accounts based on `homeAccountIdentifier`.
   List<Account> getAllAccounts() {
-    return _callJsMethod(() {
-      return (_jsObject.getAllAccounts() ?? [])
-          .cast<interop.Account>()
-          .map((jsAccount) => Account._fromJsObject(jsAccount))
-          .toList();
-    });
+    return _callJsMethod(() => (_jsObject.getAllAccounts() ?? [])
+        .cast<interop.Account>()
+        .map((jsAccount) => Account._fromJsObject(jsAccount))
+        .toList());
   }
 
   /// Gets the signed in account or `null` if no-one is signed in.
   Account? getAccount() {
     return _callJsMethod(() {
       final jsAccount = _jsObject.getAccount();
+
       return jsAccount == null ? null : Account._fromJsObject(jsAccount);
     });
   }
@@ -140,7 +139,9 @@ class UserAgentApplication {
   }
 
   /// Logs out the current user, and redirects to the `postLogoutRedirectUri`.
-  void logout() => _callJsMethod(_jsObject.logout);
+  void logout() {
+    _callJsMethod(() => _jsObject.logout());
+  }
 
   /// Sets the logger to be used by the application.
   void setLogger(Logger? logger) {
@@ -155,11 +156,12 @@ class UserAgentApplication {
   /// Returns the current configuration of this user agent application.
   Configuration? getCurrentConfiguration() {
     return _callJsMethod(() {
-        final configuration = _jsObject.getCurrentConfiguration();
-        return configuration == null
-            ? null
-            : Configuration._fromJsObject(configuration);
-      });
+      final configuration = _jsObject.getCurrentConfiguration();
+
+      return configuration == null
+          ? null
+          : Configuration._fromJsObject(configuration);
+    });
   }
 
   /// Returns the post-logout redirect URI currently configured.
@@ -167,12 +169,14 @@ class UserAgentApplication {
   /// If the post-logout redirect URI was configured as a function, it
   /// will be evaluated and its result will be returned.
   String? getPostLogoutRedirectUri() {
-    return _callJsMethod(_jsObject.getPostLogoutRedirectUri);
+    return _callJsMethod(() => _jsObject.getPostLogoutRedirectUri());
   }
 
   /// Returns the redirect URI currently configured.
   ///
   /// If the redirect URI was configured as a function, it
   /// will be evaluated and its result will be returned.
-  String? getRedirectUri() => _callJsMethod(_jsObject.getRedirectUri);
+  String? getRedirectUri() {
+    return _callJsMethod(() => _jsObject.getRedirectUri());
+  }
 }

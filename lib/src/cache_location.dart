@@ -4,11 +4,14 @@ part of '../msal_js.dart';
 enum CacheLocation { localStorage, sessionStorage }
 
 CacheLocation? _stringToCacheLocation(String cacheLocation) {
-  const mapping = {
-    'localStorage': CacheLocation.localStorage,
-    'sessionStorage': CacheLocation.sessionStorage
-  };
-  return mapping[cacheLocation];
+  switch (cacheLocation) {
+    case 'localStorage':
+      return CacheLocation.localStorage;
+    case 'sessionStorage':
+      return CacheLocation.sessionStorage;
+    default:
+      return null;
+  }
 }
 
 String _cacheLocationToString(CacheLocation cacheLocation) {

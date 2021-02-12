@@ -15,14 +15,14 @@ class JsObjectMapProxy<V> with MapMixin<String, V> {
 
   @override
   V? operator [](Object? key) {
-    final property =
-        getProperty(_jsObject, key ?? (throw ArgumentError.notNull('key')));
-    return jsDecode(property);
+    ArgumentError.checkNotNull(key, 'key');
+
+    return jsDecode(getProperty(_jsObject, key!));
   }
 
   @override
   void operator []=(String key, V value) {
-    return setProperty(_jsObject, key, jsEncode(value));
+    setProperty(_jsObject, key, jsEncode(value));
   }
 
   @override
@@ -36,6 +36,7 @@ class JsObjectMapProxy<V> with MapMixin<String, V> {
   V? remove(Object? key) {
     final value = this[key];
     interop.Reflect.deleteProperty(_jsObject, key);
+
     return value;
   }
 }
