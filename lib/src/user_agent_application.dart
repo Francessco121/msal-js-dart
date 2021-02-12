@@ -149,20 +149,13 @@ class UserAgentApplication {
   }
 
   /// Returns whether a login is currently in progress.
-  bool? getLoginInProgress() {
-    return _callJsMethod(() => _jsObject.getLoginInProgress());
+  bool getLoginInProgress() {
+    return _callJsMethod(() => _jsObject.getLoginInProgress() ?? false);
   }
 
   /// Returns the current configuration of this user agent application.
-  Configuration? getCurrentConfiguration() {
-    return _callJsMethod(() {
-      final configuration = _jsObject.getCurrentConfiguration();
-
-      return configuration == null
-          ? null
-          : Configuration._fromJsObject(configuration);
-    });
-  }
+  Configuration getCurrentConfiguration() => _callJsMethod(
+      () => Configuration._fromJsObject(_jsObject.getCurrentConfiguration()));
 
   /// Returns the post-logout redirect URI currently configured.
   ///

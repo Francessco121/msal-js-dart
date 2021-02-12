@@ -45,7 +45,7 @@ void main() {
 
     // Create user agent application and get config from there
     final userAgentApp = UserAgentApplication(config);
-    config = userAgentApp.getCurrentConfiguration()!;
+    config = userAgentApp.getCurrentConfiguration();
 
     // Assert config is the same after retrieved from user agent app
     assertConfig();

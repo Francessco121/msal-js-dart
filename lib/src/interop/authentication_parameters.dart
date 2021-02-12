@@ -4,7 +4,7 @@ part of 'interop.dart';
 ///
 /// - Returning false will prevent navigation from happening.
 /// - Returning true or null will allow the navigation to continue.
-typedef RedirectNavigateCallback = bool Function(String url);
+typedef RedirectNavigateCallback = bool? Function(String url);
 
 @JS()
 @anonymous
