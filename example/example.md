@@ -37,7 +37,7 @@ final userAgentApplication = UserAgentApplication(config);
 // Register a callback for redirect flows (optional)
 userAgentApplication.handleRedirectCallback(authCallback);
 
-void authCallback(AuthException error, [AuthResponse response]) {
+void authCallback(AuthException? error, [AuthResponse? response]) {
   // handle redirect response or error
 }
 ```
