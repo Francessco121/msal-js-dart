@@ -6,7 +6,7 @@ repository: https://github.com/milestonetg/msal-js-dart
 issue_tracker: https://github.com/milestonetg/msal-js-dart/issues
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: ">=2.12.0-259.9.beta <3.0.0"
 
 dependencies:
   js: 0.6.3-nullsafety.3
