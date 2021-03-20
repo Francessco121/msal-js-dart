@@ -19,7 +19,6 @@ import 'package:msal_js/msal_js.dart';
 
 // **Setup your directory settings here:**
 const String clientId = '';
-const String authority = '';
 const List<String> scopes = [];
 
 void main() {
@@ -34,9 +33,7 @@ void main() {
   // Create an MSAL UserAgentApplication
   final userAgentApplication = UserAgentApplication(
     Configuration()
-      ..auth = (AuthOptions()
-        ..clientId = clientId
-        ..authority = authority)
+      ..auth = (AuthOptions()..clientId = clientId)
       ..system = (SystemOptions()..logger = logger),
   );
 
