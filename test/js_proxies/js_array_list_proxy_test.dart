@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('JsArrayListProxy behaves as a List', () {
-    final List<String> list = JsArrayListProxy<String>(jsify([]));
+    final List<String?> list = JsArrayListProxy<String?>(jsify([]));
 
     // Check length
     expect(list.length, equals(0));
@@ -27,7 +27,7 @@ void main() {
     expect(list, containsAll(['test3', 'test4']));
 
     // Check sort
-    list.sort((a, b) => b.compareTo(a));
+    list.sort((a, b) => b!.compareTo(a!));
     expect(list, equals(['test4', 'test3', 'test2', 'test']));
 
     // Check insert

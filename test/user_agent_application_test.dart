@@ -17,8 +17,8 @@ void main() {
   test('loginPopup converts JS errors', () {
     final userAgentApp = UserAgentApplication(Configuration());
 
-    // Fails because scopes is present but empty
-    expect(() => userAgentApp.loginPopup(AuthRequest()..scopes = []),
+    // Fails because prompt is invalid
+    expect(() => userAgentApp.loginPopup(AuthRequest()..prompt = 'bad-prompt'),
         throwsA(isA<ClientConfigurationException>()));
   });
 

@@ -5,8 +5,8 @@ typedef AuthResponseCallback = void Function(
 
 @JS('UserAgentApplication')
 class UserAgentApplication {
-  external String get authority;
-  external set authority(String authority);
+  external String? get authority;
+  external set authority(String? authority);
 
   external UserAgentApplication(Configuration configuration);
 
@@ -15,14 +15,14 @@ class UserAgentApplication {
   external void acquireTokenRedirect(AuthenticationParameters request);
   external dynamic acquireTokenSilent(AuthenticationParameters request);
   external dynamic ssoSilent(AuthenticationParameters request);
-  external List getAllAccounts();
-  external Account getAccount();
-  external dynamic loginPopup([AuthenticationParameters request]);
-  external void loginRedirect([AuthenticationParameters request]);
+  external List? getAllAccounts();
+  external Account? getAccount();
+  external dynamic loginPopup([AuthenticationParameters? request]);
+  external void loginRedirect([AuthenticationParameters? request]);
   external void logout();
-  external void setLogger(Logger logger);
-  external bool getLoginInProgress();
+  external void setLogger(Logger? logger);
+  external bool? getLoginInProgress();
   external Configuration getCurrentConfiguration();
-  external String getPostLogoutRedirectUri();
-  external String getRedirectUri();
+  external String? getPostLogoutRedirectUri();
+  external String? getRedirectUri();
 }

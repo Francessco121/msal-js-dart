@@ -67,7 +67,7 @@ void _loggerCallback(LogLevel level, String message, bool containsPii) {
   print('[$level] $message');
 }
 
-void _authCallback(AuthException error, [AuthResponse response]) {
+void _authCallback(AuthException? error, [AuthResponse? response]) {
   // ...
 }
 ```
@@ -91,7 +91,8 @@ Often, msal.js will make API additions and changes in their "patch" releases. Th
 
 | Dart (msal_js)     | JavaScript (msal.js) |
 | ------------------ | -------------------- |
-| **1.3.0**          | 1.3.2                |
+| **1.4.0-nullsafety.0**| 1.4.x             |
+| **1.3.0**          | 1.3.2, 1.4.x         |
 | **1.2.0**          | 1.2.0                |
 | **1.1.0**          | 1.1.0                |
 | **1.0.0**          | 1.0.0                |

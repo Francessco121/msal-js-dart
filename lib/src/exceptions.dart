@@ -1,8 +1,6 @@
 import 'interop/interop.dart' as interop;
 
 AuthException convertJsAuthError(interop.AuthError jsError) {
-  if (jsError == null) return null;
-
   // Determine type
   if (jsError.name == 'ClientConfigurationError') {
     return ClientConfigurationException._fromJsObject(jsError);
@@ -25,20 +23,20 @@ AuthException convertJsClientConfigurationErrorMessage(
 /// A general error thrown by MSAL.
 class AuthException implements Exception {
   /// The code of the error that occurred.
-  String get errorCode => _jsObject.errorCode;
+  String? get errorCode => _jsObject?.errorCode;
 
   /// A message describing the error.
-  String get errorMessage => _jsObject.errorMessage;
+  String? get errorMessage => _jsObject?.errorMessage;
 
   // JS Error fields, AuthError extends Error
 
   /// Same as [errorMessage].
-  String get message => _jsObject.message;
+  String? get message => _jsObject?.message;
 
   /// The JavaScript stack trace for the error.
-  String get stack => _jsObject.stack;
+  String? get stack => _jsObject?.stack;
 
-  final interop.AuthError _jsObject;
+  final interop.AuthError? _jsObject;
 
   AuthException._fromJsObject(this._jsObject);
 
@@ -74,21 +72,21 @@ class ClientConfigurationException extends ClientAuthException {
 class ClientConfigurationMessageException
     implements ClientConfigurationException {
   @override
-  String get errorCode => _message.code;
+  String? get errorCode => _message.code;
 
   @override
-  String get errorMessage => _message.desc;
+  String? get errorMessage => _message.desc;
 
   @override
-  String get message => _message.desc;
+  String? get message => _message.desc;
 
   @override
-  String get stack => null;
+  String? get stack => null;
 
   // Note: This override is necessary because we are implementing a class in
   // the same Dart library. Private members are visible across the library.
   @override
-  final interop.AuthError _jsObject = null;
+  final interop.AuthError? _jsObject = null;
 
   final interop.ClientConfigurationErrorMessage _message;
 

@@ -28,10 +28,14 @@ void main() {
     expect(map.values, equals(['b', 'd']));
 
     // Check entries
-    expect(map.entries,
-        predicate((e) => e.any((kv) => kv.key == 'a' && kv.value == 'b')));
-    expect(map.entries,
-        predicate((e) => e.any((kv) => kv.key == 'c' && kv.value == 'd')));
+    expect(
+        map.entries,
+        predicate(
+            (dynamic e) => e.any((kv) => kv.key == 'a' && kv.value == 'b')));
+    expect(
+        map.entries,
+        predicate(
+            (dynamic e) => e.any((kv) => kv.key == 'c' && kv.value == 'd')));
 
     // Check remove
     expect(map.remove('a'), equals('b'));

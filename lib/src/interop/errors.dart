@@ -7,19 +7,19 @@ part of 'interop.dart';
 
 @JS('AuthError')
 class AuthError {
-  external String get errorCode;
-  external String get errorMessage;
+  external String? get errorCode;
+  external String? get errorMessage;
 
   // JS Error fields, AuthError extends Error
 
-  external String get name;
-  external String get message;
-  external String get stack;
+  external String? get name;
+  external String? get message;
+  external String? get stack; // TODO: This is a non-standard Mozilla property
 }
 
 @JS()
 @anonymous
 class ClientConfigurationErrorMessage {
-  external String get code;
-  external String get desc;
+  external String? get code;
+  external String? get desc;
 }
