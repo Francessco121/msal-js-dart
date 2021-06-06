@@ -16,7 +16,7 @@ void main() {
         ..validateAuthority = false
         ..knownAuthorities = ['login.microsoftonline.com'])
       ..cache = (CacheOptions()
-        ..cacheLocation = CacheLocation.localStorage
+        ..cacheLocation = BrowserCacheLocation.localStorage
         ..storeAuthStateInCookie = true)
       ..system = (SystemOptions()
         ..loadFrameTimeout = 1
@@ -34,7 +34,8 @@ void main() {
       expect(config.auth!.validateAuthority, isFalse);
       expect(
           config.auth!.knownAuthorities, equals(['login.microsoftonline.com']));
-      expect(config.cache!.cacheLocation, equals(CacheLocation.localStorage));
+      expect(config.cache!.cacheLocation,
+          equals(BrowserCacheLocation.localStorage));
       expect(config.cache!.storeAuthStateInCookie, isTrue);
       expect(config.system!.loadFrameTimeout, equals(1));
       expect(config.system!.navigateFrameWait, equals(1));

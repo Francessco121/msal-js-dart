@@ -2,7 +2,11 @@ import 'interop/interop.dart' as interop;
 
 AuthException convertJsAuthError(interop.AuthError jsError) {
   // Determine type
-  if (jsError.name == 'ClientConfigurationError') {
+  if (jsError.name == 'BrowserConfigurationAuthError') {
+    return BrowserConfigurationAuthException._fromJsObject(jsError);
+  } else if (jsError.name == 'BrowserAuthError') {
+    return BrowserAuthException._fromJsObject(jsError);
+  } else if (jsError.name == 'ClientConfigurationError') {
     return ClientConfigurationException._fromJsObject(jsError);
   } else if (jsError.name == 'InteractionRequiredAuthError') {
     return InteractionRequiredAuthException._fromJsObject(jsError);
@@ -15,102 +19,81 @@ AuthException convertJsAuthError(interop.AuthError jsError) {
   }
 }
 
-AuthException convertJsClientConfigurationErrorMessage(
-    interop.ClientConfigurationErrorMessage jsError) {
-  return ClientConfigurationMessageException._jsObject(jsError);
-}
-
-/// A general error thrown by MSAL.
+/// General error class thrown by the MSAL.js library.
 class AuthException implements Exception {
-  /// The code of the error that occurred.
-  String? get errorCode => _jsObject?.errorCode;
+  /// Short string denoting error.
+  String get errorCode => _jsObject.errorCode;
 
-  /// A message describing the error.
-  String? get errorMessage => _jsObject?.errorMessage;
+  /// Detailed description of error.
+  String get errorMessage => _jsObject.errorMessage;
+
+  /// Describes the subclass of an error.
+  String get subError => _jsObject.subError;
 
   // JS Error fields, AuthError extends Error
 
-  /// Same as [errorMessage].
-  String? get message => _jsObject?.message;
+  /// Combination of [errorCode] and [errorMessage].
+  String get message => _jsObject.message ?? '';
 
-  /// The JavaScript stack trace for the error.
-  String? get stack => _jsObject?.stack;
-
-  final interop.AuthError? _jsObject;
+  final interop.AuthError _jsObject;
 
   AuthException._fromJsObject(this._jsObject);
 
   @override
-  String toString() => 'AuthException: $errorCode:$message';
+  String toString() => 'AuthException: $message';
 }
 
-/// Thrown by MSAL when there is an error in the client code running on the browser.
+/// Thrown when there is an error in the client code running on the browser.
 class ClientAuthException extends AuthException {
   ClientAuthException._fromJsObject(interop.AuthError jsObject)
       : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ClientAuthException: $errorCode:$message';
+  String toString() => 'ClientAuthException: $message';
 }
 
-/// Thrown by MSAL when there is an error in the configuration of a library object.
+/// Thrown when there is an error in configuration of the MSAL.js library.
 class ClientConfigurationException extends ClientAuthException {
   ClientConfigurationException._fromJsObject(interop.AuthError jsObject)
       : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ClientConfigurationException: $errorCode:$message';
+  String toString() => 'ClientConfigurationException: $message';
 }
 
-/// A custom implementation of [ClientConfigurationException] that takes a
-/// [interop.ClientConfigurationErrorMessage] as a source instead of a real
-/// auth error.
-///
-/// msal.js sometimes throws an anonymous object instead of an actual config
-/// error, so we need to catch it specifically, otherwise users can't see the
-/// actual error that happened.
-class ClientConfigurationMessageException
-    implements ClientConfigurationException {
-  @override
-  String? get errorCode => _message.code;
-
-  @override
-  String? get errorMessage => _message.desc;
-
-  @override
-  String? get message => _message.desc;
-
-  @override
-  String? get stack => null;
-
-  // Note: This override is necessary because we are implementing a class in
-  // the same Dart library. Private members are visible across the library.
-  @override
-  final interop.AuthError? _jsObject = null;
-
-  final interop.ClientConfigurationErrorMessage _message;
-
-  ClientConfigurationMessageException._jsObject(this._message);
-
-  @override
-  String toString() => 'ClientConfigurationException: $errorCode:$message';
-}
-
-/// Thrown by MSAL when the user is required to perform an interactive token request.
+/// Thrown when user interaction is required at the auth server.
 class InteractionRequiredAuthException extends ServerException {
   InteractionRequiredAuthException._fromJsObject(interop.AuthError jsObject)
       : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'InteractionRequiredAuthException: $errorCode:$message';
+  String toString() => 'InteractionRequiredAuthException: $message';
 }
 
-/// Thrown by MSAL when there is an error with the server code,
+/// Thrown when there is an error with the server code,
 /// for example, unavailability.
 class ServerException extends AuthException {
   ServerException._fromJsObject(interop.AuthError jsObject)
       : super._fromJsObject(jsObject);
 
   @override
-  String toString() => 'ServerException: $errorCode:$message';
+  String toString() => 'ServerException: $message';
+}
+
+/// Browser library error class thrown by the MSAL.js library for SPAs.
+class BrowserAuthException extends AuthException {
+  BrowserAuthException._fromJsObject(interop.AuthError jsObject)
+      : super._fromJsObject(jsObject);
+
+  @override
+  String toString() => 'BrowserAuthException: $message';
+}
+
+/// Browser library error class thrown by the MSAL.js library for SPAs.
+class BrowserConfigurationAuthException extends AuthException {
+  BrowserConfigurationAuthException._fromJsObject(interop.AuthError jsObject)
+      : super._fromJsObject(jsObject);
+
+  @override
+  String toString() => 'BrowserConfigurationAuthException: $message';
 }

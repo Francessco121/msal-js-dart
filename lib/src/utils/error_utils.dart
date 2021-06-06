@@ -7,8 +7,6 @@ T _callJsMethod<T>(T Function() function) {
     return function();
   } on interop.AuthError catch (ex) {
     throw convertJsAuthError(ex);
-  } on interop.ClientConfigurationErrorMessage catch (ex) {
-    throw convertJsClientConfigurationErrorMessage(ex);
   }
 }
 
@@ -20,7 +18,5 @@ Future<T> _convertMsalPromise<T>(dynamic promise) async {
     return await promiseToFuture<T>(promise);
   } on interop.AuthError catch (ex) {
     throw convertJsAuthError(ex);
-  } on interop.ClientConfigurationErrorMessage catch (ex) {
-    throw convertJsClientConfigurationErrorMessage(ex);
   }
 }

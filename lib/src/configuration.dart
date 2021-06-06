@@ -1,13 +1,13 @@
 part of '../msal_js.dart';
 
-/// Used to configure a [UserAgentApplication].
+/// Used to configure a [PublicClientApplication].
 class Configuration {
-  AuthOptions? get auth => _jsObject.auth == null
+  BrowserAuthOptions? get auth => _jsObject.auth == null
       ? null
-      : AuthOptions._fromJsObject(_jsObject.auth!);
+      : BrowserAuthOptions._fromJsObject(_jsObject.auth!);
 
   /// Sets the auth options.
-  set auth(AuthOptions? value) => _jsObject.auth = value?._jsObject;
+  set auth(BrowserAuthOptions? value) => _jsObject.auth = value?._jsObject;
 
   CacheOptions? get cache => _jsObject.cache == null
       ? null
@@ -16,27 +16,13 @@ class Configuration {
   /// Sets the cache options.
   set cache(CacheOptions? value) => _jsObject.cache = value?._jsObject;
 
-  SystemOptions? get system => _jsObject.system == null
+  BrowserSystemOptions? get system => _jsObject.system == null
       ? null
-      : SystemOptions._fromJsObject(_jsObject.system!);
+      : BrowserSystemOptions._fromJsObject(_jsObject.system!);
 
   /// Sets the library specific options.
-  set system(SystemOptions? value) => _jsObject.system = value?._jsObject;
-
-  @Deprecated('''
-    FrameworkOptions is only used by the Angular MSAL libraries and will do nothing in this package. 
-    See [FrameworkOptions] for more information.
-  ''')
-  FrameworkOptions? get framework => _jsObject.framework == null
-      ? null
-      : FrameworkOptions._fromJsObject(_jsObject.framework!);
-
-  @Deprecated('''
-    FrameworkOptions is only used by the Angular MSAL libraries and will do nothing in this package. 
-    See [FrameworkOptions] for more information.
-  ''')
-  set framework(FrameworkOptions? value) =>
-      _jsObject.framework = value?._jsObject;
+  set system(BrowserSystemOptions? value) =>
+      _jsObject.system = value?._jsObject;
 
   final interop.Configuration _jsObject;
 
@@ -45,95 +31,46 @@ class Configuration {
   Configuration._fromJsObject(this._jsObject);
 }
 
-/// Used to configure the auth options for a [UserAgentApplication].
-class AuthOptions {
+/// Used to configure the auth options for a [PublicClientApplication].
+class BrowserAuthOptions {
   String? get clientId => _jsObject.clientId;
 
-  /// Sets the client ID of the registered application.
+  /// App ID of your application.
+  ///
+  /// Can be found in your portal registration.
+  ///
+  /// This parameter is required in order for MSAL to perform any actions.
   set clientId(String? value) => _jsObject.clientId = value;
 
   String? get authority => _jsObject.authority;
 
-  /// Sets the authority to be used.
+  /// URI of the tenant to authenticate and authorize with.
   ///
-  /// [value] - A URL indicating a directory that MSAL can use to obtain tokens:
-  /// - In Azure AD, it is of the form https://<instance>/<tenant>, where <instance> is the directory host
-  ///   (e.g. https://login.microsoftonline.com) and <tenant> is a identifier within the directory itself
-  ///   (e.g. a domain associated to the tenant, such as contoso.onmicrosoft.com, or the GUID representing
-  ///   the TenantID property of the directory)
-  /// - In Azure B2C, it is of the form https://<instance>/tfp/<tenant>/<policyName>/
-  /// - Defaults to https://login.microsoftonline.com/common.
+  /// Usually takes the form of `https://{uri}/{tenantid}`.
+  ///
+  /// Defaults to https://login.microsoftonline.com/common.
   set authority(String? value) => _jsObject.authority = value;
-
-  bool? get validateAuthority => _jsObject.validateAuthority;
-
-  /// Sets whether the authority should be validated.
-  ///
-  /// When set to `true` (default), MSAL will compare the application's authority against well-known URL
-  /// templates representing well-formed authorities. It is useful when the authority is obtained at
-  /// run time to prevent MSAL from displaying authentication prompts from malicious pages.
-  set validateAuthority(bool? value) => _jsObject.validateAuthority = value;
 
   List<String>? get knownAuthorities =>
       jsDecodeList<String>(_jsObject.knownAuthorities);
 
-  /// If [validateAuthority] is set to true, this will be used to set the
-  /// Trusted Host list.
+  /// A list of URIs that are known to be valid.
   ///
-  /// Defaults to empty.
+  /// Used in B2C scenarios.
+  ///
+  /// Defaults to an empty list.
   set knownAuthorities(List<String>? value) =>
       _jsObject.knownAuthorities = jsEncode(value);
 
-  dynamic get redirectUri => _jsObject.redirectUri;
+  String? get cloudDiscoveryMetadata => _jsObject.cloudDiscoveryMetadata;
 
-  /// Sets the redirect URI of the application.
+  /// A string containing the cloud discovery response.
   ///
-  /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
-  /// ([RedirectUriCallback]).
+  /// Used in AAD scenarios.
   ///
-  /// Defaults to a function returning the current `window.location.href`.
-  set redirectUri(dynamic value) {
-    if (value is! String && value is! RedirectUriCallback) {
-      throw ArgumentError.value(value, 'value',
-          'The redirect URI must either be a String or a RedirectUriCallback.');
-    }
-
-    if (value is RedirectUriCallback) {
-      value = allowInterop<RedirectUriCallback>(value);
-    }
-
-    _jsObject.redirectUri = value;
-  }
-
-  dynamic get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
-
-  /// Sets the URI to redirect to the user to after logout.
-  ///
-  /// Value may either be a `String` or a synchronous function which takes no arguments and returns a `String`
-  /// ([RedirectUriCallback]).
-  ///
-  /// Defaults to a function returning the current `window.location.href`.
-  set postLogoutRedirectUri(dynamic value) {
-    if (value is! String && value is! RedirectUriCallback) {
-      throw ArgumentError.value(value, 'value',
-          'The post-logout redirect URI must either be a String or a RedirectUriCallback.');
-    }
-
-    if (value is RedirectUriCallback) {
-      value = allowInterop<RedirectUriCallback>(value);
-    }
-
-    _jsObject.postLogoutRedirectUri = value;
-  }
-
-  bool? get navigateToLoginRequestUrl => _jsObject.navigateToLoginRequestUrl;
-
-  /// Sets whether the user will be redirected to the URL that initiated the login
-  /// after a successful login.
-  ///
-  /// Defaults to `true`.
-  set navigateToLoginRequestUrl(bool? value) =>
-      _jsObject.navigateToLoginRequestUrl = value;
+  /// Defaults to `''`.
+  set cloudDiscoveryMetadata(String? value) =>
+      _jsObject.cloudDiscoveryMetadata = value;
 
   String? get authorityMetadata => _jsObject.authorityMetadata;
 
@@ -141,20 +78,71 @@ class AuthOptions {
   ///
   /// Must be passed as a JSON string.
   ///
-  /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-core/docs/performance.md#bypass-authority-metadata-resolution
+  /// See https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-browser/docs/performance.md#bypass-authority-metadata-resolution
   /// for more information.
   set authorityMetadata(String? value) => _jsObject.authorityMetadata = value;
 
-  final interop.AuthOptions _jsObject;
+  String? get redirectUri => _jsObject.redirectUri;
 
-  AuthOptions() : _jsObject = interop.AuthOptions();
+  /// The redirect URI where authentication responses can be received by your
+  /// application.
+  ///
+  /// It must exactly match one of the redirect URIs registered in the
+  /// Azure portal. Whatever location is specified here must have the MSAL
+  /// library available to handle the response.
+  ///
+  /// Defaults to `window.location.href`.
+  set redirectUri(String? value) => _jsObject.redirectUri = value;
 
-  AuthOptions._fromJsObject(this._jsObject);
+  String? get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
+
+  /// The redirect URI where the window navigates after a successful logout.
+  ///
+  /// Set to `null` to disable post logout redirect.
+  ///
+  /// Defaults to `window.location.href`.
+  set postLogoutRedirectUri(String? value) =>
+      _jsObject.postLogoutRedirectUri = value;
+
+  bool? get navigateToLoginRequestUrl => _jsObject.navigateToLoginRequestUrl;
+
+  /// Boolean indicating whether to navigate to the original request URL after
+  /// the auth server navigates to the redirect URL.
+  ///
+  /// Defaults to `true`.
+  set navigateToLoginRequestUrl(bool? value) =>
+      _jsObject.navigateToLoginRequestUrl = value;
+
+  List<String>? get clientCapabilities =>
+      jsDecodeList<String>(_jsObject.clientCapabilities);
+
+  /// List of capabilities which will be added to the
+  /// `claims.access_token.xms_cc` request property on every network request.
+  ///
+  /// Defaults to an empty list.
+  set clientCapabilities(List<String>? value) =>
+      _jsObject.clientCapabilities = jsEncode(value);
+
+  String? get protocolMode => _jsObject.protocolMode;
+
+  /// Enum that represents the protocol that msal follows.
+  ///
+  /// If "AAD", will function on the OIDC-compliant AAD v2 endpoints;
+  /// if "OIDC", will function on other OIDC-compliant endpoints.
+  ///
+  /// Defaults to `'AAD'`.
+  set protocolMode(String? value) => _jsObject.protocolMode = value;
+
+  final interop.BrowserAuthOptions _jsObject;
+
+  BrowserAuthOptions() : _jsObject = interop.BrowserAuthOptions();
+
+  BrowserAuthOptions._fromJsObject(this._jsObject);
 }
 
-/// Used to configure the cache options for a [UserAgentApplication].
+/// Used to configure the cache options for a [PublicClientApplication].
 class CacheOptions {
-  CacheLocation? get cacheLocation => _jsObject.cacheLocation == null
+  BrowserCacheLocation? get cacheLocation => _jsObject.cacheLocation == null
       ? null
       : _stringToCacheLocation(_jsObject.cacheLocation!);
 
@@ -163,20 +151,29 @@ class CacheOptions {
   /// Session storage is recommended, but local storage will allow authentication
   /// across multiple browser tabs.
   ///
-  /// Defaults to [CacheLocation.sessionStorage].
-  set cacheLocation(CacheLocation? value) => _jsObject.cacheLocation =
+  /// Defaults to [BrowserCacheLocation.sessionStorage].
+  set cacheLocation(BrowserCacheLocation? value) => _jsObject.cacheLocation =
       value == null ? null : _cacheLocationToString(value);
 
   bool? get storeAuthStateInCookie => _jsObject.storeAuthStateInCookie;
 
   /// Sets whether the authentication state should be stored in a cookie.
   ///
-  /// If `true`, MSAL store's the auth request state required for validation of the auth
-  /// flows in the browser cookies.
+  /// If `true`, MSAL store's the auth request state required for validation
+  /// of the auth flows in the browser cookies. Should be set to `true` for
+  /// use cases using IE.
   ///
   /// Defaults to `false`.
   set storeAuthStateInCookie(bool? value) =>
       _jsObject.storeAuthStateInCookie = value;
+
+  bool? get secureCookies => _jsObject.secureCookies;
+
+  /// If `true` and [storeAuthStateInCookie] is also enabled, MSAL adds the
+  /// `Secure` flag to the browser cookie so it can only be sent over HTTPS.
+  ///
+  /// Defaults to `false`.
+  set secureCookies(bool? value) => _jsObject.secureCookies = value;
 
   final interop.CacheOptions _jsObject;
 
@@ -185,67 +182,97 @@ class CacheOptions {
   CacheOptions._fromJsObject(this._jsObject);
 }
 
-/// Used to configure library specific options for a [UserAgentApplication].
-class SystemOptions {
-  Logger? get logger =>
-      _jsObject.logger == null ? null : Logger._fromJsObject(_jsObject.logger!);
+/// Used to configure library specific options for a [PublicClientApplication].
+class BrowserSystemOptions {
+  LoggerOptions? get loggerOptions => _jsObject.loggerOptions == null
+      ? null
+      : LoggerOptions._fromJsObject(_jsObject.loggerOptions!);
 
-  /// Sets the logger to be used by the application.
+  /// Used to initialize the Logger object.
   ///
   /// Defaults to `null`.
-  set logger(Logger? value) => _jsObject.logger = value?._jsObject;
+  set loggerOptions(LoggerOptions? value) =>
+      _jsObject.loggerOptions = value?._jsObject;
+
+  // TODO: networkClient, navigationClient
+
+  num? get windowHashTimeout => _jsObject.windowHashTimeout;
+
+  /// Sets the timeout (milliseconds) for waiting for a response hash in a popup.
+  ///
+  /// Will take precedence over [loadFrameTimeout] if both are set.
+  ///
+  /// Defaults to `60000`.
+  set windowHashTimeout(num? value) => _jsObject.windowHashTimeout = value;
+
+  num? get iframeHashTimeout => _jsObject.iframeHashTimeout;
+
+  /// Sets the timeout (milliseconds) for waiting for a response hash in an iframe.
+  ///
+  /// Will take precedence over [loadFrameTimeout] if both are set.
+  ///
+  /// Defaults to `6000`.
+  set iframeHashTimeout(num? value) => _jsObject.iframeHashTimeout = value;
 
   num? get loadFrameTimeout => _jsObject.loadFrameTimeout;
 
-  /// Sets the maximum time in milliseconds the library will wait for an iframe to load.
+  /// Sets the timeout (milliseconds) for waiting for a response hash in an
+  /// iframe or popup.
   ///
-  /// Defaults to 6000.
+  /// If provided, will set default values for [windowHashTimeout]
+  /// and [iframeHashTimeout].
+  ///
+  /// Defaults to `null`.
   set loadFrameTimeout(num? value) => _jsObject.loadFrameTimeout = value;
-
-  num? get tokenRenewalOffsetSeconds => _jsObject.tokenRenewalOffsetSeconds;
-
-  /// Sets the window of offset (in seconds) needed to renew the token before expiry.
-  ///
-  /// Defaults to 300.
-  set tokenRenewalOffsetSeconds(num? value) =>
-      _jsObject.tokenRenewalOffsetSeconds = value;
 
   num? get navigateFrameWait => _jsObject.navigateFrameWait;
 
-  /// Sets the wait time (in milliseconds) for hidden iframe navigation.
+  /// Delay in milliseconds to wait for the iframe to load in the window.
   ///
-  /// Defaults to 500.
+  /// Defaults to `500` in IE or Edge, defaults to `0` in all other browsers.
   set navigateFrameWait(num? value) => _jsObject.navigateFrameWait = value;
 
-  final interop.SystemOptions _jsObject;
+  num? get redirectNavigationTimeout => _jsObject.redirectNavigationTimeout;
 
-  SystemOptions() : _jsObject = interop.SystemOptions();
+  /// Time (milliseconds) to wait for redirection to occur before resolving promise.
+  ///
+  /// Defaults to `30000`.
+  set redirectNavigationTimeout(num? value) =>
+      _jsObject.redirectNavigationTimeout = value;
 
-  SystemOptions._fromJsObject(this._jsObject);
-}
+  bool? get asyncPopups => _jsObject.asyncPopups;
 
-@Deprecated('''
-  FrameworkOptions is only used by the Angular MSAL libraries internally. 
-  Specifying it in the config will do nothing as this package wraps only the core 
-  MSAL library, which does not use any configuration defined here. 
-  This should not be used and will be removed in the future.
-''')
-class FrameworkOptions {
-  List<String>? get unprotectedResources =>
-      jsDecodeList<String>(_jsObject.unprotectedResources);
+  /// Sets whether popups are opened asynchronously.
+  ///
+  /// When set to `false`, blank popups are opened before anything else happens.
+  /// When set to `true`, popups are opened when making the network request.
+  /// Can be set to `true` for scenarios where `about:blank` is not supported,
+  /// e.g. desktop apps or progressive web apps.
+  ///
+  /// Defaults to `false`.
+  set asyncPopups(bool? value) => _jsObject.asyncPopups = value;
 
-  set unprotectedResources(List<String>? value) =>
-      _jsObject.unprotectedResources = jsEncode(value);
+  bool? get allowRedirectInIframe => _jsObject.allowRedirectInIframe;
 
-  Map<String, List<String>>? get protectedResourceMap =>
-      jsDecodeMap<List<String>>(_jsObject.protectedResourceMap);
+  /// By default, MSAL will not allow redirect operations to be initiated when
+  /// the application is inside an iframe.
+  ///
+  /// Set this flag to true to remove this check (to support scenarios such
+  /// as embedded B2C login).
+  ///
+  /// Defaults to `false`.
+  set allowRedirectInIframe(bool? value) =>
+      _jsObject.allowRedirectInIframe = value;
 
-  set protectedResourceMap(Map<String, List<String>>? value) =>
-      _jsObject.protectedResourceMap = jsEncode(value);
+  num? get tokenRenewalOffsetSeconds => _jsObject.tokenRenewalOffsetSeconds;
 
-  final interop.FrameworkOptions _jsObject;
+  /// Sets the window of offset needed to renew the token before expiry.
+  set tokenRenewalOffsetSeconds(num? value) =>
+      _jsObject.tokenRenewalOffsetSeconds = value;
 
-  FrameworkOptions() : _jsObject = interop.FrameworkOptions();
+  final interop.BrowserSystemOptions _jsObject;
 
-  FrameworkOptions._fromJsObject(this._jsObject);
+  BrowserSystemOptions() : _jsObject = interop.BrowserSystemOptions();
+
+  BrowserSystemOptions._fromJsObject(this._jsObject);
 }
