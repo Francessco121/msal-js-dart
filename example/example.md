@@ -1,6 +1,6 @@
 > **Looking for a Flutter Web example?**
 > 
-> See our [example for Flutter Web apps here](https://github.com/milestonetg/msal-js-dart/blob/master/example/flutter_web_example.md).
+> See our [example for Flutter Web apps here](https://github.com/Francessco121/msal-js-dart/blob/master/example/flutter_web_example.md).
 
 > **NOTE: PLEASE READ FIRST**
 >
