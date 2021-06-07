@@ -103,7 +103,7 @@ try {
 
   // Silent token request successful,
   // access token is available at silentResult.accessToken
-} on AuthException catch (ex) {
+} on InteractionRequiredAuthException {
   // Interactive prompt is required
 
   // This example will use a popup, but acquireTokenRedirect
@@ -119,7 +119,10 @@ try {
   } on AuthException catch (ex) {
     // Interactive request failed, see ex for more info
   } 
-}
+} on AuthException catch (ex) {
+  // Silent request failed, but not because interaction is required,
+  // see ex for more info
+} 
 ```
 
 ### Call the Microsoft Graph API with an access token
