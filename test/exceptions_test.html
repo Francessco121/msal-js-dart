@@ -3,26 +3,22 @@
   <head>
     <title>Exceptions Test</title>
     <link rel="x-dart-test" href="exceptions_test.dart">
-    <script src="https://unpkg.com/msal@1.4.6/dist/msal.min.js"></script>
+    <script src="https://alcdn.msauth.net/browser/2.14.2/js/msal-browser.min.js"></script>
     <script>
-      window.throwClientConfigurationError = function() {
-        throw new Msal.ClientConfigurationError('test');
-      };
-
       window.throwInteractionRequiredAuthError = function() {
-        throw new Msal.InteractionRequiredAuthError('test');
-      };
-
-      window.throwServerError = function() {
-        throw new Msal.ServerError('test');
-      };
-
-      window.throwClientAuthError = function() {
-        throw new Msal.ClientAuthError('test');
+        throw new msal.InteractionRequiredAuthError('test');
       };
 
       window.throwAuthError = function() {
-        throw new Msal.AuthError('test');
+        throw new msal.AuthError('test');
+      };
+
+      window.throwBrowserConfigurationAuthError = function() {
+        throw new msal.BrowserConfigurationAuthError('test');
+      };
+
+      window.throwBrowserAuthError = function() {
+        throw new msal.BrowserAuthError('test');
       };
     </script>
     <script src="packages/test/dart.js"></script>

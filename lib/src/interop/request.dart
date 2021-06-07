@@ -8,6 +8,13 @@ typedef RedirectNavigateCallback = bool? Function(String url);
 
 @JS()
 @anonymous
+class SsoSilentRequest extends CommonAuthorizationUrlRequest {
+  external List? get scopes;
+  external set scopes(List? scopes);
+}
+
+@JS()
+@anonymous
 class EndSessionRequest extends CommonEndSessionRequest {
   external String? get authority;
   external set authority(String? authority);
@@ -65,6 +72,9 @@ class CommonSilentFlowRequest {
   external set tokenQueryParameters(dynamic tokenQueryParameters);
 
   // BaseAuthRequest
+
+  external List? get scopes;
+  external set scopes(List? scopes);
 
   external String? get authenticationScheme;
   external set authenticationScheme(String? correlationId);

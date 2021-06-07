@@ -2,6 +2,9 @@
 @TestOn('browser')
 library exceptions_test;
 
+// Note: We can't test every exception because msal.js only exports some
+// of them, even tho more than what is exported is thrown...
+
 import 'package:js/js.dart';
 import 'package:msal_js/msal_js.dart';
 import 'package:msal_js/src/exceptions.dart';
@@ -23,6 +26,12 @@ external void throwClientAuthError();
 @JS()
 external void throwAuthError();
 
+@JS()
+external void throwBrowserConfigurationAuthError();
+
+@JS()
+external void throwBrowserAuthError();
+
 void main() {
   void _convert(Function function) {
     try {
@@ -33,15 +42,6 @@ void main() {
   }
 
   test(
-      'ClientConfigurationError gets converted to ClientConfigurationException',
-      () {
-    expect(
-      () => _convert(() => throwClientConfigurationError()),
-      throwsA(isA<ClientConfigurationException>()),
-    );
-  });
-
-  test(
       'InteractionRequiredAuthError gets converted to InteractionRequiredAuthException',
       () {
     expect(
@@ -50,24 +50,24 @@ void main() {
     );
   });
 
-  test('ServerError gets converted to ServerException', () {
-    expect(
-      () => _convert(() => throwServerError()),
-      throwsA(isA<ServerException>()),
-    );
-  });
-
-  test('ClientAuthError gets converted to ClientAuthException', () {
-    expect(
-      () => _convert(() => throwClientAuthError()),
-      throwsA(isA<ClientAuthException>()),
-    );
-  });
-
   test('AuthError gets converted to AuthException', () {
     expect(
       () => _convert(() => throwAuthError()),
       throwsA(isA<AuthException>()),
+    );
+  });
+
+  test('BrowserConfigurationAuthError gets converted to BrowserConfigurationAuthException', () {
+    expect(
+      () => _convert(() => throwBrowserConfigurationAuthError()),
+      throwsA(isA<BrowserConfigurationAuthException>()),
+    );
+  });
+
+  test('BrowserAuthError gets converted to BrowserAuthException', () {
+    expect(
+      () => _convert(() => throwBrowserAuthError()),
+      throwsA(isA<BrowserAuthException>()),
     );
   });
 }

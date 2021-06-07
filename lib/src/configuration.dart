@@ -24,11 +24,7 @@ class Configuration {
   set system(BrowserSystemOptions? value) =>
       _jsObject.system = value?._jsObject;
 
-  final interop.Configuration _jsObject;
-
-  Configuration() : _jsObject = interop.Configuration();
-
-  Configuration._fromJsObject(this._jsObject);
+  final _jsObject = interop.Configuration();
 }
 
 /// Used to configure the auth options for a [PublicClientApplication].

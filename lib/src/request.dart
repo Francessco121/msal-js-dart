@@ -1,5 +1,16 @@
 part of '../msal_js.dart';
 
+class SsoSilentRequest extends CommonAuthorizationUrlRequest {
+  List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
+
+  /// List of scopes the application is requesting access to 
+  /// (optional for ssoSilent calls).
+  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+
+  @override
+  final interop.SsoSilentRequest _jsObject = interop.SsoSilentRequest();
+}
+
 class EndSessionRequest extends CommonEndSessionRequest {
   String? get authority => _jsObject.authority;
 
@@ -116,6 +127,11 @@ abstract class CommonSilentFlowRequest {
       _jsObject.tokenQueryParameters = jsEncode(value);
 
   // BaseAuthRequest
+
+  List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
+
+  /// List of scopes the application is requesting access to.
+  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
 
   String? get authenticationScheme => _jsObject.authenticationScheme;
 

@@ -69,7 +69,11 @@ class LoggerOptions {
           'Log level cannot be set to unknown since it is not an actual MSAL log level.');
     }
 
-    _jsObject.logLevel = value?.index;
+    if (value == null) {
+      _jsObject.logLevel = null;
+    } else {
+      _jsObject.logLevel = value.index - 1;
+    }
   }
 
   final interop.LoggerOptions _jsObject;
@@ -91,4 +95,9 @@ class Logger {
   }
 
   Logger._fromJsObject(this._jsObject);
+
+  /// Returns whether PII Logging is enabled or not.
+  bool isPiiLoggingEnabled() {
+    return _jsObject.isPiiLoggingEnabled();
+  }
 }

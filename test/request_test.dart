@@ -1,15 +1,11 @@
-// ignore_for_file: prefer_spread_collections
-// The `prefer_spread_collections` lint must be ignored because it requires Dart 2.3,
-// but this package has a minimum SDK version of 2.0.
-
 @TestOn('browser')
 
 import 'package:msal_js/msal_js.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('AuthRequest interop', () {
-    final request = AuthRequest();
+  test('SsoSilentRequest interop', () {
+    final request = SsoSilentRequest();
 
     // Check gets w/ null
     expect(request.scopes, isNull);
@@ -50,9 +46,9 @@ void main() {
     final extraScopesToConsent = request.extraScopesToConsent!;
     final extraQueryParameters = request.extraQueryParameters!;
 
-    request.scopes = ['c']..addAll(scopes);
-    request.extraScopesToConsent = ['c']..addAll(extraScopesToConsent);
-    request.extraQueryParameters = {'e': 'f'}..addAll(extraQueryParameters);
+    request.scopes = ['c', ...scopes];
+    request.extraScopesToConsent = ['c', ...extraScopesToConsent];
+    request.extraQueryParameters = {'e': 'f', ...extraQueryParameters};
 
     expect(request.scopes, contains('c'));
     expect(request.extraScopesToConsent, contains('c'));

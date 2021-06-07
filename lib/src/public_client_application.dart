@@ -46,6 +46,8 @@ class PublicClientApplication {
 
   /// Use when you want to obtain an `access_token` for your API via opening
   /// a popup window in the user's browser.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> acquireTokenPopup(PopupRequest request) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
         _callJsMethod(() => _jsObject.acquireTokenPopup(request._jsObject)));
@@ -58,6 +60,8 @@ class PublicClientApplication {
   ///
   /// This function redirects the page, so any code that follows this
   /// function will not execute.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<void> acquireTokenRedirect(RedirectRequest request) async {
     await _convertMsalPromise<void>(
         _callJsMethod(() => _jsObject.acquireTokenRedirect(request._jsObject)));
@@ -67,11 +71,49 @@ class PublicClientApplication {
   ///
   /// Will use cached token if available, otherwise will attempt to
   /// acquire a new token from the network via refresh token.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> acquireTokenSilent(SilentRequest request) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
         _callJsMethod(() => _jsObject.acquireTokenSilent(request._jsObject)));
 
     return AuthenticationResult._fromJsObject(response);
+  }
+
+  /// Returns the signed in account matching [homeAccountId]
+  /// (the account object is created at the time of successful login)
+  /// or `null` when no matching account is found.
+  AccountInfo? getAccountByHomeId(String homeAccountId) {
+    return _callJsMethod(() {
+      final jsAccount = _jsObject.getAccountByHomeId(homeAccountId);
+
+      return jsAccount == null ? null : AccountInfo._fromJsObject(jsAccount);
+    });
+  }
+
+  /// Returns the signed in account matching [localAccountId]
+  /// (the account object is created at the time of successful login)
+  /// or `null` when no matching account is found.
+  AccountInfo? getAccountByLocalId(String localAccountId) {
+    return _callJsMethod(() {
+      final jsAccount = _jsObject.getAccountByLocalId(localAccountId);
+
+      return jsAccount == null ? null : AccountInfo._fromJsObject(jsAccount);
+    });
+  }
+
+  /// Returns the signed in account matching [username]
+  /// (the account object is created at the time of successful login)
+  /// or `null` when no matching account is found.
+  ///
+  /// This API is provided for convenience but `getAccountBy*Id` should be used
+  /// for best reliability.
+  AccountInfo? getAccountByUsername(String username) {
+    return _callJsMethod(() {
+      final jsAccount = _jsObject.getAccountByUsername(username);
+
+      return jsAccount == null ? null : AccountInfo._fromJsObject(jsAccount);
+    });
   }
 
   /// Returns all accounts that MSAL currently has data for
@@ -96,6 +138,11 @@ class PublicClientApplication {
   ///
   /// Returns a token response or `null`. If the return value is `null`,
   /// then no auth redirect was detected.
+  ///
+  /// Known as `handleRedirectPromise` in MSAL.js.
+  /// 
+  /// Throws an [AuthException] if the redirect hash contained auth 
+  /// error information.
   Future<AuthenticationResult?> handleRedirect([String? hash]) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult?>(
         _callJsMethod(() => _jsObject.handleRedirectPromise(hash)));
@@ -107,6 +154,8 @@ class PublicClientApplication {
 
   /// Use when initiating the login process via opening a popup window in
   /// the user's browser.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> loginPopup([PopupRequest? request]) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
         _callJsMethod(() => _jsObject.loginPopup(request?._jsObject)));
@@ -119,24 +168,19 @@ class PublicClientApplication {
   ///
   /// This function redirects the page, so  any code that follows this
   /// function will not execute.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<void> loginRedirect([RedirectRequest? request]) async {
     await _convertMsalPromise<void>(
         _callJsMethod(() => _jsObject.loginRedirect(request?._jsObject)));
-  }
-
-  /// Deprecated logout function.
-  ///
-  /// Use [logoutRedirect] or [logoutPopup] instead.
-  @Deprecated('Use logoutRedirect or logoutPopup instead.')
-  Future<void> logout([EndSessionRequest? logoutRequest]) async {
-    await _convertMsalPromise<void>(
-        _callJsMethod(() => _jsObject.logout(logoutRequest?._jsObject)));
   }
 
   /// Use to log out the current user, and redirect the user to the
   /// `postLogoutRedirectUri`.
   ///
   /// Default behaviour is to redirect the user to `window.location.href`.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<void> logoutRedirect([EndSessionRequest? logoutRequest]) async {
     await _convertMsalPromise<void>(_callJsMethod(
         () => _jsObject.logoutRedirect(logoutRequest?._jsObject)));
@@ -144,9 +188,61 @@ class PublicClientApplication {
 
   /// Clears local cache for the current user then opens a popup window
   /// prompting the user to sign-out of the server.
+  /// 
+  /// Throws an [AuthException] on failure.
   Future<void> logoutPopup([EndSessionRequest? logoutRequest]) async {
     await _convertMsalPromise<void>(
         _callJsMethod(() => _jsObject.logoutPopup(logoutRequest?._jsObject)));
+  }
+
+  /// This function uses a hidden iframe to fetch an authorization code from
+  /// the eSTS.
+  ///
+  /// There are cases where this may not work:
+  /// - Any browser using a form of Intelligent Tracking Prevention.
+  /// - If there is not an established session with the service.
+  ///
+  /// In these cases, the request must be done inside a popup or full frame
+  /// redirect.
+  ///
+  /// For the cases where interaction is required, you cannot send a request
+  /// with `prompt=none`.
+  ///
+  /// If your refresh token has expired, you can use this function to fetch
+  /// a new set of tokens silently as long as your session on the server
+  /// still exists.
+  /// 
+  /// Throws an [AuthException] on failure.
+  Future<AuthenticationResult> ssoSilent(SsoSilentRequest request) async {
+    final response = await _convertMsalPromise<interop.AuthenticationResult>(
+        _callJsMethod(() => _jsObject.ssoSilent(request._jsObject)));
+
+    return AuthenticationResult._fromJsObject(response);
+  }
+
+  /// Returns the logger instance.
+  Logger getLogger() {
+    return _callJsMethod(() {
+      return Logger._fromJsObject(_jsObject.getLogger());
+    });
+  }
+
+  /// Replaces the default logger set in configurations with new Logger
+  /// with new configurations.
+  void setLogger(Logger logger) {
+    _callJsMethod(() {
+      _jsObject.setLogger(logger._jsObject);
+    });
+  }
+
+  /// Sets the account to use as the active account. 
+  /// 
+  /// If no account is passed to the `acquireToken` APIs, then MSAL will use 
+  /// this active account.
+  void setActiveAccount(AccountInfo? account) {
+    _callJsMethod(() {
+      _jsObject.setActiveAccount(account?._jsObject);
+    });
   }
 
   /// Gets the currently active account.

@@ -4,79 +4,68 @@ import 'package:msal_js/msal_js.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('UserAgentApplication config can be written/read/retrieved', () {
+  test('PublicClientApplication config can be written/read/retrieved', () {
     // Create config
-    var config = Configuration()
-      ..auth = (AuthOptions()
-        ..authority = 'https://login.microsoftonline.com/common'
+    final config = Configuration()
+      ..auth = (BrowserAuthOptions()
         ..clientId = 'fakeid'
-        ..navigateToLoginRequestUrl = false
-        ..postLogoutRedirectUri = 'post'
+        ..authority = 'https://login.microsoftonline.com/common'
+        ..knownAuthorities = ['login.microsoftonline.com']
+        ..cloudDiscoveryMetadata = 'https://test.com/'
+        ..authorityMetadata = 'https://test.com/'
         ..redirectUri = 'redirect'
-        ..validateAuthority = false
-        ..knownAuthorities = ['login.microsoftonline.com'])
+        ..postLogoutRedirectUri = 'post'
+        ..navigateToLoginRequestUrl = false
+        ..clientCapabilities = ['test']
+        ..protocolMode = 'OIDC')
       ..cache = (CacheOptions()
         ..cacheLocation = BrowserCacheLocation.localStorage
-        ..storeAuthStateInCookie = true)
-      ..system = (SystemOptions()
+        ..storeAuthStateInCookie = true
+        ..secureCookies = true)
+      ..system = (BrowserSystemOptions()
+        ..loggerOptions = (LoggerOptions()
+          ..logLevel = LogLevel.trace
+          ..piiLoggingEnabled = true)
+        ..windowHashTimeout = 1
+        ..iframeHashTimeout = 1
         ..loadFrameTimeout = 1
         ..navigateFrameWait = 1
+        ..redirectNavigationTimeout = 1
+        ..asyncPopups = true
+        ..allowRedirectInIframe = true
         ..tokenRenewalOffsetSeconds = 1);
 
     // Assert config can be read back
-    void assertConfig() {
-      expect(config.auth!.authority,
-          equals('https://login.microsoftonline.com/common'));
-      expect(config.auth!.clientId, equals('fakeid'));
-      expect(config.auth!.navigateToLoginRequestUrl, isFalse);
-      expect(config.auth!.postLogoutRedirectUri, equals('post'));
-      expect(config.auth!.redirectUri, equals('redirect'));
-      expect(config.auth!.validateAuthority, isFalse);
-      expect(
-          config.auth!.knownAuthorities, equals(['login.microsoftonline.com']));
-      expect(config.cache!.cacheLocation,
-          equals(BrowserCacheLocation.localStorage));
-      expect(config.cache!.storeAuthStateInCookie, isTrue);
-      expect(config.system!.loadFrameTimeout, equals(1));
-      expect(config.system!.navigateFrameWait, equals(1));
-      expect(config.system!.tokenRenewalOffsetSeconds, equals(1));
-    }
+    expect(config.auth!.clientId, equals('fakeid'));
+    expect(config.auth!.authority,
+        equals('https://login.microsoftonline.com/common'));
+    expect(
+        config.auth!.knownAuthorities, equals(['login.microsoftonline.com']));
+    expect(config.auth!.cloudDiscoveryMetadata, equals('https://test.com/'));
+    expect(config.auth!.authorityMetadata, equals('https://test.com/'));
+    expect(config.auth!.redirectUri, equals('redirect'));
+    expect(config.auth!.postLogoutRedirectUri, equals('post'));
+    expect(config.auth!.navigateToLoginRequestUrl, isFalse);
+    expect(config.auth!.clientCapabilities, equals(['test']));
+    expect(config.auth!.protocolMode, equals('OIDC'));
 
-    assertConfig();
+    expect(
+        config.cache!.cacheLocation, equals(BrowserCacheLocation.localStorage));
+    expect(config.cache!.storeAuthStateInCookie, isTrue);
+    expect(config.cache!.secureCookies, isTrue);
 
-    // Create user agent application and get config from there
-    final userAgentApp = UserAgentApplication(config);
-    config = userAgentApp.getCurrentConfiguration();
+    expect(config.system!.loggerOptions!.logLevel, equals(LogLevel.trace));
+    expect(config.system!.loggerOptions!.piiLoggingEnabled, isTrue);
+    expect(config.system!.windowHashTimeout, equals(1));
+    expect(config.system!.iframeHashTimeout, equals(1));
+    expect(config.system!.loadFrameTimeout, equals(1));
+    expect(config.system!.navigateFrameWait, equals(1));
+    expect(config.system!.redirectNavigationTimeout, equals(1));
+    expect(config.system!.asyncPopups, isTrue);
+    expect(config.system!.allowRedirectInIframe, isTrue);
+    expect(config.system!.tokenRenewalOffsetSeconds, equals(1));
 
-    // Assert config is the same after retrieved from user agent app
-    assertConfig();
-  });
-
-  test('Redirect URI can be either String or callback', () {
-    expect((AuthOptions()..redirectUri = '').redirectUri, equals(''));
-    expect((AuthOptions()..postLogoutRedirectUri = '').postLogoutRedirectUri,
-        equals(''));
-
-    expect(() {
-      AuthOptions()..redirectUri = 2;
-    }, throwsA(isA<ArgumentError>()));
-    expect(() {
-      AuthOptions()..postLogoutRedirectUri = 2;
-    }, throwsA(isA<ArgumentError>()));
-  });
-
-  test('Redirect URI callback can be retrieved and called manually', () {
-    const redirectUri = 'https://test.com/test';
-    const postRedirectUri = 'https://test.com/';
-
-    String redirectUriCallback() => redirectUri;
-    String postRedirectUriCallback() => postRedirectUri;
-
-    final options = AuthOptions()
-      ..redirectUri = expectAsync0(redirectUriCallback)
-      ..postLogoutRedirectUri = expectAsync0(postRedirectUriCallback);
-
-    expect(options.redirectUri(), equals(redirectUri));
-    expect(options.postLogoutRedirectUri(), equals(postRedirectUri));
+    // Create public client application
+    final _ = PublicClientApplication(config);
   });
 }
