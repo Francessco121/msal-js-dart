@@ -57,7 +57,9 @@ void main() {
     );
   });
 
-  test('BrowserConfigurationAuthError gets converted to BrowserConfigurationAuthException', () {
+  test(
+      'BrowserConfigurationAuthError gets converted to BrowserConfigurationAuthException',
+      () {
     expect(
       () => _convert(() => throwBrowserConfigurationAuthError()),
       throwsA(isA<BrowserConfigurationAuthException>()),

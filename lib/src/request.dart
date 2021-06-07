@@ -3,7 +3,7 @@ part of '../msal_js.dart';
 class SsoSilentRequest extends CommonAuthorizationUrlRequest {
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
-  /// List of scopes the application is requesting access to 
+  /// List of scopes the application is requesting access to
   /// (optional for ssoSilent calls).
   set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
 

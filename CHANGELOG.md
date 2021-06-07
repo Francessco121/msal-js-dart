@@ -2,7 +2,7 @@
 - **(breaking change)** Support for most of MSAL.js 2.14.
   - MSAL 2.x has a slightly different API than MSAL 1.x, some notable changes include:
     - `UserAgentApplication` was renamed to `PublicClientApplication`.
-    - `handleRedirect` replaces `handleRedirectCallback`.
+    - `handleRedirectFuture` replaces `handleRedirectCallback`.
     - Request/response classes have new names.
   - Some advanced APIs are not supported yet such as the new event API.
 - **(breaking change)** Removed deprecated `MissingMsalJsException` class.

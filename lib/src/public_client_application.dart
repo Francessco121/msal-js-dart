@@ -46,7 +46,7 @@ class PublicClientApplication {
 
   /// Use when you want to obtain an `access_token` for your API via opening
   /// a popup window in the user's browser.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> acquireTokenPopup(PopupRequest request) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
@@ -60,7 +60,7 @@ class PublicClientApplication {
   ///
   /// This function redirects the page, so any code that follows this
   /// function will not execute.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<void> acquireTokenRedirect(RedirectRequest request) async {
     await _convertMsalPromise<void>(
@@ -71,7 +71,7 @@ class PublicClientApplication {
   ///
   /// Will use cached token if available, otherwise will attempt to
   /// acquire a new token from the network via refresh token.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> acquireTokenSilent(SilentRequest request) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
@@ -140,10 +140,10 @@ class PublicClientApplication {
   /// then no auth redirect was detected.
   ///
   /// Known as `handleRedirectPromise` in MSAL.js.
-  /// 
-  /// Throws an [AuthException] if the redirect hash contained auth 
+  ///
+  /// Throws an [AuthException] if the redirect hash contained auth
   /// error information.
-  Future<AuthenticationResult?> handleRedirect([String? hash]) async {
+  Future<AuthenticationResult?> handleRedirectFuture([String? hash]) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult?>(
         _callJsMethod(() => _jsObject.handleRedirectPromise(hash)));
 
@@ -154,7 +154,7 @@ class PublicClientApplication {
 
   /// Use when initiating the login process via opening a popup window in
   /// the user's browser.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> loginPopup([PopupRequest? request]) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
@@ -168,7 +168,7 @@ class PublicClientApplication {
   ///
   /// This function redirects the page, so  any code that follows this
   /// function will not execute.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<void> loginRedirect([RedirectRequest? request]) async {
     await _convertMsalPromise<void>(
@@ -179,7 +179,7 @@ class PublicClientApplication {
   /// `postLogoutRedirectUri`.
   ///
   /// Default behaviour is to redirect the user to `window.location.href`.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<void> logoutRedirect([EndSessionRequest? logoutRequest]) async {
     await _convertMsalPromise<void>(_callJsMethod(
@@ -188,7 +188,7 @@ class PublicClientApplication {
 
   /// Clears local cache for the current user then opens a popup window
   /// prompting the user to sign-out of the server.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<void> logoutPopup([EndSessionRequest? logoutRequest]) async {
     await _convertMsalPromise<void>(
@@ -211,7 +211,7 @@ class PublicClientApplication {
   /// If your refresh token has expired, you can use this function to fetch
   /// a new set of tokens silently as long as your session on the server
   /// still exists.
-  /// 
+  ///
   /// Throws an [AuthException] on failure.
   Future<AuthenticationResult> ssoSilent(SsoSilentRequest request) async {
     final response = await _convertMsalPromise<interop.AuthenticationResult>(
@@ -235,9 +235,9 @@ class PublicClientApplication {
     });
   }
 
-  /// Sets the account to use as the active account. 
-  /// 
-  /// If no account is passed to the `acquireToken` APIs, then MSAL will use 
+  /// Sets the account to use as the active account.
+  ///
+  /// If no account is passed to the `acquireToken` APIs, then MSAL will use
   /// this active account.
   void setActiveAccount(AccountInfo? account) {
     _callJsMethod(() {

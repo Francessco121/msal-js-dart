@@ -7,6 +7,6 @@ typedef LoggerCallback = void Function(
 class Logger {
   external Logger(LoggerOptions loggerOptions,
       [String? packageName, String? packageVersion]);
-  
+
   external bool isPiiLoggingEnabled();
 }
