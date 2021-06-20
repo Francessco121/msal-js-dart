@@ -2,7 +2,7 @@ part of '../msal_js.dart';
 
 /// Result returned from the authority's token endpoint.
 class AuthenticationResult implements EventPayload {
-  // TODO: document
+  /// The authority that the token was retrieved from.
   String get authority => _jsObject.authority;
 
   /// `oid` or `sub` claim from ID token.
@@ -35,7 +35,6 @@ class AuthenticationResult implements EventPayload {
   /// Date representing relative expiration of access token.
   DateTime? get expiresOn => _jsObject.expiresOn;
 
-  // TODO: document
   String get tokenType => _jsObject.tokenType;
 
   /// Date representing extended relative expiration of access token in
@@ -48,10 +47,10 @@ class AuthenticationResult implements EventPayload {
   /// Family ID identifier, usually only used for refresh tokens.
   String? get familyId => _jsObject.familyId;
 
-  // TODO: document
+  /// The AAD graph host.
   String? get cloudGraphHostName => _jsObject.cloudGraphHostName;
 
-  // TODO: document
+  /// The Microsoft Graph host.
   String? get msGraphHost => _jsObject.msGraphHost;
 
   final interop.AuthenticationResult _jsObject;
