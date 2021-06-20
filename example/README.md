@@ -9,6 +9,7 @@ For small full sample applications, please see:
 ## Feature-specific examples
 - [Custom Navigation Client](./custom_navigation_client.md)
 - [Custom Network Client](./custom_network_client.md)
+- [Events](./events.md)
 
 ## Quickstart with Microsoft Graph
 

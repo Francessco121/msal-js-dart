@@ -14,10 +14,9 @@ import 'package:js/js_util.dart';
 
 import 'src/interop/interop.dart' as interop;
 import 'src/js_proxies/js_proxies.dart';
-import 'src/utils/interop/promise.dart' as promise_interop;
 import 'src/exceptions.dart';
 
-export 'src/exceptions.dart' hide convertJsAuthError;
+export 'src/exceptions.dart' hide convertJsError;
 export 'src/interop/interop.dart' show RedirectNavigateCallback;
 
 part 'src/utils/error_utils.dart';
@@ -27,6 +26,7 @@ part 'src/api_id.dart';
 part 'src/authentication_result.dart';
 part 'src/browser_cache_location.dart';
 part 'src/configuration.dart';
+part 'src/event.dart';
 part 'src/logger.dart';
 part 'src/navigation_client.dart';
 part 'src/navigation_options.dart';

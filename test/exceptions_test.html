@@ -5,6 +5,10 @@
     <link rel="x-dart-test" href="exceptions_test.dart">
     <script src="https://alcdn.msauth.net/browser/2.14.2/js/msal-browser.min.js"></script>
     <script>
+      window.throwError = function() {
+        throw new Error('test');
+      };
+      
       window.throwInteractionRequiredAuthError = function() {
         throw new msal.InteractionRequiredAuthError('test');
       };

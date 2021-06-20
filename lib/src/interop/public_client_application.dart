@@ -7,7 +7,8 @@ class PublicClientApplication {
   external dynamic acquireTokenPopup(PopupRequest request);
   external dynamic acquireTokenRedirect(RedirectRequest request);
   external dynamic acquireTokenSilent(SilentRequest request);
-  // TODO: addEventCallback, removeEventCallback
+  external String? addEventCallback(JsEventCallbackFunction callback);
+  external void removeEventCallback(String callbackId);
   external AccountInfo? getAccountByHomeId(String homeAccountId);
   external AccountInfo? getAccountByLocalId(String localId);
   external AccountInfo? getAccountByUsername(String userName);
@@ -16,7 +17,7 @@ class PublicClientApplication {
   external dynamic loginPopup([PopupRequest? request]);
   external dynamic loginRedirect([RedirectRequest? request]);
   external dynamic logoutRedirect([EndSessionRequest? logoutRequest]);
-  external dynamic logoutPopup([EndSessionRequest? logoutRequest]);
+  external dynamic logoutPopup([EndSessionPopupRequest? logoutRequest]);
   external dynamic ssoSilent(SsoSilentRequest request);
   external Logger getLogger();
   external void setLogger(Logger logger);

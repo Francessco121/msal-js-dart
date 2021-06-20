@@ -1,7 +1,7 @@
 part of '../msal_js.dart';
 
 /// Result returned from the authority's token endpoint.
-class AuthenticationResult {
+class AuthenticationResult implements EventPayload {
   // TODO: document
   String get authority => _jsObject.authority;
 
@@ -55,6 +55,9 @@ class AuthenticationResult {
   String? get msGraphHost => _jsObject.msGraphHost;
 
   final interop.AuthenticationResult _jsObject;
+
+  AuthenticationResult._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.AuthenticationResult;
 
   AuthenticationResult._fromJsObject(this._jsObject);
 }

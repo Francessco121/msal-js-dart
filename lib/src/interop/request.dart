@@ -25,6 +25,16 @@ class EndSessionRequest extends CommonEndSessionRequest {
 
 @JS()
 @anonymous
+class EndSessionPopupRequest extends CommonEndSessionRequest {
+  external String? get authority;
+  external set authority(String? authority);
+
+  external String? get mainWindowRedirectUri;
+  external set mainWindowRedirectUri(String? authority);
+}
+
+@JS()
+@anonymous
 class SilentRequest extends CommonSilentFlowRequest {
   external String? get redirectUri;
   external set redirectUri(String? redirectUri);

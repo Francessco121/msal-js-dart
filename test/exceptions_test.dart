@@ -12,16 +12,10 @@ import 'package:msal_js/src/interop/interop.dart';
 import 'package:test/test.dart';
 
 @JS()
-external void throwClientConfigurationError();
+external void throwError();
 
 @JS()
 external void throwInteractionRequiredAuthError();
-
-@JS()
-external void throwServerError();
-
-@JS()
-external void throwClientAuthError();
 
 @JS()
 external void throwAuthError();
@@ -36,10 +30,17 @@ void main() {
   void _convert(Function function) {
     try {
       function();
-    } on AuthError catch (ex) {
-      throw convertJsAuthError(ex);
+    } on JsError catch (ex) {
+      throw convertJsError(ex);
     }
   }
+
+  test('Error gets converted to MsalJsException', () {
+    expect(
+      () => _convert(() => throwError()),
+      throwsA(isA<MsalJsException>()),
+    );
+  });
 
   test(
       'InteractionRequiredAuthError gets converted to InteractionRequiredAuthException',

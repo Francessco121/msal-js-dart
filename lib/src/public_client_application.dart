@@ -37,8 +37,8 @@ class PublicClientApplication {
     try {
       return PublicClientApplication._fromJsObject(
           interop.PublicClientApplication(configuration._jsObject));
-    } on interop.AuthError catch (ex) {
-      throw convertJsAuthError(ex);
+    } on interop.JsError catch (ex) {
+      throw convertJsError(ex);
     }
   }
 
@@ -78,6 +78,24 @@ class PublicClientApplication {
         _callJsMethod(() => _jsObject.acquireTokenSilent(request._jsObject)));
 
     return AuthenticationResult._fromJsObject(response);
+  }
+
+  /// Registers a function to be called when MSAL emits an event.
+  ///
+  /// Returns a callback ID that can be later used to unregister the function.
+  String? addEventCallback(EventCallbackFunction callback) {
+    return _callJsMethod(() {
+      return _jsObject.addEventCallback(allowInterop((message) {
+        callback(EventMessage._fromJsObject(message));
+      }));
+    });
+  }
+
+  /// Removes the callback with the provided ID.
+  ///
+  /// Does nothing if no callback exists with the provided ID.
+  void removeEventCallback(String callbackId) {
+    _callJsMethod(() => _jsObject.removeEventCallback(callbackId));
   }
 
   /// Returns the signed in account matching [homeAccountId]
@@ -190,7 +208,7 @@ class PublicClientApplication {
   /// prompting the user to sign-out of the server.
   ///
   /// Throws an [AuthException] on failure.
-  Future<void> logoutPopup([EndSessionRequest? logoutRequest]) async {
+  Future<void> logoutPopup([EndSessionPopupRequest? logoutRequest]) async {
     await _convertMsalPromise<void>(
         _callJsMethod(() => _jsObject.logoutPopup(logoutRequest?._jsObject)));
   }

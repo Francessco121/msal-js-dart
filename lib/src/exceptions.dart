@@ -1,26 +1,46 @@
 import 'interop/interop.dart' as interop;
 
-AuthException convertJsAuthError(interop.AuthError jsError) {
+MsalJsException convertJsError(interop.JsError jsError) {
   // Determine type
-  if (jsError.name == 'BrowserConfigurationAuthError') {
-    return BrowserConfigurationAuthException._fromJsObject(jsError);
-  } else if (jsError.name == 'BrowserAuthError') {
-    return BrowserAuthException._fromJsObject(jsError);
-  } else if (jsError.name == 'ClientConfigurationError') {
-    return ClientConfigurationException._fromJsObject(jsError);
-  } else if (jsError.name == 'InteractionRequiredAuthError') {
-    return InteractionRequiredAuthException._fromJsObject(jsError);
-  } else if (jsError.name == 'ServerError') {
-    return ServerException._fromJsObject(jsError);
-  } else if (jsError.name == 'ClientAuthError') {
-    return ClientAuthException._fromJsObject(jsError);
+  if (jsError is interop.AuthError) {
+    if (jsError.name == 'BrowserConfigurationAuthError') {
+      return BrowserConfigurationAuthException._fromJsObject(jsError);
+    } else if (jsError.name == 'BrowserAuthError') {
+      return BrowserAuthException._fromJsObject(jsError);
+    } else if (jsError.name == 'ClientConfigurationError') {
+      return ClientConfigurationException._fromJsObject(jsError);
+    } else if (jsError.name == 'InteractionRequiredAuthError') {
+      return InteractionRequiredAuthException._fromJsObject(jsError);
+    } else if (jsError.name == 'ServerError') {
+      return ServerException._fromJsObject(jsError);
+    } else if (jsError.name == 'ClientAuthError') {
+      return ClientAuthException._fromJsObject(jsError);
+    } else {
+      return AuthException._fromJsObject(jsError);
+    }
   } else {
-    return AuthException._fromJsObject(jsError);
+    return MsalJsException._fromJsObject(jsError);
   }
 }
 
+/// Represents a normal JavaScript Error object thrown by MSAL.js.
+class MsalJsException implements Exception {
+  /// The error type name.
+  String get name => _baseJsObject.name;
+
+  /// The error message.
+  String get message => _baseJsObject.message ?? '';
+
+  final interop.JsError _baseJsObject;
+
+  MsalJsException._fromJsObject(this._baseJsObject);
+
+  @override
+  String toString() => 'MsalJsException: $message';
+}
+
 /// General error class thrown by the MSAL.js library.
-class AuthException implements Exception {
+class AuthException extends MsalJsException {
   /// Short string denoting error.
   String get errorCode => _jsObject.errorCode;
 
@@ -30,14 +50,13 @@ class AuthException implements Exception {
   /// Describes the subclass of an error.
   String get subError => _jsObject.subError;
 
-  // JS Error fields, AuthError extends Error
-
   /// Combination of [errorCode] and [errorMessage].
+  @override
   String get message => _jsObject.message ?? '';
 
   final interop.AuthError _jsObject;
 
-  AuthException._fromJsObject(this._jsObject);
+  AuthException._fromJsObject(this._jsObject) : super._fromJsObject(_jsObject);
 
   @override
   String toString() => 'AuthException: $message';

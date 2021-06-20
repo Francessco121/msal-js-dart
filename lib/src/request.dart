@@ -1,6 +1,7 @@
 part of '../msal_js.dart';
 
-class SsoSilentRequest extends CommonAuthorizationUrlRequest {
+class SsoSilentRequest extends CommonAuthorizationUrlRequest
+    implements EventPayload {
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to
@@ -8,10 +9,16 @@ class SsoSilentRequest extends CommonAuthorizationUrlRequest {
   set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
 
   @override
-  final interop.SsoSilentRequest _jsObject = interop.SsoSilentRequest();
+  final interop.SsoSilentRequest _jsObject;
+
+  SsoSilentRequest() : _jsObject = interop.SsoSilentRequest();
+
+  SsoSilentRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.SsoSilentRequest;
 }
 
-class EndSessionRequest extends CommonEndSessionRequest {
+class EndSessionRequest extends CommonEndSessionRequest
+    implements EventPayload {
   String? get authority => _jsObject.authority;
 
   /// Authority to send logout request to.
@@ -27,10 +34,37 @@ class EndSessionRequest extends CommonEndSessionRequest {
       _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
 
   @override
-  final interop.EndSessionRequest _jsObject = interop.EndSessionRequest();
+  final interop.EndSessionRequest _jsObject;
+
+  EndSessionRequest() : _jsObject = interop.EndSessionRequest();
+
+  EndSessionRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.EndSessionRequest;
 }
 
-class SilentRequest extends CommonSilentFlowRequest {
+class EndSessionPopupRequest extends CommonEndSessionRequest
+    implements EventPayload {
+  String? get authority => _jsObject.authority;
+
+  /// Authority to send logout request to.
+  set authority(String? value) => _jsObject.authority = value;
+
+  String? get mainWindowRedirectUri => _jsObject.mainWindowRedirectUri;
+
+  /// URI to navigate the main window to after logout is complete.
+  set mainWindowRedirectUri(String? value) =>
+      _jsObject.mainWindowRedirectUri = value;
+
+  @override
+  final interop.EndSessionPopupRequest _jsObject;
+
+  EndSessionPopupRequest() : _jsObject = interop.EndSessionPopupRequest();
+
+  EndSessionPopupRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.EndSessionPopupRequest;
+}
+
+class SilentRequest extends CommonSilentFlowRequest implements EventPayload {
   String? get redirectUri => _jsObject.redirectUri;
 
   /// The redirect URI where authentication responses can be received by
@@ -74,10 +108,16 @@ class SilentRequest extends CommonSilentFlowRequest {
   set forceRefresh(bool? value) => _jsObject.forceRefresh = value;
 
   @override
-  final interop.SilentRequest _jsObject = interop.SilentRequest();
+  final interop.SilentRequest _jsObject;
+
+  SilentRequest() : _jsObject = interop.SilentRequest();
+
+  SilentRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.SilentRequest;
 }
 
-class RedirectRequest extends CommonAuthorizationUrlRequest {
+class RedirectRequest extends CommonAuthorizationUrlRequest
+    implements EventPayload {
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
@@ -104,17 +144,28 @@ class RedirectRequest extends CommonAuthorizationUrlRequest {
       _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
 
   @override
-  final interop.RedirectRequest _jsObject = interop.RedirectRequest();
+  final interop.RedirectRequest _jsObject;
+
+  RedirectRequest() : _jsObject = interop.RedirectRequest();
+
+  RedirectRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.RedirectRequest;
 }
 
-class PopupRequest extends CommonAuthorizationUrlRequest {
+class PopupRequest extends CommonAuthorizationUrlRequest
+    implements EventPayload {
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
   set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
 
   @override
-  final interop.PopupRequest _jsObject = interop.PopupRequest();
+  final interop.PopupRequest _jsObject;
+
+  PopupRequest() : _jsObject = interop.PopupRequest();
+
+  PopupRequest._fromEvent(dynamic payload)
+      : _jsObject = payload as interop.PopupRequest;
 }
 
 abstract class CommonSilentFlowRequest {
