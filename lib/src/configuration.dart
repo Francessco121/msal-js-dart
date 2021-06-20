@@ -190,7 +190,15 @@ class BrowserSystemOptions {
   set loggerOptions(LoggerOptions? value) =>
       _jsObject.loggerOptions = value?._jsObject;
 
-  // TODO: networkClient, navigationClient
+  /// Network interface implementation.
+  ///
+  /// Defaults to the MSAL HTTP client.
+  set networkClient(INetworkModule? value) => _jsObject.networkClient =
+      value == null ? null : _allowNetworkModuleInterop(value);
+
+  /// Sets a custom navigation client to intercept or override window navigation.
+  set navigationClient(INavigationClient? value) => _jsObject.navigationClient =
+      value == null ? null : _allowNavigationClientInterop(value);
 
   num? get windowHashTimeout => _jsObject.windowHashTimeout;
 

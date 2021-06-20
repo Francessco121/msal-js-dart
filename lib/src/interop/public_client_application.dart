@@ -22,5 +22,5 @@ class PublicClientApplication {
   external void setLogger(Logger logger);
   external void setActiveAccount(AccountInfo? account);
   external AccountInfo? getActiveAccount();
-  // TODO: setNavigationClient
+  external void setNavigationClient(dynamic navigationClient);
 }

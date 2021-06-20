@@ -66,7 +66,11 @@ class BrowserSystemOptions {
   external LoggerOptions? get loggerOptions;
   external set loggerOptions(LoggerOptions? loggerOptions);
 
-  // TODO: networkClient, navigationClient
+  external dynamic get networkClient;
+  external set networkClient(dynamic networkClient);
+
+  external dynamic get navigationClient;
+  external set navigationClient(dynamic navigationClient);
 
   external num? get windowHashTimeout;
   external set windowHashTimeout(num? windowHashTimeout);

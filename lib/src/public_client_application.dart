@@ -253,4 +253,12 @@ class PublicClientApplication {
       return jsAccount == null ? null : AccountInfo._fromJsObject(jsAccount);
     });
   }
+
+  /// Sets the navigation client.
+  void setNavigationClient(INavigationClient navigationClient) {
+    _callJsMethod(() {
+      _jsObject
+          .setNavigationClient(_allowNavigationClientInterop(navigationClient));
+    });
+  }
 }

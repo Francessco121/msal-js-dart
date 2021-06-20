@@ -6,6 +6,10 @@ For small full sample applications, please see:
 - [Vanilla Dart web sample](./web_example/)
 - [Flutter web sample](./flutter_example/)
 
+## Feature-specific examples
+- [Custom Navigation Client](./custom_navigation_client.md)
+- [Custom Network Client](./custom_network_client.md)
+
 ## Quickstart with Microsoft Graph
 
 The following is a short set of steps explaining how you could use this package to call the Microsoft Graph API.
