@@ -10,6 +10,7 @@ A Dart wrapper for the [Microsoft Authentication Library for JavaScript (MSAL.js
   - [Version Compatibility](#version-compatibility)
 - [Usage](#usage)
 - [Differences from MSAL.js](#differences-from-msaljs)
+- [Contributing](#contributing)
 
 ## Install MSAL.js
 This package is just a Dart wrapper does not come with a build of MSAL.js. Please refer to the [MSAL.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/cdn-usage.md) for installation. Please note that you will need a CDN build of MSAL.js and **not** an NPM build.
@@ -37,3 +38,8 @@ This package has a few minor differences from the JavaScript and TypeScript APIs
 - MSAL errors are represented as Dart exceptions and use the suffix `Exception` instead of `Error` (e.g. `AuthError` in MSAL.js is `AuthException` in this wrapper).
 - Typescript interfaces are represented as a full Dart type. Instead of passing a map which meets the interface requirements, an actual type must be constructed (e.g. instead of `loginPopup({scopes: []})` you would do `loginPopup(PopupRequest()..scopes = [])`).
 - `PublicClientApplication.handleRedirectPromise` was renamed to `handleRedirectFuture` since it does not return a promise in the Dart API.
+
+## Contributing
+Contributions to this package are more than welcome! If you have an immediate need for a new MSAL feature to be wrapped or for a bug to be fixed, please consider opening a pull request.
+
+Please see our full [contribution guide](./CONTRIBUTING.md) for more information.
