@@ -17,11 +17,11 @@ Wrapping any JavaScript code in Dart is fairly straight-forward, but comes with 
 
 Here's a list of some common problems and solutions:
 - Dart doesn't have a `Promise` type.
-    - **solution**: Expose normal Dart `Future`s instead, and convert between the two using utility functions such as `promiseToFuture`.
+    - **solution**: Use normal Dart `Future`s for public APIs, and convert between the two using utility functions such as `promiseToFuture` when crossing the Dart-JavaScript boundary.
 - Dart doesn't have an `undefined` type.
-    - **solution**: This one is a bit tricky. In cases where the JavaScript code uses `undefined` to decided whether to use a default value, the Dart code will need to be written in a way where a client can avoid passing the value altogether. When no value is explicitly passed from Dart to JavaScript, it will remain `undefined`. You can see this pattern done very frequently in this package (ex. the request and configuration objects use setters instead of a constructor).
+    - **solution**: This one is a bit tricky. In cases where the JavaScript code uses `undefined` to decide whether to use a default value, the Dart code will need to be written in a way where a client can avoid passing the value altogether. When no value is explicitly passed from Dart to JavaScript, it will remain `undefined`. You can see this pattern done very frequently in this package (ex. the request and configuration objects use setters instead of a constructor).
 - Dart enums can't have explicit values.
-    - **solution 1**: Still use an enum in Dart, but convert between the Dart enum and a value (such as string, int) when passing to/from the JavaScript API.
+    - **solution 1**: Still use an enum in Dart, but convert between the Dart enum and a value (such as string or int) when passing to/from the JavaScript API.
     - **solution 2**: Create a Dart class that only contains `static` `const` members for each enum value.
 - Dart `Map`s and `List`s cannot be directly passed to/from JavaScript.
     - **solution**: This package comes with a set of utilities called "JS proxies" to solve this problem by implementing `Map` and `List` using an underlying JavaScript object. See `js_proxies/js_proxies.dart` for more info.
@@ -41,15 +41,15 @@ Relavent APIs for MSAL 2.x can be found under the `lib/msal-browser` and `lib/ms
 
 #### 2. Write the interop layer
 This package wraps MSAL APIs in two places:
-- The private `@JS` annotated classes under the `interop/` folder.
+- The private `@JS` annotated classes under the `src/interop/` folder.
 - The public classes found directly under the `src/` folder.
 
-The first step for adding any API is to add its interop type/property/method/etc. This is done using [package:js](https://pub.dev/packages/js) `@JS` annotations which wrap the API the closest to the actual JavaScript API. This is the initial bridge between Dart and JavaScript, so there isn't any room for quality-of-life here.
+The first step for adding any API is to add its interop type/property/method/etc. This is done using [package:js](https://pub.dev/packages/js) `@JS` annotations which wrap the API the closest to the actual JavaScript API. This is the initial bridge between Dart and JavaScript, so there isn't any room for extra quality-of-life here.
 
 Please read the [package:js documentation](https://pub.dev/packages/js) very carefully, most types cannot be used here and must be substituted with `dynamic` for now. Be careful to also not use generics (e.g. use `List` instead of `List<String>`).
 
 #### 3. Write the public layer
-Now that the interop layer is done, the public Dart API can be written. This is often done by creating a file under `src/` with the same name as the interop file under `interop/`. The type names between the two will also generally be the same (conflicts are handled by the `interop.` prefix from the `import as` in `msal_js.dart`).
+Now that the interop layer is done, the public Dart API can be written. This is often done by creating a file under `src/` with the same name as the interop file under `src/interop/`. The type names between the two will also generally be the same (conflicts are handled by the `interop.` prefix from the `import as` in `msal_js.dart`).
 
 Each of the public layer classes should have its corresponding interop class as a private variable named `_jsObject`. 
 
