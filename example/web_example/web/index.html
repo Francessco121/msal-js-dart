@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>msal_js_web_example</title>
+
+  <!-- Styles -->
+  <style>
+    html {
+      line-height: 1.15;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    .border-solid {
+      border: 1px solid;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="plume-all.css" />
+
+  <!-- MSAL.js -->
+  <script 
+      type="text/javascript" 
+      src="https://alcdn.msauth.net/browser/2.14.2/js/msal-browser.min.js"
+      integrity="sha384-ggh+EF1aSqm+Y4yvv2n17KpurNcZTeYtUZUvhPziElsstmIEubyEB6AIVpKLuZgr"
+      crossorigin="anonymous">
+  </script>
+
+  <!-- App -->
+  <!-- Note: defer is set because the example app assumes document.body is loaded -->
+  <script defer type="text/javascript" src="main.dart.js"></script>
+</head>
+<body class="plume pm-container">
+  <h1>MSAL.js Dart Web Example</h1>
+  <hr class="pm-stacked" />
+
+  <p id="loading">Loading...</p>
+
+  <div id="error-box" hidden class="pm-stacked pm-padded border-solid pm-bc-error pm-text-error"></div>
+
+  <div id="unauthenticated-view" hidden class="pm-padded pm-ground">
+    <h4>Log In</h4>
+    <p class="pm-p">No user currently logged in.</p>
+    <button id="login-redirect-btn" class="pm-button pm-btn-primary pm-no-margin">Log in (Redirect)</button>
+    <button id="login-popup-btn" class="pm-button pm-btn-primary pm-no-margin">Log in (Popup)</button>
+  </div>
+
+  <div id="authenticated-view" hidden class="pm-padded pm-ground">
+    <h4 id="user-greeting"></h4>
+    <p id="user-preferred-name" class="pm-p"></p>
+    <button id="logout-redirect-btn" class="pm-button pm-btn-primary pm-no-margin">Log out (Redirect)</button>
+    <button id="logout-popup-btn" class="pm-button pm-btn-primary pm-no-margin">Log out (Popup)</button>
+  </div>
+</body>
+</html>

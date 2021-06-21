@@ -1,0 +1,41 @@
+# Include official Dart lint rules to meet pub requirements
+include: package:lints/recommended.yaml
+
+# Analyzer documentation, see https://www.dartlang.org/guides/language/analysis-options
+analyzer:
+  errors:
+    await_only_futures: error
+
+# Lint rules and documentation, see http://dart-lang.github.io/linter/lints
+linter:
+  rules:
+    - always_declare_return_types
+    - avoid_catches_without_on_clauses
+    - avoid_catching_errors
+    - avoid_classes_with_only_static_members
+    - avoid_returning_null_for_void
+    - avoid_returning_this
+    - avoid_slow_async_io
+    - cancel_subscriptions
+    - close_sinks
+    - comment_references
+    - invariant_booleans
+    - join_return_with_assignment
+    - literal_only_boolean_expressions
+    - no_adjacent_strings_in_list
+    - one_member_abstracts
+    - only_throw_errors
+    - prefer_asserts_in_initializer_lists
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_constructors_over_static_methods
+    - prefer_final_locals
+    - prefer_foreach
+    - prefer_single_quotes
+    - sort_unnamed_constructors_first
+    - test_types_in_equals
+    - throw_in_finally
+    - unawaited_futures
+    - unnecessary_null_aware_assignments
+    - use_string_buffers
+    - use_to_and_as_if_applicable

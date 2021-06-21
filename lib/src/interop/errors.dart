@@ -6,20 +6,8 @@ part of 'interop.dart';
 // The `name` field however is set to the type name, so we need to just use that.
 
 @JS('AuthError')
-class AuthError {
-  external String? get errorCode;
-  external String? get errorMessage;
-
-  // JS Error fields, AuthError extends Error
-
-  external String? get name;
-  external String? get message;
-  external String? get stack; // TODO: This is a non-standard Mozilla property
-}
-
-@JS()
-@anonymous
-class ClientConfigurationErrorMessage {
-  external String? get code;
-  external String? get desc;
+class AuthError extends JsError {
+  external String get errorCode;
+  external String get errorMessage;
+  external String get subError;
 }

@@ -5,10 +5,8 @@ part of '../../msal_js.dart';
 T _callJsMethod<T>(T Function() function) {
   try {
     return function();
-  } on interop.AuthError catch (ex) {
-    throw convertJsAuthError(ex);
-  } on interop.ClientConfigurationErrorMessage catch (ex) {
-    throw convertJsClientConfigurationErrorMessage(ex);
+  } on interop.JsError catch (ex) {
+    throw convertJsError(ex);
   }
 }
 
@@ -18,9 +16,7 @@ T _callJsMethod<T>(T Function() function) {
 Future<T> _convertMsalPromise<T>(dynamic promise) async {
   try {
     return await promiseToFuture<T>(promise);
-  } on interop.AuthError catch (ex) {
-    throw convertJsAuthError(ex);
-  } on interop.ClientConfigurationErrorMessage catch (ex) {
-    throw convertJsClientConfigurationErrorMessage(ex);
+  } on interop.JsError catch (ex) {
+    throw convertJsError(ex);
   }
 }

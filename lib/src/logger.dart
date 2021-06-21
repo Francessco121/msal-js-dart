@@ -3,7 +3,8 @@ part of '../msal_js.dart';
 /// A callback for an MSAL log [message].
 ///
 /// - [level] - Specifies the severity of the message.
-/// - [containsPii] - Specifies whether the message contents contain Personal Identifiable Information (PII).
+/// - [containsPii] - Specifies whether the message contents contain
+/// Personal Identifiable Information (PII).
 typedef LoggerCallback = void Function(
     LogLevel level, String message, bool containsPii);
 
@@ -24,61 +25,79 @@ enum LogLevel {
   error,
   warning,
   info,
-  verbose
+  verbose,
+  trace
 }
 
 /// Additional configuration options for a [Logger].
 class LoggerOptions {
-  String? get correlationId => _jsObject.correlationId;
-
-  /// A unique identifier that can be used to map requests and responses.
-  set correlationId(String? value) => _jsObject.correlationId = value;
-
-  LogLevel? get level =>
-      _jsObject.level == null ? null : LogLevel.values[_jsObject.level!];
-
-  /// The base logging level. Messages logged with levels lower than the
-  /// specified base level will not be logged.
+  /// Callback function which handles the logging of MSAL statements.
   ///
-  /// Defaults to [LogLevel.info].
-  set level(LogLevel? value) => _jsObject.level = value?.index;
+  /// Defaults to `() {}`.
+  set loggerCallback(LoggerCallback? value) {
+    if (value == null) {
+      _jsObject.loggerCallback = null;
+    } else {
+      // Wrap the callback to convert LogLevel
+      void jsCallback(int level, String message, bool containsPii) {
+        value(_getLogLevel(level), message, containsPii);
+      }
+
+      _jsObject.loggerCallback = allowInterop(jsCallback);
+    }
+  }
 
   bool? get piiLoggingEnabled => _jsObject.piiLoggingEnabled;
 
-  /// Whether Personal Identifiable Information (PII) logging is enabled.
+  /// Whether Personal Identifiable Information (PII) is included in logs.
   ///
   /// Defaults to `false`.
   set piiLoggingEnabled(bool? value) => _jsObject.piiLoggingEnabled = value;
 
-  final _jsObject = interop.LoggerOptions();
-}
+  LogLevel? get logLevel =>
+      _jsObject.logLevel == null ? null : _getLogLevel(_jsObject.logLevel!);
 
-/// A logger for an MSAL [UserAgentApplication].
-///
-/// See https://github.com/AzureAD/microsoft-authentication-library-for-js/wiki/Logging
-/// for more information.
-class Logger {
-  final interop.Logger _jsObject;
-
-  /// Creates a new MSAL logger which calls the given [localCallback]
-  /// with each log message.
+  /// The base logging level. Messages logged with levels lower than the
+  /// specified base level will not be logged.
   ///
-  /// Additional [options] may be specified to configure the logger further.
-  factory Logger(LoggerCallback localCallback, [LoggerOptions? options]) {
-    // Wrap the callback to convert LogLevel
-    void jsCallback(int level, String message, bool containsPii) {
-      localCallback(_getLogLevel(level), message, containsPii);
+  /// Cannot be set to [LogLevel.unknown].
+  ///
+  /// Defaults to [LogLevel.info].
+  set logLevel(LogLevel? value) {
+    if (value == LogLevel.unknown) {
+      throw ArgumentError.value(value, 'value',
+          'Log level cannot be set to unknown since it is not an actual MSAL log level.');
     }
 
-    // Create the JS object
-    if (options == null) {
-      return Logger._fromJsObject(
-          interop.Logger.defaultOptions(allowInterop(jsCallback)));
+    if (value == null) {
+      _jsObject.logLevel = null;
     } else {
-      return Logger._fromJsObject(
-          interop.Logger(allowInterop(jsCallback), options._jsObject));
+      _jsObject.logLevel = value.index - 1;
     }
   }
 
+  final interop.LoggerOptions _jsObject;
+
+  LoggerOptions() : _jsObject = interop.LoggerOptions();
+
+  LoggerOptions._fromJsObject(this._jsObject);
+}
+
+/// A logger for an MSAL [PublicClientApplication].
+class Logger {
+  final interop.Logger _jsObject;
+
+  /// Creates a new MSAL logger.
+  factory Logger(LoggerOptions loggerOptions,
+      [String? packageName, String? packageVersion]) {
+    return Logger._fromJsObject(
+        interop.Logger(loggerOptions._jsObject, packageName, packageVersion));
+  }
+
   Logger._fromJsObject(this._jsObject);
+
+  /// Returns whether PII Logging is enabled or not.
+  bool isPiiLoggingEnabled() {
+    return _jsObject.isPiiLoggingEnabled();
+  }
 }
