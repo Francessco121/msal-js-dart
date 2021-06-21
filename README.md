@@ -13,7 +13,7 @@ A Dart wrapper for the [Microsoft Authentication Library for JavaScript (MSAL.js
 - [Contributing](#contributing)
 
 ## Install MSAL.js
-This package is just a Dart wrapper does not come with a build of MSAL.js. Please refer to the [MSAL.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/cdn-usage.md) for installation. Please note that you will need a CDN build of MSAL.js and **not** an NPM build.
+This package is just a Dart wrapper and does not come with a build of MSAL.js. Please refer to the [MSAL.js documentation](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/cdn-usage.md) for installation. Please note that you will need a CDN build of MSAL.js and **not** an NPM build.
 
 ### Version Compatibility
 This package will match the version of MSAL.js which it supports up to the minor revision. For example, version `2.14.0` of this package supports MSAL.js `2.14.x`. If MSAL.js increments its minor version without adding or changing its API surface, this package will not have a matching release since there's nothing to update. Additionally, this package may have patch releases that do not reflect the patch releases from MSAL.js.
