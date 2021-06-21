@@ -1,10 +1,9 @@
-## v2.14.0-pre.1
-- **(breaking change)** Support for most of MSAL.js 2.14.
+## v2.14.0
+- **(breaking change)** Support for MSAL.js 2.14.
   - MSAL 2.x has a slightly different API than MSAL 1.x, some notable changes include:
     - `UserAgentApplication` was renamed to `PublicClientApplication`.
     - `handleRedirectFuture` replaces `handleRedirectCallback`.
     - Request/response classes have new names.
-  - Some advanced APIs are not supported yet such as the new event API.
 - **(breaking change)** Removed deprecated `MissingMsalJsException` class.
 - Fixed issue where setting the base `Logger` log level would set the wrong level.
 - Fixed issue where getting the log level from `LoggerOptions` would return the wrong level.
