@@ -6,5 +6,5 @@ contact_links:
   - name: MSAL.js Issues
     url: https://github.com/AzureAD/microsoft-authentication-library-for-js/issues
     about: |
-      If you're having a problem with MSAL itself and not something specific to this wrapper package, consider opening an issue on their side instead. 
+      If you're having a problem with MSAL itself and not something specific to this wrapper package, please consider opening an issue on their side instead. 
       The developers over there are much more qualified to answer questions/problems about things such as configuring MSAL.

@@ -28,14 +28,16 @@ body:
     attributes:
       label: Expected behavior
       description: 'A clear and concise description of what you expected to happen.'
-  - type: checkboxes
+  - type: input
     attributes:
-      options:
-        - label: Using Flutter
+      label: Using Flutter
+      placeholder: 'Yes/No'
+    validations:
+      required: true
   - type: input
     attributes:
       label: Browser
-      placeholder: 'e.g. chrome, firefox'
+      placeholder: 'e.g. Firefox, Chrome, Edge'
   - type: input
     attributes:
       label: Dart msal_js version
