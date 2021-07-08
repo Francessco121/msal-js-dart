@@ -1,0 +1,10 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Q/A Board
+    url: https://github.com/Francessco121/msal-js-dart/discussions/categories/q-a
+    about: If you just have a question, please ask here.
+  - name: MSAL.js Issues
+    url: https://github.com/AzureAD/microsoft-authentication-library-for-js/issues
+    about: |
+      If you're having a problem with MSAL itself and not something specific to this wrapper package, consider opening an issue on their side instead. 
+      The developers over there are much more qualified to answer questions/problems about things such as configuring MSAL.

@@ -1,0 +1,15 @@
+name: Documentation
+description: 'Report incorrect or missing API documentation or example code.'
+labels: [documentation]
+body:
+  - type: markdown
+    attributes:
+      value: 'Thank you for taking the time to fill out this report!'
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A description of the incorrect or missing API documentation/example code. 
+        Please also include links to relevant MSAL.js documentation if applicable.
+    validations:
+      required: true

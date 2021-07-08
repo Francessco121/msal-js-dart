@@ -1,0 +1,19 @@
+name: Feature Request
+description: 'Request for a new MSAL.js feature to be wrapped.'
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: 'Thank you for taking the time to fill out this request!'
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A description of the MSAL.js feature that you would like to see wrapped by this package. 
+        Please also include links to relevant MSAL.js documentation concerning the feature.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Initial MSAL.js version
+      description: 'The version of MSAL.js that this feature first showed up in.'

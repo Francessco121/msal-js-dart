@@ -1,0 +1,52 @@
+name: Bug
+description: 'Report broken or incorrect behavior in the wrapper code.'
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: 'Thank you for taking the time to fill out this report!'
+  - type: textarea
+    attributes:
+      label: Description
+      description: |
+        A clear and concise description of what the bug is. 
+        Please also include stack traces if possible (formatted as a Markdown code block). 
+        Screenshots are also welcome.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction steps
+      description: 'Steps to reproduce the behavior'
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: 'A clear and concise description of what you expected to happen.'
+  - type: checkboxes
+    attributes:
+      options:
+        - label: Using Flutter
+  - type: input
+    attributes:
+      label: Browser
+      placeholder: 'e.g. chrome, firefox'
+  - type: input
+    attributes:
+      label: Dart msal_js version
+      description: |
+        The version of this package that you're using. 
+        Please check your pubspec.lock for the exact version if unsure.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: JavaScript msal.js version
+      description: The version of MSAL.js that you're using.
+    validations:
+      required: true
