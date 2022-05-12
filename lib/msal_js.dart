@@ -8,6 +8,8 @@
 library msal_js;
 
 import 'dart:async';
+import 'dart:js';
+import 'dart:js_util';
 
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
