@@ -6,7 +6,6 @@ library exceptions_test;
 // of them, even tho more than what is exported is thrown...
 
 import 'package:js/js.dart';
-import 'package:msal_js/msal_js.dart';
 import 'package:msal_js/src/exceptions.dart';
 import 'package:msal_js/src/interop/interop.dart';
 import 'package:test/test.dart';
