@@ -1,8 +1,7 @@
 part of 'interop.dart';
 
 @JS()
-@anonymous
-class NetworkRequestOptions {
-  external dynamic get headers;
+extension type NetworkRequestOptions._(JSObject _) implements JSObject {
+  external JSObject? get headers;
   external String? get body;
 }

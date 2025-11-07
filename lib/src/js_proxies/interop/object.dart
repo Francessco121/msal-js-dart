@@ -1,9 +1,8 @@
-@JS()
 library object;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 @JS('Object')
-class Object {
-  external static List keys(dynamic object);
+extension type Object._(JSObject _) implements JSObject {
+  external static JSArray<JSString> keys(JSObject object);
 }

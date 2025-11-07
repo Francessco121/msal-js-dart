@@ -1,8 +1,7 @@
 part of 'interop.dart';
 
 @JS()
-@anonymous
-class NavigationOptions {
+extension type NavigationOptions._(JSObject _) implements JSObject {
   external num get apiId;
   external num get timeout;
   external bool get noHistory;

@@ -33,13 +33,13 @@ class AuthenticationResult implements EventPayload {
   bool get fromCache => _jsObject.fromCache;
 
   /// Date representing relative expiration of access token.
-  DateTime? get expiresOn => _jsObject.expiresOn;
+  DateTime? get expiresOn => _jsObject.expiresOn?.toDart;
 
   String get tokenType => _jsObject.tokenType;
 
   /// Date representing extended relative expiration of access token in
   /// case of server outage.
-  DateTime? get extExpiresOn => _jsObject.extExpiresOn;
+  DateTime? get extExpiresOn => _jsObject.extExpiresOn?.toDart;
 
   /// Value passed in by user in request.
   String? get state => _jsObject.state;

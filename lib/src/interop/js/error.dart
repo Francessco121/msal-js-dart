@@ -1,11 +1,11 @@
 @JS()
 library error_interop;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 /// A normal JavaScript Error object.
 @JS('Error')
-class JsError {
+extension type JsError._(JSObject _) implements JSObject {
   /// The error type name.
   external String get name;
 

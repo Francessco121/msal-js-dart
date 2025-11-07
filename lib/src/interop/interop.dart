@@ -1,10 +1,12 @@
 @JS('msal')
 library interop;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
+import 'js/date.dart';
 import 'js/error.dart';
 
+export 'js/date.dart';
 export 'js/error.dart';
 export 'js/promise.dart';
 

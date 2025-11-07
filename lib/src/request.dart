@@ -6,7 +6,8 @@ class SsoSilentRequest extends CommonAuthorizationUrlRequest
 
   /// List of scopes the application is requesting access to
   /// (optional for ssoSilent calls).
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) =>
+      _jsObject.scopes = jsEncode(value) as JSArray?;
 
   @override
   final interop.SsoSilentRequest _jsObject;
@@ -25,13 +26,17 @@ class EndSessionRequest extends CommonEndSessionRequest
   set authority(String? value) => _jsObject.authority = value;
 
   interop.RedirectNavigateCallback? get onRedirectNavigate =>
-      _jsObject.onRedirectNavigate;
+      _jsObject.onRedirectNavigate == null
+          ? null
+          : (String url) => (_jsObject.onRedirectNavigate!
+                  .callAsFunction(url.toJS) as JSBoolean)
+              .toDart;
 
   /// Callback that will be passed the url that MSAL will navigate to.
   ///
   /// Returning false in the callback will stop navigation.
   set onRedirectNavigate(interop.RedirectNavigateCallback? value) =>
-      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
+      _jsObject.onRedirectNavigate = value?.toJS;
 
   @override
   final interop.EndSessionRequest _jsObject;
@@ -82,7 +87,7 @@ class SilentRequest extends CommonSilentFlowRequest implements EventPayload {
   ///
   /// Only used when renewing the refresh token.
   set extraQueryParameters(Map<String, String>? value) =>
-      _jsObject.extraQueryParameters = jsEncode(value);
+      _jsObject.extraQueryParameters = jsEncode(value) as JSObject?;
 
   String? get authority => _jsObject.authority;
 
@@ -121,7 +126,8 @@ class RedirectRequest extends CommonAuthorizationUrlRequest
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) =>
+      _jsObject.scopes = jsEncode(value) as JSArray?;
 
   String? get redirectStartPage => _jsObject.redirectStartPage;
 
@@ -135,13 +141,17 @@ class RedirectRequest extends CommonAuthorizationUrlRequest
   set redirectStartPage(String? value) => _jsObject.redirectStartPage = value;
 
   interop.RedirectNavigateCallback? get onRedirectNavigate =>
-      _jsObject.onRedirectNavigate;
+      _jsObject.onRedirectNavigate == null
+          ? null
+          : (String url) => (_jsObject.onRedirectNavigate!
+                  .callAsFunction(url.toJS) as JSBoolean)
+              .toDart;
 
   /// Callback that will be passed the url that MSAL will navigate to.
   ///
   /// Returning `false` in the callback will stop navigation.
   set onRedirectNavigate(interop.RedirectNavigateCallback? value) =>
-      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
+      _jsObject.onRedirectNavigate = value?.toJS;
 
   @override
   final interop.RedirectRequest _jsObject;
@@ -157,7 +167,8 @@ class PopupRequest extends CommonAuthorizationUrlRequest
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) =>
+      _jsObject.scopes = jsEncode(value) as JSArray?;
 
   @override
   final interop.PopupRequest _jsObject;
@@ -175,14 +186,15 @@ abstract class CommonSilentFlowRequest {
   /// String to string map of custom query parameters added to the
   /// `/token` call.
   set tokenQueryParameters(Map<String, String>? value) =>
-      _jsObject.tokenQueryParameters = jsEncode(value);
+      _jsObject.tokenQueryParameters = jsEncode(value) as JSObject?;
 
   // BaseAuthRequest
 
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) =>
+      _jsObject.scopes = jsEncode(value) as JSArray?;
 
   String? get authenticationScheme => _jsObject.authenticationScheme;
 
@@ -256,7 +268,7 @@ abstract class CommonAuthorizationUrlRequest {
   /// String to string map of custom query parameters added to the
   /// `/authorize` call.
   set extraQueryParameters(Map<String, String>? value) =>
-      _jsObject.extraQueryParameters = jsEncode(value);
+      _jsObject.extraQueryParameters = jsEncode(value) as JSObject?;
 
   Map<String, String>? get tokenQueryParameters =>
       jsDecodeMap<String>(_jsObject.tokenQueryParameters);
@@ -264,14 +276,14 @@ abstract class CommonAuthorizationUrlRequest {
   /// String to string map of custom query parameters added to the
   /// `/token` call.
   set tokenQueryParameters(Map<String, String>? value) =>
-      _jsObject.tokenQueryParameters = jsEncode(value);
+      _jsObject.tokenQueryParameters = jsEncode(value) as JSObject?;
 
   List<String>? get extraScopesToConsent =>
       jsDecodeList<String>(_jsObject.extraScopesToConsent);
 
   /// Scopes for a different resource when the user needs consent upfront.
   set extraScopesToConsent(List<String>? value) =>
-      _jsObject.extraScopesToConsent = jsEncode(value);
+      _jsObject.extraScopesToConsent = jsEncode(value) as JSArray?;
 
   String? get loginHint => _jsObject.loginHint;
 

@@ -1,9 +1,8 @@
-@JS()
 library reflect;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 @JS('Reflect')
-class Reflect {
-  external static void deleteProperty(dynamic object, dynamic property);
+extension type Reflect._(JSObject _) implements JSObject {
+  external static void deleteProperty(JSObject object, JSAny property);
 }

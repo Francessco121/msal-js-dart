@@ -63,7 +63,7 @@ class PublicClientApplication {
   ///
   /// Throws an [AuthException] on failure.
   Future<void> acquireTokenRedirect(RedirectRequest request) async {
-    await _convertMsalPromise<void>(
+    await _convertMsalPromise(
         _callJsMethod(() => _jsObject.acquireTokenRedirect(request._jsObject)));
   }
 
@@ -85,9 +85,9 @@ class PublicClientApplication {
   /// Returns a callback ID that can be later used to unregister the function.
   String? addEventCallback(EventCallbackFunction callback) {
     return _callJsMethod(() {
-      return _jsObject.addEventCallback(allowInterop((message) {
+      return _jsObject.addEventCallback((interop.EventMessage message) {
         callback(EventMessage._fromJsObject(message));
-      }));
+      }.toJS);
     });
   }
 
@@ -140,6 +140,7 @@ class PublicClientApplication {
   List<AccountInfo> getAllAccounts() {
     return _callJsMethod(() => _jsObject
         .getAllAccounts()
+        .toDart
         .cast<interop.AccountInfo>()
         .map((jsAccount) => AccountInfo._fromJsObject(jsAccount))
         .toList());
@@ -189,7 +190,7 @@ class PublicClientApplication {
   ///
   /// Throws an [AuthException] on failure.
   Future<void> loginRedirect([RedirectRequest? request]) async {
-    await _convertMsalPromise<void>(
+    await _convertMsalPromise(
         _callJsMethod(() => _jsObject.loginRedirect(request?._jsObject)));
   }
 
@@ -200,7 +201,7 @@ class PublicClientApplication {
   ///
   /// Throws an [AuthException] on failure.
   Future<void> logoutRedirect([EndSessionRequest? logoutRequest]) async {
-    await _convertMsalPromise<void>(_callJsMethod(
+    await _convertMsalPromise(_callJsMethod(
         () => _jsObject.logoutRedirect(logoutRequest?._jsObject)));
   }
 
@@ -209,7 +210,7 @@ class PublicClientApplication {
   ///
   /// Throws an [AuthException] on failure.
   Future<void> logoutPopup([EndSessionPopupRequest? logoutRequest]) async {
-    await _convertMsalPromise<void>(
+    await _convertMsalPromise(
         _callJsMethod(() => _jsObject.logoutPopup(logoutRequest?._jsObject)));
   }
 

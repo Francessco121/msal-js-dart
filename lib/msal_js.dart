@@ -8,13 +8,11 @@
 library msal_js;
 
 import 'dart:async';
+import 'dart:js_interop';
 
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
-
+import 'src/exceptions.dart';
 import 'src/interop/interop.dart' as interop;
 import 'src/js_proxies/js_proxies.dart';
-import 'src/exceptions.dart';
 
 export 'src/exceptions.dart' hide convertJsError;
 export 'src/interop/interop.dart' show RedirectNavigateCallback;

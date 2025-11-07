@@ -37,6 +37,5 @@ linter:
     - throw_in_finally
     - unawaited_futures
     - unnecessary_null_aware_assignments
-    - unsafe_html
     - use_string_buffers
     - use_to_and_as_if_applicable

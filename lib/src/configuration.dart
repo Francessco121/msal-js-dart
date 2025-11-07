@@ -56,7 +56,7 @@ class BrowserAuthOptions {
   ///
   /// Defaults to an empty list.
   set knownAuthorities(List<String>? value) =>
-      _jsObject.knownAuthorities = jsEncode(value);
+      _jsObject.knownAuthorities = jsEncode(value) as JSArray?;
 
   String? get cloudDiscoveryMetadata => _jsObject.cloudDiscoveryMetadata;
 
@@ -117,7 +117,7 @@ class BrowserAuthOptions {
   ///
   /// Defaults to an empty list.
   set clientCapabilities(List<String>? value) =>
-      _jsObject.clientCapabilities = jsEncode(value);
+      _jsObject.clientCapabilities = jsEncode(value) as JSArray?;
 
   String? get protocolMode => _jsObject.protocolMode;
 

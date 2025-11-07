@@ -15,7 +15,7 @@ class NetworkResponse {
       required dynamic body,
       required num status})
       : _jsObject = interop.NetworkResponse()
-          ..headers = jsEncode(headers)
-          ..body = jsEncode(body)
+          ..headers = jsEncode(headers) as JSObject?
+          ..body = jsEncode(body) as JSObject?
           ..status = status;
 }
