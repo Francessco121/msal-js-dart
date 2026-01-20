@@ -7,25 +7,31 @@ part of 'interop.dart';
 typedef RedirectNavigateCallback = bool? Function(String url);
 
 @JS()
-@anonymous
-class SsoSilentRequest extends CommonAuthorizationUrlRequest {
-  external List? get scopes;
-  external set scopes(List? scopes);
+extension type SsoSilentRequest._(JSObject _)
+    implements CommonAuthorizationUrlRequest {
+  factory SsoSilentRequest() => SsoSilentRequest._(JSObject());
+
+  external JSArray? get scopes;
+  external set scopes(JSArray? scopes);
 }
 
 @JS()
-@anonymous
-class EndSessionRequest extends CommonEndSessionRequest {
+extension type EndSessionRequest._(JSObject _)
+    implements CommonEndSessionRequest {
+  factory EndSessionRequest() => EndSessionRequest._(JSObject());
+
   external String? get authority;
   external set authority(String? authority);
 
-  external RedirectNavigateCallback? get onRedirectNavigate;
-  external set onRedirectNavigate(RedirectNavigateCallback? onRedirectNavigate);
+  external JSFunction? get onRedirectNavigate;
+  external set onRedirectNavigate(JSFunction? onRedirectNavigate);
 }
 
 @JS()
-@anonymous
-class EndSessionPopupRequest extends CommonEndSessionRequest {
+extension type EndSessionPopupRequest._(JSObject _)
+    implements CommonEndSessionRequest {
+  factory EndSessionPopupRequest() => EndSessionPopupRequest._(JSObject());
+
   external String? get authority;
   external set authority(String? authority);
 
@@ -34,13 +40,14 @@ class EndSessionPopupRequest extends CommonEndSessionRequest {
 }
 
 @JS()
-@anonymous
-class SilentRequest extends CommonSilentFlowRequest {
+extension type SilentRequest._(JSObject _) implements CommonSilentFlowRequest {
+  factory SilentRequest() => SilentRequest._(JSObject());
+
   external String? get redirectUri;
   external set redirectUri(String? redirectUri);
 
-  external dynamic get extraQueryParameters;
-  external set extraQueryParameters(dynamic extraQueryParameters);
+  external JSObject? get extraQueryParameters;
+  external set extraQueryParameters(JSObject? extraQueryParameters);
 
   external String? get authority;
   external set authority(String? authority);
@@ -56,35 +63,40 @@ class SilentRequest extends CommonSilentFlowRequest {
 }
 
 @JS()
-@anonymous
-class RedirectRequest extends CommonAuthorizationUrlRequest {
-  external List? get scopes;
-  external set scopes(List? scopes);
+extension type RedirectRequest._(JSObject _)
+    implements CommonAuthorizationUrlRequest {
+  factory RedirectRequest() => RedirectRequest._(JSObject());
+
+  external JSArray? get scopes;
+  external set scopes(JSArray? scopes);
 
   external String? get redirectStartPage;
   external set redirectStartPage(String? redirectStartPage);
 
-  external RedirectNavigateCallback? get onRedirectNavigate;
-  external set onRedirectNavigate(RedirectNavigateCallback? onRedirectNavigate);
+  external JSFunction? get onRedirectNavigate;
+  external set onRedirectNavigate(JSFunction? onRedirectNavigate);
 }
 
 @JS()
-@anonymous
-class PopupRequest extends CommonAuthorizationUrlRequest {
-  external List? get scopes;
-  external set scopes(List? scopes);
+extension type PopupRequest._(JSObject _)
+    implements CommonAuthorizationUrlRequest {
+  factory PopupRequest() => PopupRequest._(JSObject());
+
+  external JSArray? get scopes;
+  external set scopes(JSArray? scopes);
 }
 
 @JS()
-@anonymous
-class CommonSilentFlowRequest {
-  external dynamic get tokenQueryParameters;
-  external set tokenQueryParameters(dynamic tokenQueryParameters);
+extension type CommonSilentFlowRequest._(JSObject _) implements JSObject {
+  factory CommonSilentFlowRequest() => CommonSilentFlowRequest._(JSObject());
+
+  external JSObject? get tokenQueryParameters;
+  external set tokenQueryParameters(JSObject? tokenQueryParameters);
 
   // BaseAuthRequest
 
-  external List? get scopes;
-  external set scopes(List? scopes);
+  external JSArray? get scopes;
+  external set scopes(JSArray? scopes);
 
   external String? get authenticationScheme;
   external set authenticationScheme(String? correlationId);
@@ -103,8 +115,10 @@ class CommonSilentFlowRequest {
 }
 
 @JS()
-@anonymous
-class CommonAuthorizationUrlRequest {
+extension type CommonAuthorizationUrlRequest._(JSObject _) implements JSObject {
+  factory CommonAuthorizationUrlRequest() =>
+      CommonAuthorizationUrlRequest._(JSObject());
+
   external String? get redirectUri;
   external set redirectUri(String? redirectUri);
 
@@ -114,14 +128,14 @@ class CommonAuthorizationUrlRequest {
   external String? get domainHint;
   external set domainHint(String? domainHint);
 
-  external dynamic get extraQueryParameters;
-  external set extraQueryParameters(dynamic extraQueryParameters);
+  external JSAny? get extraQueryParameters;
+  external set extraQueryParameters(JSAny? extraQueryParameters);
 
-  external dynamic get tokenQueryParameters;
-  external set tokenQueryParameters(dynamic tokenQueryParameters);
+  external JSAny? get tokenQueryParameters;
+  external set tokenQueryParameters(JSAny? tokenQueryParameters);
 
-  external List? get extraScopesToConsent;
-  external set extraScopesToConsent(List? extraScopesToConsent);
+  external JSArray? get extraScopesToConsent;
+  external set extraScopesToConsent(JSArray? extraScopesToConsent);
 
   external String? get loginHint;
   external set loginHint(String? loginHint);
@@ -163,8 +177,9 @@ class CommonAuthorizationUrlRequest {
 }
 
 @JS()
-@anonymous
-class CommonEndSessionRequest {
+extension type CommonEndSessionRequest._(JSObject _) implements JSObject {
+  factory CommonEndSessionRequest() => CommonEndSessionRequest._(JSObject());
+
   external String? get correlationId;
   external set correlationId(String? correlationId);
 

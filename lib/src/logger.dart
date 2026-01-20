@@ -43,7 +43,7 @@ class LoggerOptions {
         value(_getLogLevel(level), message, containsPii);
       }
 
-      _jsObject.loggerCallback = allowInterop(jsCallback);
+      _jsObject.loggerCallback = jsCallback.toJS;
     }
   }
 

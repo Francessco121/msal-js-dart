@@ -1,3 +1,6 @@
+## v3.0.0
+- Upgrade from `package:js` to `dart:js_interop`.
+
 ## v2.14.0
 - **(breaking change)** Support for MSAL.js 2.14.
   - MSAL 2.x has a slightly different API than MSAL 1.x, some notable changes include:
@@ -28,7 +31,7 @@
 - Fix `InteractionRequiredAuthError`s and `ServerError`s not being converted correctly to their exception counterparts.
 
 ## v1.2.2
-- Replace `dart:js` usage with `package:js`. This gets around a `dart2js` issue when compiling a Flutter app for the web and also "modernizes" the codebase a little. 
+- Replace `dart:js` usage with `package:js`. This gets around a `dart2js` issue when compiling a Flutter app for the web and also "modernizes" the codebase a little.
 - Deprecated `MissingMsalJsException`. This is no longer thrown even if msal.js is missing.
 - Added Flutter Web app example.
 

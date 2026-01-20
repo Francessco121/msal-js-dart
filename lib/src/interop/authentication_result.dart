@@ -1,20 +1,19 @@
 part of 'interop.dart';
 
 @JS()
-@anonymous
-class AuthenticationResult {
+extension type AuthenticationResult._(JSObject _) implements JSObject {
   external String get authority;
   external String get uniqueId;
   external String get tenantId;
-  external List get scopes;
+  external JSArray get scopes;
   external AccountInfo? get account;
   external String get idToken;
-  external dynamic get idTokenClaims;
+  external JSObject? get idTokenClaims;
   external String get accessToken;
   external bool get fromCache;
-  external DateTime? get expiresOn;
+  external JSDate? get expiresOn;
   external String get tokenType;
-  external DateTime? get extExpiresOn;
+  external JSDate? get extExpiresOn;
   external String? get state;
   external String? get familyId;
   external String? get cloudGraphHostName;
