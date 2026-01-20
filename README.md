@@ -1,5 +1,10 @@
 [![Pub Version](https://img.shields.io/pub/v/msal_js)](https://pub.dev/packages/msal_js)
 
+> [!CAUTION]
+> **Discontinued**: This package is no longer being developed. Please see [pub.dev](https://pub.dev/) for alternatives or consider creating a fork.
+> 
+> Existing releases will remain available both here on GitHub and on pub.dev.
+
 # MSAL.js for Dart
 A Dart wrapper for the [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js). 
 
